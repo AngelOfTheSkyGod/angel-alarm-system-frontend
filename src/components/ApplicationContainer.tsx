@@ -7,7 +7,7 @@ import ApplicationTabNavbar from "./ApplicationTabNavbar.tsx";
 export const ApplicationContainer = ({children}) => {
     return (<React.Fragment>
         <CssBaseline/>
-        <Container sx={{height: '100%', width: "75vw"}}  maxWidth="md">
+        <Container sx={{height: "100%", minHeight:"100vh", width: "75vw"}}  maxWidth="md">
             <ApplicationTabNavbar/>
             {children}
         </Container>

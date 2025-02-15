@@ -7,7 +7,7 @@ interface ApplicationCredentialFormProps{
     submitFormAction: () => void;
 }
 const ApplicationCredentialForm = ({pageTitle, pageSubmitTitle, submitFormAction} : ApplicationCredentialFormProps) => {
-    const { appData:{username, password}, updateAppData } = useAppDataContext();
+    const { appData, updateAppData } = useAppDataContext();
 
     return (
             <Box display="flex" flexDirection="column" alignItems="center" mt={8}>
@@ -19,8 +19,8 @@ const ApplicationCredentialForm = ({pageTitle, pageSubmitTitle, submitFormAction
                     variant="outlined"
                     fullWidth
                     margin="normal"
-                    value={username}
-                    onChange={(e) => updateAppData({username: e.target.value, password})}
+                    value={appData.username}
+                    onChange={(e) => updateAppData({...appData, username: e.target.value})}
                 />
                 <TextField
                     label="Password"
@@ -28,8 +28,8 @@ const ApplicationCredentialForm = ({pageTitle, pageSubmitTitle, submitFormAction
                     variant="outlined"
                     fullWidth
                     margin="normal"
-                    value={password}
-                    onChange={(e) => updateAppData({username, password: e.target.value})}
+                    value={appData.password}
+                    onChange={(e) => updateAppData({...appData, password: e.target.value})}
                 />
                 <Button variant="contained" color="primary" fullWidth onClick={() => submitFormAction()} sx={{ mt: 2 }}>
                     {pageSubmitTitle}

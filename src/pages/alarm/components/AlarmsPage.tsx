@@ -24,31 +24,33 @@ export const AlarmsPage = () => {
         setConfigureMode(!configureMode);
     }
 
-    return(<ApplicationContainer>
-        <Container maxWidth="md" sx={{height: "100%"}}>
-            <Stack direction={"row"} justifyContent={"space-between"}>
-                <IconButton aria-label="edit alarms icon" onClick={() => openSettings()}>
-                    {configureMode?
-                        <ClearIcon fontSize={"large"}/> :
-                        <SettingsIcon fontSize={"large"}/>                    }
-                </IconButton>
-                <IconButton aria-label="add alarm icon">
-                    {configureMode?
-                        <CheckIcon fontSize={"large"} onClick={() => submitAppData()}/> :
-                        <AddIcon fontSize={"large"}/>
-                    }
-                </IconButton>
-            </Stack>
-            <Stack sx={{overFlowY: "auto", padding: '2rem 0 0 0'}}>
-                {updatedData.map((data) => (
-                    <AlarmDataRow
-                        data={data}
-                        key={data.key}
-                        isConfigureMode={configureMode}
-                        updatedData={updatedData}
-                        setUpdatedData={setUpdatedData}
-                    />))}
-            </Stack>
-        </Container>
-    </ApplicationContainer>)
+    return(
+        <ApplicationContainer>
+            <Container maxWidth="md" sx={{height: "100%", maxHeight: "fit-content"}}>
+                <Stack direction={"row"} justifyContent={"space-between"}>
+                    <IconButton aria-label="edit alarms icon" onClick={() => openSettings()}>
+                        {configureMode?
+                            <ClearIcon fontSize={"large"}/> :
+                            <SettingsIcon fontSize={"large"}/>                    }
+                    </IconButton>
+                    <IconButton aria-label="add alarm icon">
+                        {configureMode?
+                            <CheckIcon fontSize={"large"} onClick={() => submitAppData()}/> :
+                            <AddIcon fontSize={"large"}/>
+                        }
+                    </IconButton>
+                </Stack>
+                <Stack sx={{overFlowY: "auto", padding: '2rem 0 0 0'}}>
+                    {updatedData.map((data) => (
+                        <AlarmDataRow
+                            data={data}
+                            key={data.key}
+                            isConfigureMode={configureMode}
+                            updatedData={updatedData}
+                            setUpdatedData={setUpdatedData}
+                        />))}
+                </Stack>
+            </Container>
+        </ApplicationContainer>
+    )
 }
