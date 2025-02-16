@@ -1,3 +1,6 @@
+the point of all of this is to get a json string that i can send to my server and then have that displayed on a tft lcd screen connected to an arduino
+it ties into my work that i did last year where i have an authenticated system that i can send data from my computer to an arduino that has a wifi chip back and forth from anywhere in the world
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
