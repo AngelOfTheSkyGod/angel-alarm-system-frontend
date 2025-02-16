@@ -5,9 +5,10 @@ import AccessAlarmIcon from '@mui/icons-material/AccessAlarm';
 import ImageIcon from '@mui/icons-material/Image';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import { useNavigate } from "react-router-dom";
+import {getPageType} from "../utilities/utils.ts";
 
 export default function ApplicationTabNavbar() {
-    const [value, setValue] = React.useState(window.location.pathname.substring(1));
+    const [value, setValue] = React.useState(getPageType(window.location.pathname.substring(1)));
     const navigate = useNavigate();
 
     const handleChange = (_event: React.SyntheticEvent, newValue: string) => {

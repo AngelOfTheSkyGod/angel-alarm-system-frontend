@@ -18,3 +18,14 @@ export const areObjectsEqualDeep = (obj1: any, obj2: any): boolean => {
 
     return true;
 }
+
+
+export const getPageType = (name: string) => {
+    if (name.includes("alarm")){
+        return "alarm";
+    }else if (name.includes("slideshow")){
+        return "slideshow";
+    }else{
+        return "calendar";
+    }
+}

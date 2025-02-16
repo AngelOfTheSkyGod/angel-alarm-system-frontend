@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Container } from '@mui/material';
+import {Container, CssBaseline} from '@mui/material';
 import ApplicationCredentialForm from "../../components/ApplicationCredentialForm.tsx";
 import {useAppDataContext} from "../../context/AppDataContext.tsx";
 import { useNavigate } from "react-router-dom";
@@ -16,9 +16,12 @@ const Login: React.FC = () => {
         navigate(`../alarm`, { replace: true })
     };
     return (
-        <Container maxWidth="sm">
+        <React.Fragment>
+            <CssBaseline/>
+        <Container sx={{height: "100%", minHeight:"100vh", width: "75vw"}}  maxWidth="md">
             <ApplicationCredentialForm pageTitle={"Login"} pageSubmitTitle={"Login"} submitFormAction={handleLogin}/>
         </Container>
+        </React.Fragment>
     );
 };
 
