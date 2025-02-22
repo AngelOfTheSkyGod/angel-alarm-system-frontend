@@ -5,22 +5,18 @@ export const initializeAASData = () :AASData => {
         username: "",
         password: "",
         alarmData: [{
-        time: "5:30am",
-        days: ["M", "W", "Th"],
-        description: "work",
-            key:0
-    },
-        {time:"4:00pm", days: ["M", "T", "W"], description: "go to gym", key:1},
-        {time:"6:00pm", days: ["M", "T", "W"], description: "commute", key:2},
-        {time:"7:00pm", days: ["A"], description: "eat dinner", key:3},
-        {time:"7:00pm", days: ["A"], description: "eat dinner", key:4},
-        {time:"7:00pm", days: ["A"], description: "eat dinner", key:5},
-        {time:"7:00pm", days: ["A"], description: "eat dinner", key:6},
-        {time:"7:00pm", days: ["A"], description: "eat dinner", key:7},
-        {time:"7:00pm", days: ["A"], description: "eat dinner", key:8},
-        {time:"7:00pm", days: ["A"], description: "eat dinner", key:9},
-        {time:"7:00pm", days: ["A"], description: "eat dinner", key:10},
-        {time:"7:00pm", days: ["A"], description: "eat dinner", key:11},
-    ]
+            time: "5:30am", days: ["M", "W", "Th"], description: "work", key:0, sound:"default timbre"},
+            {time:"4:00pm", days: ["M", "T", "W"], description: "go to gym", key:1, sound:"default timbre"},
+            {time:"6:00pm", days: ["M", "T", "W"], description: "commute", key:2, sound:"default timbre"},
+            {time:"7:00pm", days: ["A"], description: "eat dinner", key:3, sound:"default timbre"},
+            {time:"7:00pm", days: ["A"], description: "eat dinner", key:4, sound:"default timbre"},
+            {time:"7:00pm", days: ["A"], description: "eat dinner", key:5, sound:"default timbre"},
+            {time:"7:00pm", days: ["A"], description: "eat dinner", key:6, sound:"default timbre"},
+            {time:"7:00pm", days: ["A"], description: "eat dinner", key:7, sound:"default timbre"},
+            {time:"7:00pm", days: ["A"], description: "eat dinner", key:8, sound:"default timbre"},
+            {time:"7:00pm", days: ["A"], description: "eat dinner", key:9, sound:"default timbre"},
+            {time:"7:00pm", days: ["A"], description: "eat dinner", key:10, sound:"default timbre"},
+            {time:"7:00pm", days: ["A"], description: "eat dinner", key:11, sound:"default timbre"},
+        ]
     }
 }

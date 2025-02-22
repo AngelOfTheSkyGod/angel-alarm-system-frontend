@@ -29,3 +29,22 @@ export const getPageType = (name: string) => {
         return "calendar";
     }
 }
+
+export const getElementTiles = (elementsArray: string[] | number[], currentSelection: number) => {
+    const elements = [];
+    if (elementsArray.length > 3) {
+        for (let index = currentSelection - 2; index <= currentSelection + 2; index++) {
+            if (index > elementsArray.length - 1) {
+                elements.push(elementsArray[index - elementsArray.length]);
+            } else if (index < 0) {
+                elements.push(elementsArray[index + elementsArray.length]);
+
+            } else {
+                elements.push(elementsArray[index]);
+            }
+        }
+    } else {
+        elements.push(elementsArray[currentSelection], elementsArray[currentSelection + 1 > elementsArray.length - 1 ? 0 : elementsArray.length - 1])
+    }
+    return elements;
+}

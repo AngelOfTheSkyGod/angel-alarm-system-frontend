@@ -10,4 +10,5 @@ export interface AlarmDataRowData {
     days: string[];
     description: string;
     key: number;
+    sound: string;
 }

@@ -4,7 +4,7 @@ import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import {areObjectsEqualDeep} from "../../../utilities/utils.ts";
 import {useAppDataContext} from "../../../context/AppDataContext.tsx";
 import {useNavigate} from "react-router-dom";
-
+import {DaysCards} from "./DaysCards.tsx";
 interface AlarmDataRowProps {
     data: AlarmDataRowData;
     isConfigureMode:boolean;
@@ -22,7 +22,6 @@ export const AlarmDataRow = ({data, isConfigureMode, updatedData, setUpdatedData
     }
 
     const selectCard = () => {
-        console.log(`data clicked: ${JSON.stringify(data)}`);
         const searchParams = new URLSearchParams(location.search);
         searchParams.set("alarmKey", String(data.key));
         navigate(`/alarm/configureAlarms?${searchParams.toString()}`);
@@ -43,13 +42,7 @@ export const AlarmDataRow = ({data, isConfigureMode, updatedData, setUpdatedData
                             <Typography variant="h6" gutterBottom>
                                 {data.time}
                             </Typography>
-                            <Stack direction={"row"}>
-                                {data.days.map((day, index) => (
-                                    <Typography variant="h6" gutterBottom key={index}>
-                                        {day === 'A'? 'All day' : `${day}${index < data.days.length - 1? ', ' : ''}`}
-                                    </Typography>))
-                                }
-                            </Stack>
+                            {<DaysCards data = {data}/>}
                         </Stack>
                     </Stack>
                     <Typography variant="h6" gutterBottom>
