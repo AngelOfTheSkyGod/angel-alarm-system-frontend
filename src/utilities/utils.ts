@@ -48,3 +48,24 @@ export const getElementTiles = (elementsArray: string[] | number[], currentSelec
     }
     return elements;
 }
+
+export const dayToAbbreviation = (day:string) :string => {
+    switch (day) {
+        case 'Monday':
+            return "M"
+        case 'Tuesday':
+            return "Tu"
+        case 'Wednesday':
+            return "W"
+        case 'Thursday':
+            return "Th"
+        case 'Friday':
+            return "F"
+        case 'Saturday':
+            return "Sa"
+        case 'Sunday':
+            return "Su"
+        default:
+            return ""
+    }
+}
