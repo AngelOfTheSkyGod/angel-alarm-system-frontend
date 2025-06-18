@@ -16,11 +16,12 @@ interface GeneralAlarmConfigurationProps {
 }
 export const GeneralAlarmConfiguration = ({hour, setHour, minute, setMinute, timeOfDay, setTimeOfDay, setCurrentState, selectedAlarm} : GeneralAlarmConfigurationProps) => {
     const timeOfDays = ["am", "pm"];
-    const hours = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];//to do organize in a way that my time is the one that is at the start of the array
-    const minutes = Array.from({ length: 60 }, (_, index) => index);
+    const hours: (string | number)[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];//to do organize in a way that my time is the one that is at the start of the array
+    const minutes: (string | number)[] = Array.from({ length: 60 }, (_, index) => index);
+    console.log(`hour: ${hour} minute:${minute}`, "selected alarm: ", selectedAlarm);
     return (
         <Stack>
-            <Stack direction={"row"} justifyContent={"center"} style={{height: "50vh"}}>
+            <Stack direction={"row"} justifyContent={"center"} style={{height: "50vh"}} position={"relative"}>
                 <TimeSelectionSlider currentSelection={hour} setCurrentSelection={setHour} elementsArray={hours}/>
                 <TimeSelectionSlider currentSelection={minute} setCurrentSelection={setMinute}
                                      elementsArray={minutes}/>
@@ -31,7 +32,7 @@ export const GeneralAlarmConfiguration = ({hour, setHour, minute, setMinute, tim
                     borderRadius={"2rem"}
                     sx={{
                         position: "absolute",
-                        top: "40.5%",
+                        top: "24vh",
                         left: "25%",
                         width: "50%",
                         height: "1.5rem",
@@ -39,14 +40,14 @@ export const GeneralAlarmConfiguration = ({hour, setHour, minute, setMinute, tim
                     }}
                 />
             </Stack>
-            <Box sx={{p: 2, border: '1px solid grey'}}>
-                <Stack direction={"row"} justifyContent={"space-evenly"}>
-                    <Stack justifyContent={"center"} alignItems={"end"}>
+            <Box sx={{p: 2, border: '.1rem solid grey'}} overflow={"auto"} borderRadius={"2rem"}>
+                <Stack direction={"row"} gap={"2rem"} justifyContent={"space-evenly"}>
+                    <Stack justifyContent={"start"} alignItems={"end"}>
                         <Typography component="h1" variant="h5">repeat</Typography>
                         <Typography component="h1" variant="h5">label</Typography>
                         <Typography component="h1" variant="h5">sound</Typography>
                     </Stack>
-                    <Stack justifyContent={"center"} alignItems={"start"}>
+                    <Stack justifyContent={"start"} alignItems={"end"}>
                         <ConfigurationCell configurationLabel={""} child={<DaysCards data={selectedAlarm}/>}
                                            configurationFunction={() => {
                                                setCurrentState("days-configuration-page")

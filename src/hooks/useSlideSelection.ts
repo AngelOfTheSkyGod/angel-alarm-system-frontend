@@ -1,7 +1,7 @@
 import {useState} from "react";
 
 interface SlideSelectionProps{
-    elementsArray: string[]|number[];
+    elementsArray: (string | number)[];
     currentSelection: number;
     setCurrentSelection: (newSelection: number) => void;
 }

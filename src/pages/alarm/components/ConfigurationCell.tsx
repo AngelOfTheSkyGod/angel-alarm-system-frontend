@@ -12,9 +12,9 @@ export const ConfigurationCell = ({configurationLabel, configurationFunction, ch
             {child
                 ?
                 child:
-                <Typography component="h1" variant="h5">{configurationLabel}</Typography>
+                <Typography sx={{width:"20vw"}} textOverflow={"ellipsis"} overflow={"hidden"} component="h1" textAlign={"right"} variant="h5" whiteSpace={"nowrap"}>{configurationLabel}</Typography>
             }
-            <IconButton aria-label="apply changes icon" onClick={() => configurationFunction()}>
+            <IconButton style={{padding: 0}} aria-label="apply changes icon" onClick={() => configurationFunction()}>
                 <ArrowCircleRightIcon fontSize={"small"}/>
             </IconButton>
         </Stack>

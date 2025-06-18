@@ -5,7 +5,7 @@ import {useSlideSelection} from "../../../hooks/useSlideSelection.ts";
 import {getElementTiles} from "../../../utilities/utils.ts";
 
 interface TimeSelectionSliderProps {
-    elementsArray: string[]|number[];
+    elementsArray: (string | number)[];
     currentSelection: number;
     setCurrentSelection: (newSelection: number) => void;
 }

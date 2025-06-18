@@ -30,7 +30,7 @@ export const getPageType = (name: string) => {
     }
 }
 
-export const getElementTiles = (elementsArray: string[] | number[], currentSelection: number) => {
+export const getElementTiles = (elementsArray: (string | number)[], currentSelection: number): (string | number)[] => {
     const elements = [];
     if (elementsArray.length > 3) {
         for (let index = currentSelection - 2; index <= currentSelection + 2; index++) {
