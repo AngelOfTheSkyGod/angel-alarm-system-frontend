@@ -28,7 +28,7 @@ export const AlarmContainer = () => {
         <ApplicationContainer>
             <Container maxWidth="md" sx={{height: "100%", maxHeight: "fit-content"}}>
                 <Stack direction={"row"} justifyContent={"space-between"}>
-                    <IconButton aria-label="edit alarms icon" onClick={!configureMode ? () => openSettings() : () => {}}>
+                    <IconButton aria-label="edit alarms icon" onClick={ () => openSettings()}>
                         {configureMode?
                             <ClearIcon fontSize={"large"}/> :
                             <SettingsIcon fontSize={"large"}/>

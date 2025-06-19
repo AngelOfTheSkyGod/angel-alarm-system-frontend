@@ -8,6 +8,8 @@ import DaysAlarmConfiguration from "./DaysAlarmConfiguration.tsx";
 import {AlarmDataRowData} from "../../../types/ApplicationTypes.tsx";
 import {useAppDataContext} from "../../../context/AppDataContext.tsx";
 import {useNavigate} from "react-router-dom";
+import AlarmLabelConfiguration from "./AlarmLabelConfiguration.tsx";
+import AlarmSoundConfiguration from "./AlarmSoundConfiguration.tsx";
 
 
 export const ConfigureAlarmsPage = () => {
@@ -34,7 +36,9 @@ export const ConfigureAlarmsPage = () => {
     const completeSubmit = () => {
         navigateLogic();
         if (currentState === "general-configure-page") {
-            updateAppData({...appData, alarmData: configuredAlarms});
+            const newAlarms = configuredAlarms;
+            newAlarms[alarmKey] = {...configuredAlarms[alarmKey], time: `${hour + 1}:${minute}${timeOfDay === 0 ? "pm" : "am"}`};
+            updateAppData({...appData, alarmData: newAlarms});
         }else{
             setConfiguredAlarms(JSON.parse(JSON.stringify(alarmCopy)));
         }
@@ -67,6 +71,14 @@ export const ConfigureAlarmsPage = () => {
                         {
                             currentState === "days-configuration-page" &&
                             <DaysAlarmConfiguration configuredAlarms={alarmCopy} setConfiguredAlarms={setAlarmCopy}/>
+                        }
+                        {
+                            currentState === "description-configuration-page" &&
+                            <AlarmLabelConfiguration configuredAlarms={alarmCopy} setConfiguredAlarms={setAlarmCopy} />
+                        }
+                        {
+                            currentState === "sound-configuration-page" &&
+                            <AlarmSoundConfiguration configuredAlarms={alarmCopy} setConfiguredAlarms={setAlarmCopy} />
                         }
                     </Stack>
                 }

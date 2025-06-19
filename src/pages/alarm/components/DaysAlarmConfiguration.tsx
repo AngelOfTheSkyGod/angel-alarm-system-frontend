@@ -1,12 +1,7 @@
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import Checkbox from '@mui/material/Checkbox';
 import {useEffect, useState} from "react";
 import {AlarmDataRowData} from "../../../types/ApplicationTypes.tsx";
 import {dayToAbbreviation} from "../../../utilities/utils.ts";
+import SelectionList from "./SelectionList.tsx";
 
 interface DaysAlarmConfigurationProps{
     configuredAlarms:AlarmDataRowData[];
@@ -41,30 +36,6 @@ export default function DaysAlarmConfiguration({configuredAlarms, setConfiguredA
         setConfiguredAlarms(alarms);
     }, [selectedAlarmDays])
     return (
-        <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
-            {fullDays.map((value) => {
-                const labelId = `${value}`;
-
-                return (
-                    <ListItem
-                        key={value}
-                        disablePadding
-                    >
-                        <ListItemButton role={undefined} onClick={handleToggle(dayToAbbreviation(value))} dense>
-                            <ListItemIcon>
-                                <Checkbox
-                                    edge="start"
-                                    checked={selectedAlarmDays.includes(dayToAbbreviation(value))}
-                                    tabIndex={-1}
-                                    disableRipple
-                                    inputProps={{ 'aria-labelledby': labelId }}
-                                />
-                            </ListItemIcon>
-                            <ListItemText id={labelId} primary={`Every ${value}`} />
-                        </ListItemButton>
-                    </ListItem>
-                );
-            })}
-        </List>
+        <SelectionList handleToggle={(value) => handleToggle(dayToAbbreviation(value))} listElements={fullDays} checkedElements={(value) => selectedAlarmDays.includes(dayToAbbreviation(value))} subtext={"Every"}/>
     );
 }
