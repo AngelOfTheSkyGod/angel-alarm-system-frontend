@@ -36,6 +36,6 @@ export default function DaysAlarmConfiguration({configuredAlarms, setConfiguredA
         setConfiguredAlarms(alarms);
     }, [selectedAlarmDays])
     return (
-        <SelectionList handleToggle={(value) => handleToggle(dayToAbbreviation(value))} listElements={fullDays} checkedElements={(value) => selectedAlarmDays.includes(dayToAbbreviation(value))} subtext={"Every"}/>
+        <SelectionList handleToggle={(value:string) => handleToggle(dayToAbbreviation(value))} listElements={fullDays} checkedElements={(value:string) => selectedAlarmDays.includes(dayToAbbreviation(value))} subtext={"Every"}/>
     );
 }

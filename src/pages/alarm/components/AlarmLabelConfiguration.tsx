@@ -12,7 +12,7 @@ export default function AlarmLabelConfiguration({configuredAlarms, setConfigured
     const searchParams = new URLSearchParams(location.search);
     const alarmKey = searchParams.get('alarmKey');
     const selectedAlarm: AlarmDataRowData = configuredAlarms.filter((alarm) => String(alarm?.key) === alarmKey)[0];
-    const [selectedAlarmLabel, setSelectedAlarmLabel] = useState<string[]>(selectedAlarm?.description);
+    const [selectedAlarmLabel, setSelectedAlarmLabel] = useState<string>(selectedAlarm?.description);
     useEffect(() => {
         const alarms = configuredAlarms;
         alarms[selectedAlarm?.key] = {...selectedAlarm, description: selectedAlarmLabel}

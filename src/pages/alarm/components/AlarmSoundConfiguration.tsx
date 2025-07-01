@@ -12,7 +12,7 @@ export default function AlarmSoundConfiguration({configuredAlarms, setConfigured
     const alarmKey = searchParams.get('alarmKey');
     const selectedAlarm: AlarmDataRowData = configuredAlarms.filter((alarm) => String(alarm?.key) === alarmKey)[0];
     const alarmSounds = ["One Piece - Mother Sea", "The very, very strongest", "default timbre", "antidepressants", "Escalon", "EoO", "Hoy Se Bebe"];
-    const [selectedAlarmSound, setSelectedAlarmSound] = useState<string[]>(selectedAlarm?.sound);
+    const [selectedAlarmSound, setSelectedAlarmSound] = useState<string>(selectedAlarm?.sound);
 
 
     const handleToggle = (value: string) => () => {
@@ -25,6 +25,6 @@ export default function AlarmSoundConfiguration({configuredAlarms, setConfigured
         setConfiguredAlarms(alarms);
     }, [selectedAlarmSound])
     return (
-        <SelectionList handleToggle={(value) => handleToggle(value)} listElements={alarmSounds} checkedElements={(value) => value === selectedAlarmSound}/>
+        <SelectionList handleToggle={(value:string) => handleToggle(value)} listElements={alarmSounds} checkedElements={(value:string) => value === selectedAlarmSound} subtext={null}/>
     );
 }

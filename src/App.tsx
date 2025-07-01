@@ -17,8 +17,8 @@ function App() {
                 <Route path="/login" element={<Login />} />
                 <Route path="/signup" element={<SignUp />} />
                 <Route path="/alarm/*" element={<AlarmContainerWithRouting />}/>
-                <Route path="/slideshow" element={<SlideShowContainer/>}/>
-                <Route path="/calendar" element={<CalendarContainer/>}/>
+                <Route path="/slideshow/*" element={<SlideShowContainer/>}/>
+                <Route path="/calendar/*" element={<CalendarContainer/>}/>
             </Routes>
           </AppDataContextProvider>
       </BrowserRouter>  )

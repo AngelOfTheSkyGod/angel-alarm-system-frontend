@@ -7,6 +7,7 @@ export const AlarmContainerWithRouting = () => {
         <Routes>
             <Route path={"/"} element={<AlarmContainer/>}/>
             <Route path={"/configureAlarms"} element={<ConfigureAlarmsPage/>}/>
+            <Route path={"/addAlarm"} element={<ConfigureAlarmsPage/>}/>
         </Routes>
     )
 }

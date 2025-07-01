@@ -8,11 +8,14 @@ import {useState} from "react";
 import ClearIcon from '@mui/icons-material/Clear';
 import CheckIcon from '@mui/icons-material/Check';
 import {AlarmDataRowData} from "../../types/ApplicationTypes.tsx";
+import {useNavigate} from "react-router-dom";
+import {sortTime} from "../../utilities/utils.ts";
 
 export const AlarmContainer = () => {
     const {appData, updateAppData} = useAppDataContext();
+    const navigate = useNavigate();
     const [configureMode, setConfigureMode] = useState<boolean>(false);
-    const [updatedData , setUpdatedData] = useState<AlarmDataRowData[]>(appData.alarmData);
+    const [updatedData , setUpdatedData] = useState<AlarmDataRowData[]>([...appData.alarmData]);
     const submitAppData = () => {
         updateAppData({...appData, alarmData: updatedData}); //updates our alarms with the ones we just updated
         setConfigureMode(false);//turns settings off
@@ -22,6 +25,10 @@ export const AlarmContainer = () => {
             setUpdatedData(appData.alarmData); //wipes away the updated data with the old alarm data
         }
         setConfigureMode(!configureMode); //turns settings on or off
+    }
+    console.log("updatedData data: ", updatedData, "appData: ", appData);
+    const addAlarm = () => {
+        navigate(`/alarm/addAlarm`);
     }
 
     return(
@@ -34,7 +41,7 @@ export const AlarmContainer = () => {
                             <SettingsIcon fontSize={"large"}/>
                         }
                     </IconButton>
-                    <IconButton aria-label="add alarm icon" onClick={configureMode ?  () => submitAppData() : ()=>{}}>
+                    <IconButton aria-label="add alarm icon" onClick={configureMode ?  () => submitAppData() : ()=>{addAlarm()}}>
                         {configureMode?
                             <CheckIcon fontSize={"large"} /> :
                             <AddIcon fontSize={"large"}/>
@@ -42,7 +49,7 @@ export const AlarmContainer = () => {
                     </IconButton>
                 </Stack>
                 <Stack sx={{overFlowY: "auto", padding: '2rem 0 0 0'}}>
-                    {updatedData.map((data) => (
+                    {updatedData?.sort(sortTime)?.map((data) => (
                         <AlarmDataRow
                             data={data}
                             key={data.key}

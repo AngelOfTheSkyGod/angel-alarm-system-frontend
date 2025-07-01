@@ -12,7 +12,7 @@ interface GeneralAlarmConfigurationProps {
     timeOfDay: number;
     setTimeOfDay: (timeOfDay: number) => void;
     setCurrentState: (state: string) => void;
-    selectedAlarm: AlarmDataRowData;
+    selectedAlarm: AlarmDataRowData | undefined;
 }
 export const GeneralAlarmConfiguration = ({hour, setHour, minute, setMinute, timeOfDay, setTimeOfDay, setCurrentState, selectedAlarm} : GeneralAlarmConfigurationProps) => {
     const timeOfDays = ["am", "pm"];
@@ -32,7 +32,7 @@ export const GeneralAlarmConfiguration = ({hour, setHour, minute, setMinute, tim
                     borderRadius={"2rem"}
                     sx={{
                         position: "absolute",
-                        top: "24vh",
+                        top: "23.4vh",
                         left: "25%",
                         width: "50%",
                         height: "1.5rem",
@@ -52,10 +52,10 @@ export const GeneralAlarmConfiguration = ({hour, setHour, minute, setMinute, tim
                                            configurationFunction={() => {
                                                setCurrentState("days-configuration-page")
                                            }}/>
-                        <ConfigurationCell configurationLabel={selectedAlarm.description} configurationFunction={() => {
+                        <ConfigurationCell configurationLabel={selectedAlarm?.description} configurationFunction={() => {
                             setCurrentState("description-configuration-page")
                         }}/>
-                        <ConfigurationCell configurationLabel={selectedAlarm.sound} configurationFunction={() => {
+                        <ConfigurationCell configurationLabel={selectedAlarm?.sound} configurationFunction={() => {
                             setCurrentState("sound-configuration-page")
                         }}/>
                     </Stack>

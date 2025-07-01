@@ -1,14 +1,14 @@
 import {IconButton, Stack, Typography} from "@mui/material";
 import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
 interface ConfiguredAlarmProps{
-    configurationLabel:string;
+    configurationLabel:string | undefined;
     configurationFunction: () => void;
     child?:React.ReactNode;
 }
 
 export const ConfigurationCell = ({configurationLabel, configurationFunction, child} : ConfiguredAlarmProps) => {
     return (
-        <Stack direction="row" alignItems={"center"} justifyContent={"center"} >
+        <Stack direction="row" alignItems={"center"} justifyContent={"center"} flex={1} >
             {child
                 ?
                 child:
