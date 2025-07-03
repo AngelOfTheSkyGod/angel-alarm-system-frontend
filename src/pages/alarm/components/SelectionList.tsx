@@ -4,11 +4,14 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import Checkbox from "@mui/material/Checkbox";
 import ListItemText from "@mui/material/ListItemText";
+import { Key } from "react";
 
-export default function SelectionList({handleToggle, listElements, checkedElements, subtext}){
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-expect-error
+export default function SelectionList({handleToggle, listElements, checkedElements, subtext}) {
     return (
-        <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
-            {listElements.map((value) => {
+        <List sx={{width: '100%', bgcolor: 'background.paper'}}>
+            {listElements.map((value: Key | null | undefined) => {
                 const labelId = `${value}`;
                 return (
                     <ListItem
