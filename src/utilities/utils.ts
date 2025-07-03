@@ -79,12 +79,12 @@ export const sortTime = (timeA:AlarmDataRowData, timeB:AlarmDataRowData):number 
     const [hoursA = "0", minutesA = "0", meridianA = "0"] = getAlarmTimeData(timeA);
     const [hoursB = "0", minutesB = "0", meridianB = "0"] = getAlarmTimeData(timeB);
     const timeOfDayA = meridianA === "am" ? 0 : 1;
-    const timeOfDayB = meridianB === "am" ? 0 : 1;
+    const timeOfDayB = meridianB === "am" ? 0 : 1
 
-    if ((timeOfDayA < timeOfDayB) || (Number(hoursA) < Number(hoursB)) || (Number(minutesA) < Number(minutesB))){
-        return -1
-    }else if ((timeOfDayB < timeOfDayA) || (Number(hoursB) < Number(hoursA)) || (Number(minutesB) < Number(minutesA))){
-        return 1;
+    if ((timeOfDayA > timeOfDayB) || (timeOfDayA >= timeOfDayB && Number(hoursA) > Number(hoursB)) || (timeOfDayA >= timeOfDayB && Number(hoursA) > Number(hoursB) && Number(minutesA) > Number(minutesB))){
+        return 1
+    }else if ((timeOfDayA < timeOfDayB) || (timeOfDayA <= timeOfDayB && Number(hoursA) < Number(hoursB)) || (timeOfDayA <= timeOfDayB && Number(hoursA) < Number(hoursB) && Number(minutesA) < Number(minutesB))){
+        return -1;
     }
     return 0;
 

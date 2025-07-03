@@ -17,6 +17,9 @@ export const initializeAASData = () :AASData => {
             {time:"7:00pm", days: ["A"], description: "eat dinner", key:9, sound:"default timbre"},
             {time:"7:00pm", days: ["A"], description: "eat dinner", key:10, sound:"default timbre"},
             {time:"7:00pm", days: ["A"], description: "eat dinner", key:11, sound:"default timbre"},
+            {time:"6:05am", days: ["M", "T", "W"], description: "go to gym", key:1, sound:"default timbre"},
+            {time:"6:04am", days: ["M", "T", "W"], description: "go to gym", key:1, sound:"default timbre"},
+            {time:"5:34am", days: ["M", "T", "W"], description: "go to gym", key:1, sound:"default timbre"}
         ]
     }
 }
