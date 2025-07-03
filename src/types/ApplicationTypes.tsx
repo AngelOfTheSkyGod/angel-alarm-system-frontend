@@ -11,4 +11,5 @@ export interface AlarmDataRowData {
     description: string;
     key: number;
     sound: string;
+    active: boolean;
 }

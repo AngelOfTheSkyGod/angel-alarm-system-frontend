@@ -1,4 +1,4 @@
-import {Divider, Stack, Typography, Container, IconButton, ButtonBase} from "@mui/material";
+import {Divider, Stack, Typography, Container, IconButton, ButtonBase, Switch} from "@mui/material";
 import {AlarmDataRowData} from "../../../types/ApplicationTypes.tsx";
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import {areObjectsEqualDeep} from "../../../utilities/utils.ts";
@@ -21,36 +21,51 @@ export const AlarmDataRow = ({data, isConfigureMode, updatedData, setUpdatedData
         event.stopPropagation();
     }
 
+    const switchAlarmStatus = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const newData = JSON.parse(JSON.stringify(updatedData));
+        newData[data.key].active = !newData[data.key].active;
+        setUpdatedData(newData);
+        event.stopPropagation();
+    }
     const selectCard = () => {
+        if (!isConfigureMode) return;
         const searchParams = new URLSearchParams(location.search);
         searchParams.set("alarmKey", String(data.key));
         navigate(`/alarm/configureAlarms?${searchParams.toString()}`);
     }
     return(
-        <ButtonBase disabled={!isConfigureMode} onClick={() => selectCard()} sx={{ width: "100%" }}>
-            <Container sx={{justifyContent:"center", alignItems:"center"}}>
-                <Divider component="div"/>
-                <Stack direction={"row"} alignItems={'center'} justifyContent={"space-between"} margin={"1rem 0rem 1rem 0rem"}>
-                    <Stack direction={"row"} sx={{justifyContent:"center", alignItems:"center", gap:"1rem"}}>
-                        {
-                            isConfigureMode &&
-                            <IconButton aria-label="delete alarm icon" onClick={(e) => deleteAlarm(e)}>
-                                <RemoveCircleOutlineIcon fontSize={"large"}/>
-                            </IconButton>
-                        }
-                        <Stack direction={"column"}>
-                            <Typography variant="h6" gutterBottom>
-                                {data.time}
-                            </Typography>
-                            {<DaysCards data = {data}/>}
+        <Container sx={{justifyContent:"center", alignItems:"center", width:"100%"}}>
+            <Divider component="div"/>
+            <Stack direction={"row"} alignItems={'center'}>
+                <ButtonBase disabled={!isConfigureMode} onClick={() => selectCard()} sx={{ width: "90%" }}>
+                    <Stack direction={"row"} alignItems={'center'} justifyContent={"flex-start"} margin={"1rem 1rem 1rem 1rem"} flex={1}>
+                        <Stack direction={"row"} justifyContent={"flex-start"} sx={{width:"90%", alignItems:"center", gap:"1rem"}}>
+                            {
+                                isConfigureMode &&
+                                <IconButton aria-label="delete alarm icon" onClick={(e) => deleteAlarm(e)}>
+                                    <RemoveCircleOutlineIcon fontSize={"large"}/>
+                                </IconButton>
+                            }
+                            <Stack direction={"column"}>
+                                <Typography variant="h6" gutterBottom>
+                                    {data.time}
+                                </Typography>
+                                {<DaysCards data = {data}/>}
+                            </Stack>
                         </Stack>
+                        <Typography variant="h6" gutterBottom sx={{width:"10%", overflow:"hidden"}} textOverflow={"ellipsis"}>
+                            {`- ${data.description}`}
+                        </Typography>
                     </Stack>
-                    <Typography variant="h6" gutterBottom>
-                        {`- ${data.description}`}
-                    </Typography>
-                </Stack>
-                {data.key >= appData.alarmData.length - 1 && <Divider component="div"/>}
-            </Container>
-        </ButtonBase>
+                </ButtonBase>
+                <Switch
+                    sx={{ width: "10%" }}
+                    checked={data.active}
+                    onChange={(e) => switchAlarmStatus(e)}
+                    inputProps={{ 'aria-label': 'controlled' }}
+                />
+            </Stack>
+            {data.key >= appData.alarmData.length - 1 && <Divider component="div"/>}
+        </Container>
     )
 }

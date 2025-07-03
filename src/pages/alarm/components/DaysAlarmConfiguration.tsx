@@ -13,7 +13,7 @@ export default function DaysAlarmConfiguration({configuredAlarms, setConfiguredA
     const alarmKey = searchParams.get('alarmKey');
     const selectedAlarm: AlarmDataRowData = configuredAlarms.filter((alarm) => String(alarm?.key) === alarmKey)[0];
     const fullDays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
-    const [selectedAlarmDays, setSelectedAlarmDays] = useState<string[]>(selectedAlarm?.days);
+    const [selectedAlarmDays, setSelectedAlarmDays] = useState<string[]>(selectedAlarm?.days[0] === 'A' ? fullDays.map((day) => dayToAbbreviation(day)) : selectedAlarm?.days);
 
 
     const handleToggle = (value: string) => () => {

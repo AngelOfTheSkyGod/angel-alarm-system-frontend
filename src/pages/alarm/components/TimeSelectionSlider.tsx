@@ -17,6 +17,12 @@ export const TimeSelectionSlider = ({
                                     }: TimeSelectionSliderProps) => {
     const {dragging, stopDragging, startDragging } = useSlideSelection({elementsArray, currentSelection, setCurrentSelection})
     const elements = getElementTiles(elementsArray, currentSelection);
+    const increaseSelection = () => {
+        setCurrentSelection(currentSelection < elementsArray.length - 1 ? currentSelection + 1 : 0)
+    }
+    const decreaseSelection = () => {
+        setCurrentSelection(currentSelection > 0 ? currentSelection - 1 : elementsArray.length - 1 )
+    }
     return (
         <Stack
             margin={elementsArray.length < 3 ? "0 0 2rem 0" : "0"}
@@ -29,7 +35,7 @@ export const TimeSelectionSlider = ({
             onMouseLeave={() =>stopDragging()}
 
         >
-            <IconButton aria-label="increase selection" onClick={() => {setCurrentSelection(currentSelection < elementsArray.length - 1 ? currentSelection + 1 : 0 )}}>
+            <IconButton aria-label="increase selection" onClick={() => {decreaseSelection()}}>
                 <ArrowUpwardIcon />
             </IconButton>
             <Stack  >
@@ -47,7 +53,7 @@ export const TimeSelectionSlider = ({
                     )
                 }
             </Stack>
-            <IconButton aria-label="decrease selection" onClick={() => {setCurrentSelection(currentSelection > 0 ? currentSelection - 1 : elementsArray.length - 1 )}}>
+            <IconButton aria-label="decrease selection" onClick={() => {increaseSelection()}}>
                 <ArrowDownwardIcon/>
             </IconButton>
         </Stack>
