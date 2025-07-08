@@ -1,6 +1,7 @@
 import {createContext, MutableRefObject, useContext, useEffect, useRef, useState} from "react";
-import {AASData} from "../types/ApplicationTypes.tsx";
+import {AASData, AlarmDataRowData} from "../types/ApplicationTypes.tsx";
 import {initializeAASData} from "../utilities/initializers.tsx";
+import {sortTime} from "../utilities/utils.ts";
 
 interface MyContextType {
     appData: AASData;
@@ -9,15 +10,20 @@ interface MyContextType {
 }
 
 const AppDataContext = createContext<MyContextType | undefined>(undefined);
+const sortAndIndexAlarms = (newValue: AlarmDataRowData[]) => {
+    const sortedData = [...newValue]?.sort(sortTime);
+    sortedData?.forEach((item, index) => {item.key = index})
+    return sortedData
+}
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-expect-error
 const AppDataContextProvider = ({ children }) => {
-    const [appData, setAppData] = useState(initializeAASData());
+    const initializedData = initializeAASData();
+    const [appData, setAppData] = useState({...initializedData, alarmData: sortAndIndexAlarms(initializedData?.alarmData)});
     const appDataReference = useRef(appData);
     const updateAppData = (newValue: AASData) => {
         appDataReference.current = newValue;
-
-        setAppData(newValue);
+        setAppData({...newValue, alarmData: sortAndIndexAlarms(newValue?.alarmData)});
     };
     useEffect(() => {
         // console.log("current:",appDataReference.current)
@@ -45,4 +51,5 @@ const useAppDataContext = () => {
     return context;
 };
 
+// eslint-disable-next-line react-refresh/only-export-components
 export { AppDataContextProvider, useAppDataContext };

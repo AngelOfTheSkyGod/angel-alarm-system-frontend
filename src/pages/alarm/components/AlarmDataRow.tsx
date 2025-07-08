@@ -12,7 +12,7 @@ interface AlarmDataRowProps {
     setUpdatedData:(otherAlarms: AlarmDataRowData[]) => void;
 }
 export const AlarmDataRow = ({data, isConfigureMode, updatedData, setUpdatedData}:AlarmDataRowProps) => {
-    const {appData} = useAppDataContext();
+    const {appData, updateAppData} = useAppDataContext();
     const navigate = useNavigate();
 
     const deleteAlarm = (event: React.MouseEvent) => {
@@ -22,8 +22,9 @@ export const AlarmDataRow = ({data, isConfigureMode, updatedData, setUpdatedData
     }
 
     const switchAlarmStatus = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const newData = JSON.parse(JSON.stringify(updatedData));
+        const newData = [...appData.alarmData];
         newData[data.key].active = !newData[data.key].active;
+        updateAppData({...appData, alarmData: newData});
         setUpdatedData(newData);
         event.stopPropagation();
     }
@@ -46,20 +47,19 @@ export const AlarmDataRow = ({data, isConfigureMode, updatedData, setUpdatedData
                                     <RemoveCircleOutlineIcon fontSize={"large"}/>
                                 </IconButton>
                             }
-                            <Stack direction={"column"}>
-                                <Typography variant="h6" gutterBottom>
+                            <Stack direction={"column"} alignItems={"start"}>
+                                <Typography variant="h6" gutterBottom textAlign={"start"}>
                                     {data.time}
                                 </Typography>
                                 {<DaysCards data = {data}/>}
                             </Stack>
                         </Stack>
-                        <Typography variant="h6" gutterBottom sx={{width:"10%", overflow:"hidden"}} textOverflow={"ellipsis"}>
+                        <Typography variant="h6" gutterBottom sx={{width:"90%", overflow:"hidden"}} textOverflow={"ellipsis"}>
                             {`- ${data.description}`}
                         </Typography>
                     </Stack>
                 </ButtonBase>
                 <Switch
-                    sx={{ width: "10%" }}
                     checked={data.active}
                     onChange={(e) => switchAlarmStatus(e)}
                     inputProps={{ 'aria-label': 'controlled' }}

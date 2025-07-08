@@ -35,6 +35,7 @@ export const GeneralAlarmConfiguration = ({hour, setHour, minute, setMinute, tim
                         top: "23.4vh",
                         left: "25%",
                         width: "50%",
+                        minHeight:"3vh",
                         height: "1.5rem",
                         backgroundColor: "gray"
                     }}

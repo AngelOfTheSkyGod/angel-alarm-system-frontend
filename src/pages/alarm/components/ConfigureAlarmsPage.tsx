@@ -45,7 +45,8 @@ export const ConfigureAlarmsPage = () => {
                 days: [],
                 description: "label",
                 key: newKey,
-                sound: "default timbre"
+                sound: "default timbre",
+                active: true
             }
             searchParams.set("alarmKey", String(newKey));
             navigate(`/alarm/addAlarm?${searchParams.toString()}`);

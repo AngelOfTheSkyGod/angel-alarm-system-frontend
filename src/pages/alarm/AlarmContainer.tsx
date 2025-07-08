@@ -9,7 +9,6 @@ import ClearIcon from '@mui/icons-material/Clear';
 import CheckIcon from '@mui/icons-material/Check';
 import {AlarmDataRowData} from "../../types/ApplicationTypes.tsx";
 import {useNavigate} from "react-router-dom";
-import {sortTime} from "../../utilities/utils.ts";
 
 export const AlarmContainer = () => {
     const {appData, updateAppData} = useAppDataContext();
@@ -49,7 +48,7 @@ export const AlarmContainer = () => {
                     </IconButton>
                 </Stack>
                 <Stack sx={{overFlowY: "auto", padding: '2rem 0 0 0'}}>
-                    {updatedData?.sort(sortTime)?.map((data) => (
+                    {updatedData?.map((data) => (
                         <AlarmDataRow
                             data={data}
                             key={data.key}

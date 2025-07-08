@@ -11,7 +11,7 @@ export const DaysCards = ({data}: { data: AlarmDataRowData | undefined }) => {
     return (
         <Stack direction={"row"}>
             {repeat?.map((day, index) => (
-                    <Typography variant="h6" gutterBottom key={index} margin={0}>
+                    <Typography variant="h6" gutterBottom key={index} margin={0} textAlign={"start"}>
                         {`${day}${index < repeat?.length - 1 ? ', ' : ''}`}
                     </Typography>
                 )
