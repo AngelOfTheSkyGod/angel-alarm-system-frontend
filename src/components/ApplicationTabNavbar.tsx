@@ -14,7 +14,7 @@ export default function ApplicationTabNavbar() {
     const handleChange = (_event: React.SyntheticEvent, newValue: string) => {
         setValue(newValue);
         console.log(`new value: ${newValue}`);
-        navigate(`../${newValue}`, { replace: true });
+        navigate(`/${newValue}`, { replace: true });
     };
 
     return (

@@ -15,7 +15,6 @@ export const useSlideSelection= ({elementsArray, currentSelection, setCurrentSel
             setDY(0)
             setStartY(e.clientY)
             setCurrentSelection(currentSelection < elementsArray.length - 1 ? currentSelection + 1 : 0 )
-
         }else if (dy !== null && dy< 0){
             setDY(0)
             setStartY(e.clientY)

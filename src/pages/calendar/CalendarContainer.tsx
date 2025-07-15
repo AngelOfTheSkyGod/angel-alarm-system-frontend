@@ -1,9 +1,9 @@
-import {ApplicationContainer} from "../../components/ApplicationContainer.tsx";
+import {ApplicationPageContainer} from "../../components/ApplicationPageContainer.tsx";
 
 export const CalendarContainer = () => {
-    return <ApplicationContainer>
-        <div>
-            calendar
-        </div>
-    </ApplicationContainer>
+    return (
+        <ApplicationPageContainer configuredModeResetFunction={()=>{}} submitAppDataFunction={()=>{}} addNewEntryFunction={()=>{}}>
+            <div>hii :)</div>
+        </ApplicationPageContainer>
+    )
 }
