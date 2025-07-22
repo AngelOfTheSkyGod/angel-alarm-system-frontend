@@ -3,7 +3,6 @@ import {ApplicationContainer} from "./ApplicationContainer.tsx";
 import SettingsIcon from "@mui/icons-material/Settings";
 import AddIcon from "@mui/icons-material/Add";
 import { useAppDataContext } from "../context/AppDataContext.tsx";
-import {useState} from "react";
 import ClearIcon from '@mui/icons-material/Clear';
 import CheckIcon from '@mui/icons-material/Check';
 import {AASData} from "../types/ApplicationTypes.tsx";
@@ -13,11 +12,12 @@ interface ApplicationPageContainerProps {
     submitAppDataFunction: () => void;
     addNewEntryFunction: () => void;
     children: React.ReactNode;
+    configureMode:boolean;
+    setConfigureMode:(value: boolean) => void;
 }
 
-export const ApplicationPageContainer = ({configuredModeResetFunction, submitAppDataFunction, addNewEntryFunction, children}:ApplicationPageContainerProps) => {
+export const ApplicationPageContainer = ({configuredModeResetFunction, submitAppDataFunction, addNewEntryFunction, configureMode, setConfigureMode, children}:ApplicationPageContainerProps) => {
     const {appData} = useAppDataContext();
-    const [configureMode, setConfigureMode] = useState<boolean>(false);
     const openSettings = () => {
         if (configureMode) {
             configuredModeResetFunction(appData); //wipes away the updated data with the old alarm data

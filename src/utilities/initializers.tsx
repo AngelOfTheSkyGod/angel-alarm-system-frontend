@@ -20,6 +20,11 @@ export const initializeAASData = () :AASData => {
             {time:"6:05am", days: ["M", "T", "W"], description: "go to gym", key:12, sound:"default timbre", active: true},
             {time:"6:04am", days: ["M", "T", "W"], description: "go to gym", key:13, sound:"default timbre", active: true},
             {time:"5:34am", days: ["M", "T", "W"], description: "go to gym", key:14, sound:"default timbre", active: true}
+        ],
+        calendarData:[
+            {month: "12", day: "8", year: "2025", time: "5:30pm", description: "Dinner with Trevor", dayOfTheWeek: "M", key:0},
+            {month: "12", day: "18", year: "2025", time: "", description: "My Birthday", dayOfTheWeek: "Th", key:1},
+            {month: "8", day: "25", year: "2025", time: "", description: "Mom's Birthday", dayOfTheWeek: "M", key:2}
         ]
     }
 }
