@@ -72,6 +72,27 @@ export const dayToAbbreviation = (day:string) :string => {
     }
 }
 
+export const abbreviationToDay = (day:string) :string => {
+    switch (day) {
+        case 'M':
+            return "Monday"
+        case 'Tu':
+            return "Tuesday"
+        case 'W':
+            return "Wednesday"
+        case 'Th':
+            return "Thursday"
+        case 'F':
+            return "Friday"
+        case 'Sa':
+            return "Saturday"
+        case 'Su':
+            return "Sunday"
+        default:
+            return ""
+    }
+}
+
 export const getAlarmTimeData = (time:AlarmDataRowData | undefined):(string | undefined)[] => {
     return [time?.time.split(":")[0], time?.time.split(":")[1].slice(0, 2), time?.time.split(":")[1].slice(2, 4)];
 }
