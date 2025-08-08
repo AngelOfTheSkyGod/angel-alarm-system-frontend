@@ -1,4 +1,4 @@
-import {AlarmDataRowData} from "../types/ApplicationTypes.tsx";
+import {AlarmDataRowData, CalendarDataRowData} from "../types/ApplicationTypes.tsx";
 
 export const areObjectsEqualDeep = (obj1: any, obj2: any): boolean => {
     if (typeof obj1 !== 'object' || obj1 === null || typeof obj2 !== 'object' || obj2 === null) {
@@ -94,11 +94,24 @@ export const abbreviationToDay = (day:string) :string => {
 }
 
 export const getAlarmTimeData = (time:AlarmDataRowData | undefined):(string | undefined)[] => {
+    const hour = time?.time.split(":")[0];
+    const minute = time?.time.split(":")[1].slice(0, 2);
+    const meridian = time?.time.split(":")[1].slice(2, 4);
+    if (hour === '12' && meridian === 'am'){
+        return ['0',  minute, 'am']
+    }else if (hour === '12' && meridian === 'pm'){
+        return ['0',  minute, 'pm']
+    }
     return [time?.time.split(":")[0], time?.time.split(":")[1].slice(0, 2), time?.time.split(":")[1].slice(2, 4)];
 }
+
+export const getDayPrefix = (day: string) => {
+    return `${Number(day) >=  10? day : `0${day}`}`
+}
+
 export const sortTime = (timeA:AlarmDataRowData, timeB:AlarmDataRowData):number => {
-    const [hoursA = "0", minutesA = "0", meridianA = "0"] = getAlarmTimeData(timeA);
-    const [hoursB = "0", minutesB = "0", meridianB = "0"] = getAlarmTimeData(timeB);
+    const [hoursA = "0", minutesA = "0", meridianA = "0"] = timeA?.time !== "" ? getAlarmTimeData(timeA) : [0, 0, "am"];
+    const [hoursB = "0", minutesB = "0", meridianB = "0"] = timeB?.time !== "" ? getAlarmTimeData(timeB) : [0, 0, "am"];
     const timeOfDayA = meridianA === "am" ? 0 : 1;
     const timeOfDayB = meridianB === "am" ? 0 : 1
 
@@ -108,5 +121,22 @@ export const sortTime = (timeA:AlarmDataRowData, timeB:AlarmDataRowData):number 
         return -1;
     }
     return 0;
+}
 
+export const sortDate = (dateA: CalendarDataRowData, dateB: CalendarDataRowData) => {
+    const yearA = Number(dateA?.year);
+    const monthA = Number(dateA?.month);
+    const dayA = Number(dateA?.day);
+    const timeA: AlarmDataRowData = {active: false, days: [], description: "", key: 0, sound: "", time: dateA?.time};
+    const yearB = Number(dateB?.year);
+    const monthB = Number(dateB?.month);
+    const dayB = Number(dateB?.day);
+    const timeB: AlarmDataRowData = {active: false, days: [], description: "", key: 0, sound: "", time: dateB?.time};
+    if ((yearA < yearB) || (yearA <= yearB && monthA < monthB) || (yearA <= yearB && monthA <= monthB && dayA < dayB) || (yearA <= yearB && monthA <= monthB && dayA <= dayB && sortTime(timeA, timeB) == -1)) {
+        return -1;
+    } else if ((yearA > yearB) || (yearA >= yearB && monthA > monthB) || (yearA >= yearB && monthA >= monthB && dayA > dayB) || (yearA <= yearB && monthA <= monthB && dayA <= dayB && sortTime(timeA, timeB) == 1)) {
+        return 1;
+    }
+    // a must be equal to b
+    return 0;
 }

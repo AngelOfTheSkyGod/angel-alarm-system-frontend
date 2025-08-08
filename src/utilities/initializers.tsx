@@ -22,8 +22,18 @@ export const initializeAASData = () :AASData => {
             {time:"5:34am", days: ["M", "T", "W"], description: "go to gym", key:14, sound:"default timbre", active: true}
         ],
         calendarData:[
-            {month: "12", day: "8", year: "2025", time: "5:30pm", description: "Dinner with Trevor", dayOfTheWeek: "M", key:0},
+            {month: "8", day: "25", year: "1971", time: "5:30pm", description: "Mom's Birth", dayOfTheWeek: "W", key:0},
+            {month: "12", day: "18", year: "2000", time: "5:30pm", description: "My Birth", dayOfTheWeek: "M", key:0},
+            {month: "11", day: "12", year: "2003", time: "5:30pm", description: "Sister's Birth", dayOfTheWeek: "W", key:0},
+            {month: "12", day: "28", year: "2025", time: "1:30am", description: "Dinner with Ahmed", dayOfTheWeek: "Su", key:0},
+            {month: "12", day: "8", year: "2025", time: "2:30pm", description: "Dinner with Trevor", dayOfTheWeek: "M", key:0},
+            {month: "12", day: "3", year: "2025", time: "4:30pm", description: "Dinner with Filip", dayOfTheWeek: "W", key:0},
             {month: "12", day: "18", year: "2025", time: "", description: "My Birthday", dayOfTheWeek: "Th", key:1},
+            {month: "12", day: "18", year: "2025", time: "3:00pm", description: "schedule PTO", dayOfTheWeek: "Th", key:1},
+            {month: "12", day: "18", year: "2025", time: "11:59am", description: "late lunch PTO", dayOfTheWeek: "Th", key:1},
+            {month: "12", day: "18", year: "2025", time: "1:00pm", description: "late lunch PTO", dayOfTheWeek: "Th", key:1},
+            {month: "12", day: "18", year: "2025", time: "12:01pm", description: "late lunch PTO", dayOfTheWeek: "Th", key:1},
+            {month: "12", day: "18", year: "2025", time: "12:01am", description: "late lunch PTO", dayOfTheWeek: "Th", key:1},
             {month: "8", day: "25", year: "2025", time: "", description: "Mom's Birthday", dayOfTheWeek: "M", key:2}
         ]
     }
