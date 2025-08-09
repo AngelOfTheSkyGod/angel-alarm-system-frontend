@@ -1,7 +1,10 @@
+// @ts-ignore
+// @ts-ignore
+
 import {createContext, MutableRefObject, useContext, useEffect, useRef, useState} from "react";
-import {AASData, AlarmDataRowData} from "../types/ApplicationTypes.tsx";
+import {AASData, AlarmDataRowData, CalendarDataRowData} from "../types/ApplicationTypes.tsx";
 import {initializeAASData} from "../utilities/initializers.tsx";
-import {sortTime} from "../utilities/utils.ts";
+import {sortDate, sortTime} from "../utilities/utils.ts";
 
 interface MyContextType {
     appData: AASData;
@@ -10,8 +13,11 @@ interface MyContextType {
 }
 
 const AppDataContext = createContext<MyContextType | undefined>(undefined);
-const sortAndIndexAlarms = (newValue: AlarmDataRowData[]) => {
-    const sortedData = [...newValue]?.sort(sortTime);
+
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-expect-error
+const sortAndIndexData = (newValue: AlarmDataRowData[] | CalendarDataRowData[], sortFunction: (a, b) => number) => {
+    const sortedData = [...newValue]?.sort(sortFunction);
     sortedData?.forEach((item, index) => {item.key = index})
     return sortedData
 }
@@ -19,11 +25,12 @@ const sortAndIndexAlarms = (newValue: AlarmDataRowData[]) => {
 // @ts-expect-error
 const AppDataContextProvider = ({ children }) => {
     const initializedData = initializeAASData();
-    const [appData, setAppData] = useState({...initializedData, alarmData: sortAndIndexAlarms(initializedData?.alarmData)});
+    const [appData, setAppData] = useState({...initializedData, alarmData: sortAndIndexData(initializedData?.alarmData, sortTime) as AlarmDataRowData[],
+        calendarData: sortAndIndexData(initializedData?.calendarData, sortDate) as CalendarDataRowData[]});
     const appDataReference = useRef(appData);
     const updateAppData = (newValue: AASData) => {
         appDataReference.current = newValue;
-        setAppData({...newValue, alarmData: sortAndIndexAlarms(newValue?.alarmData)});
+        setAppData({...newValue, alarmData: (sortAndIndexData(newValue?.alarmData, sortTime) as AlarmDataRowData[]), calendarData: (sortAndIndexData(newValue?.calendarData, sortDate) as CalendarDataRowData[])});
     };
     useEffect(() => {
         // console.log("current:",appDataReference.current)
