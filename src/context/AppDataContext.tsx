@@ -1,6 +1,3 @@
-// @ts-ignore
-// @ts-ignore
-
 import {createContext, MutableRefObject, useContext, useEffect, useRef, useState} from "react";
 import {AASData, AlarmDataRowData, CalendarDataRowData} from "../types/ApplicationTypes.tsx";
 import {initializeAASData} from "../utilities/initializers.tsx";
