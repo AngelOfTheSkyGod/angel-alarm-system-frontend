@@ -1,4 +1,5 @@
 import {AlarmDataRowData, CalendarDataRowData} from "../types/ApplicationTypes.tsx";
+import {Dispatch, SetStateAction} from "react";
 
 export const areObjectsEqualDeep = (obj1: any, obj2: any): boolean => {
     if (typeof obj1 !== 'object' || obj1 === null || typeof obj2 !== 'object' || obj2 === null) {
@@ -139,4 +140,11 @@ export const sortDate = (dateA: CalendarDataRowData, dateB: CalendarDataRowData)
     }
     // a must be equal to b
     return 0;
+}
+
+
+export const deleteItem = (event: React.MouseEvent, updatedData: AlarmDataRowData[] | CalendarDataRowData[], setUpdatedData:Dispatch<SetStateAction<AlarmDataRowData[]>> | Dispatch<SetStateAction<CalendarDataRowData[]>>, data: AlarmDataRowData | CalendarDataRowData) => {
+    const otherAlarms: any =  updatedData.filter((item) => (!areObjectsEqualDeep(item, data) && item.key !== data.key)).flatMap((item, index) => ({...item, key: index}));
+    setUpdatedData(otherAlarms);
+    event.stopPropagation();
 }

@@ -8,18 +8,17 @@ interface AlarmDataRowProps {
     updatedData:AlarmDataRowData[] | CalendarDataRowData[];
     setUpdatedData:Dispatch<SetStateAction<AlarmDataRowData[]>> | Dispatch<SetStateAction<CalendarDataRowData[]>>;
     deleteEntry:(event:React.MouseEvent) => void;
-    switchEntryStatus:(event: React.ChangeEvent<HTMLInputElement>) => void;
+    switchEntryStatus?:(event: React.ChangeEvent<HTMLInputElement>) => void;
     selectCard: () => void;
     dataArray: AlarmDataRowData[] | CalendarDataRowData[];
-    hasSwitchMode: boolean;
     children: React.ReactNode;
 }
-export const ApplicationDataRow = ({data, isConfigureMode, deleteEntry, switchEntryStatus, selectCard, dataArray, hasSwitchMode, children}:AlarmDataRowProps) => {
+export const ApplicationDataRow = ({data, isConfigureMode, deleteEntry, switchEntryStatus, selectCard, dataArray, children}:AlarmDataRowProps) => {
     return(
         <Container sx={{justifyContent:"center", alignItems:"center", width:"100%"}}>
             <Divider component="div"/>
             <Stack direction={"row"} alignItems={'center'}>
-                <ButtonBase disabled={!isConfigureMode} onClick={() => selectCard()} sx={{ width: "90%" }}>
+                <ButtonBase disabled={!isConfigureMode} onClick={() => selectCard()} sx={{ width: switchEntryStatus ? "90%" : "100%" }}>
                     <Stack direction={"row"} alignItems={'center'} justifyContent={"flex-start"} margin={"1rem 1rem 1rem 1rem"} flex={1}>
                         <Stack direction={"row"} justifyContent={"flex-start"} sx={{width:"90%", alignItems:"center", gap:"1rem"}}>
                             {
@@ -35,7 +34,7 @@ export const ApplicationDataRow = ({data, isConfigureMode, deleteEntry, switchEn
                         </Typography>
                     </Stack>
                 </ButtonBase>
-                {hasSwitchMode &&
+                {switchEntryStatus &&
                     <Switch
                         checked={data?.active}
                         onChange={(e) => switchEntryStatus(e)}

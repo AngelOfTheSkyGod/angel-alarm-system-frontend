@@ -4,29 +4,29 @@ import {ApplicationDataRow} from "../../components/ApplicationDataRow.tsx";
 import {Stack, Typography} from "@mui/material";
 import {useAppDataContext} from "../../context/AppDataContext.tsx";
 import {CalendarDataRowData} from "../../types/ApplicationTypes.tsx";
-import {abbreviationToDay, getDayPrefix, sortDate} from "../../utilities/utils.ts";
+import {abbreviationToDay, deleteItem, getDayPrefix, sortDate} from "../../utilities/utils.ts";
 
 export const CalendarContainer = () => {
     const [configureMode, setConfigureMode] = useState<boolean>(false);
-    const {appData} = useAppDataContext();
+    const {appData, updateAppData} = useAppDataContext();
     const [updatedData , setUpdatedData] = useState<CalendarDataRowData[]>([...appData.calendarData]);
-    const deleteAlarm = (data, e) => {
-        console.log("deleteAlarm", data, e);
+    const submitAppData = () => {
+        updateAppData({...appData, calendarData: updatedData}); //updates our alarms with the ones we just updated
+        setConfigureMode(false);//turns settings off
     }
-
-    const switchAlarmStatus = (data, e) => {
-        console.log(data, e);
-
+    const resetAlarms = () => {
+        if (configureMode) {
+            setUpdatedData(appData.calendarData);
+        }
     }
-
     const selectCard = (data) => {
         console.log(data);
     }
     return (
-        <ApplicationPageContainer configuredModeResetFunction={()=>{}} submitAppDataFunction={()=>{}} addNewEntryFunction={()=>{}} configureMode={configureMode} setConfigureMode={setConfigureMode}>
+        <ApplicationPageContainer configuredModeResetFunction={()=>{resetAlarms()}} submitAppDataFunction={()=>{submitAppData()}} addNewEntryFunction={()=>{}} configureMode={configureMode} setConfigureMode={setConfigureMode}>
             <Stack sx={{overFlowY: "auto", padding: '2rem 0 0 0'}}>
                 {updatedData?.sort(sortDate)?.map((data) => (
-                    <ApplicationDataRow data={data} isConfigureMode={configureMode} updatedData={updatedData} setUpdatedData={setUpdatedData} deleteEntry={( e) => deleteAlarm(data, e)} switchEntryStatus={(e) => switchAlarmStatus(data, e)} selectCard={() => selectCard(data)} dataArray={appData.alarmData} hasSwitchMode={false}>
+                    <ApplicationDataRow data={data} isConfigureMode={configureMode} updatedData={updatedData} setUpdatedData={setUpdatedData} deleteEntry={( e) => deleteItem(e, updatedData, setUpdatedData, data)} selectCard={() => selectCard(data)} dataArray={appData.alarmData}>
                         <Stack direction={"column"} alignItems={"start"}>
                             <Stack>
                                 <Typography variant="h6" gutterBottom textAlign={"start"}>
