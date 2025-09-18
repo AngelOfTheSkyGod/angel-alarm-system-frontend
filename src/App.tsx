@@ -4,8 +4,8 @@ import Login from "./pages/login/Login.tsx";
 import {AlarmContainerWithRouting} from "./pages/alarm/AlarmContainerWithRouting.tsx";
 import SignUp from "./pages/signup/SignUp.tsx";
 import {SlideShowContainer} from "./pages/slideshow/SlideShowContainer.tsx";
-import {CalendarContainer} from "./pages/calendar/CalendarContainer.tsx";
 import {AppDataContextProvider} from "./context/AppDataContext.tsx";
+import {CalendarContainerWithRouting} from "./pages/calendar/CalendarContainerWithRouting.tsx";
 
 function App() {
 
@@ -18,7 +18,7 @@ function App() {
                 <Route path="/signup" element={<SignUp />} />
                 <Route path="/alarm/*" element={<AlarmContainerWithRouting />}/>
                 <Route path="/slideshow/*" element={<SlideShowContainer/>}/>
-                <Route path="/calendar/*" element={<CalendarContainer/>}/>
+                <Route path="/calendar/*" element={<CalendarContainerWithRouting/>}/>
             </Routes>
           </AppDataContextProvider>
       </BrowserRouter>  )
