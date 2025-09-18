@@ -5,11 +5,13 @@ import {Stack, Typography} from "@mui/material";
 import {useAppDataContext} from "../../context/AppDataContext.tsx";
 import {CalendarDataRowData} from "../../types/ApplicationTypes.tsx";
 import {abbreviationToDay, deleteItem, getDayPrefix, sortDate} from "../../utilities/utils.ts";
+import {useNavigate} from "react-router-dom";
 
 export const CalendarContainer = () => {
     const [configureMode, setConfigureMode] = useState<boolean>(false);
     const {appData, updateAppData} = useAppDataContext();
     const [updatedData , setUpdatedData] = useState<CalendarDataRowData[]>([...appData.calendarData]);
+    const navigate = useNavigate();
     const submitAppData = () => {
         updateAppData({...appData, calendarData: updatedData}); //updates our alarms with the ones we just updated
         setConfigureMode(false);//turns settings off
@@ -19,8 +21,11 @@ export const CalendarContainer = () => {
             setUpdatedData(appData.calendarData);
         }
     }
-    const selectCard = (data) => {
-        console.log(data);
+    const selectCard = (data:CalendarDataRowData) => {
+        if (!configureMode) return;
+        const searchParams = new URLSearchParams(location.search);
+        searchParams.set("calendarKey", String(data?.key));
+        navigate(`/calendar/configureCalendarEvents?${searchParams.toString()}`);
     }
     return (
         <ApplicationPageContainer configuredModeResetFunction={()=>{resetAlarms()}} submitAppDataFunction={()=>{submitAppData()}} addNewEntryFunction={()=>{}} configureMode={configureMode} setConfigureMode={setConfigureMode}>
