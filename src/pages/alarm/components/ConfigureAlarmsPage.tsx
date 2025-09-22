@@ -1,7 +1,5 @@
-import { Container, IconButton, Stack} from "@mui/material";
+import { Container, Stack} from "@mui/material";
 import {ApplicationContainer} from "../../../components/ApplicationContainer.tsx";
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import {useEffect, useState} from "react";
 import {GeneralAlarmConfiguration} from "./GeneralAlarmConfiguration.tsx";
 import DaysAlarmConfiguration from "./DaysAlarmConfiguration.tsx";
@@ -11,6 +9,7 @@ import {useNavigate} from "react-router-dom";
 import AlarmLabelConfiguration from "./AlarmLabelConfiguration.tsx";
 import AlarmSoundConfiguration from "./AlarmSoundConfiguration.tsx";
 import {getAlarmTimeData} from "../../../utilities/utils.ts";
+import {ApplicationConfigurationButtons} from "../../../components/ApplicationConfigurationButtons.tsx";
 
 
 export const ConfigureAlarmsPage = () => {
@@ -80,14 +79,7 @@ export const ConfigureAlarmsPage = () => {
     return(
         <ApplicationContainer>
             <Container maxWidth="md" sx={{height: "100%", maxHeight: "fit-content", position:"relative", padding: "0"}}>
-                <Stack direction={"row"} justifyContent={"space-between"}>
-                    <IconButton aria-label="cancel icon" onClick={() => completeCancel()}>
-                        <ArrowBackIcon fontSize={"large"}/>
-                    </IconButton>
-                    <IconButton aria-label="apply changes icon" onClick={() => completeSubmit()}>
-                        <CheckCircleOutlineIcon fontSize={"large"}/>
-                    </IconButton>
-                </Stack>
+                <ApplicationConfigurationButtons completeCancel={completeCancel} completeSubmit={completeSubmit}/>
                 {
                     <Stack justifyContent={"center"} style={{height: "60vh", width: "100%"}}>
                         {

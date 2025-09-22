@@ -52,6 +52,8 @@ export const getElementTiles = (elementsArray: (string | number)[], currentSelec
     return elements;
 }
 
+export const abbreviatedDaysArray = ["Su", "M", "Tu", "W", "Th", "F", "Sa"];
+
 export const dayToAbbreviation = (day:string) :string => {
     switch (day) {
         case 'Monday':
@@ -95,9 +97,10 @@ export const abbreviationToDay = (day:string) :string => {
 }
 
 export const getAlarmTimeData = (time:AlarmDataRowData | undefined):(string | undefined)[] => {
-    const hour = time?.time.split(":")[0];
-    const minute = time?.time.split(":")[1].slice(0, 2);
-    const meridian = time?.time.split(":")[1].slice(2, 4);
+    if (time === undefined || time.time.length == 0) return [""];
+    const hour = time?.time.split(":")?.[0];
+    const minute = time?.time.split(":")?.[1]?.slice(0, 2);
+    const meridian = time?.time.split(":")?.[1].slice(2, 4);
     if (hour === '12' && meridian === 'am'){
         return ['0',  minute, 'am']
     }else if (hour === '12' && meridian === 'pm'){
