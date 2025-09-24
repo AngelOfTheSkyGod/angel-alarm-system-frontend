@@ -16,7 +16,7 @@ export const CalendarContainer = () => {
         updateAppData({...appData, calendarData: updatedData}); //updates our alarms with the ones we just updated
         setConfigureMode(false);//turns settings off
     }
-    const resetAlarms = () => {
+    const resetCalendarEvents = () => {
         if (configureMode) {
             setUpdatedData(appData.calendarData);
         }
@@ -27,8 +27,16 @@ export const CalendarContainer = () => {
         searchParams.set("calendarKey", String(data?.key));
         navigate(`/calendar/configureCalendarEvents?${searchParams.toString()}`);
     }
+    const addCalendarEvent = () => {
+        navigate("/calendar/addCalendarEvent");
+    }
     return (
-        <ApplicationPageContainer configuredModeResetFunction={()=>{resetAlarms()}} submitAppDataFunction={()=>{submitAppData()}} addNewEntryFunction={()=>{}} configureMode={configureMode} setConfigureMode={setConfigureMode}>
+        <ApplicationPageContainer
+            configuredModeResetFunction={()=>{resetCalendarEvents()}}
+            submitAppDataFunction={()=>{submitAppData()}}
+            addNewEntryFunction={()=>{addCalendarEvent()}}
+            configureMode={configureMode}
+            setConfigureMode={setConfigureMode}>
             <Stack sx={{overFlowY: "auto", padding: '2rem 0 0 0'}}>
                 {updatedData?.sort(sortDate)?.map((data) => (
                     <ApplicationDataRow data={data} isConfigureMode={configureMode} updatedData={updatedData} setUpdatedData={setUpdatedData} deleteEntry={( e) => deleteItem(e, updatedData, setUpdatedData, data)} selectCard={() => selectCard(data)} dataArray={appData.alarmData}>

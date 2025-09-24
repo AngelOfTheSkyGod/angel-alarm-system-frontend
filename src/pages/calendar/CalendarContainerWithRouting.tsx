@@ -7,7 +7,7 @@ export const CalendarContainerWithRouting = () => {
         <Routes>
             <Route path={"/"} element={<CalendarContainer/>}/>
             <Route path={"/configureCalendarEvents"} element={<ConfigureCalendarPage/>}/>
-            {/*<Route path={"/addAlarm"} element={<ConfigureAlarmsPage/>}/>*/}
+            <Route path={"/addCalendarEvent"} element={<ConfigureCalendarPage/>}/>
         </Routes>
     )
 }

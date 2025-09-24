@@ -39,9 +39,7 @@ export const AlarmContainer = () => {
         searchParams.set("alarmKey", String(data.key));
         navigate(`/alarm/configureAlarms?${searchParams.toString()}`);
     }
-    // export const deleteItem = (event: React.MouseEvent, updatedData: AlarmDataRowData[] | CalendarDataRowData[], setUpdatedData:Dispatch<SetStateAction<AlarmDataRowData[]>> | Dispatch<SetStateAction<CalendarDataRowData[]>>, data: AlarmDataRowData | CalendarDataRowData) => {
-
-        return(
+    return(
         <ApplicationPageContainer
             configuredModeResetFunction={() => resetAlarms()}
             submitAppDataFunction={() => submitAppData()}
