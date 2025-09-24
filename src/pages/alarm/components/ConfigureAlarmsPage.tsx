@@ -64,7 +64,7 @@ export const ConfigureAlarmsPage = () => {
         navigateLogic();
         if (currentState === "general-configure-page") {
             const newAlarms = configuredAlarms;
-            newAlarms[alarmKey ?? 0] = {...configuredAlarms[alarmKey], time: `${getDayPrefix((hour + 1 == 0 ? 12 : hour + 1).toString())}:${getDayPrefix(minute.toString())}${timeOfDay === 0 ? "pm" : "am"}`};
+            newAlarms[alarmKey ?? 0] = {...configuredAlarms[alarmKey], time: `${(hour + 1 == 0 ? 12 : hour + 1).toString()}:${getDayPrefix(minute.toString())}${timeOfDay === 0 ? "pm" : "am"}`};
             updateAppData({...appData, alarmData: newAlarms});
         }else{
             setConfiguredAlarms(JSON.parse(JSON.stringify(alarmCopy)));

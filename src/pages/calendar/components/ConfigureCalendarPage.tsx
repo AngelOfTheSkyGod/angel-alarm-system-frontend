@@ -41,7 +41,7 @@ export const ConfigureCalendarPage = () => {
             description: description,
             key: 0,
             month: (date.getMonth() + 1).toString(),
-            time: `${getDayPrefix((hour + 1 == 0 ? 12 : hour + 1).toString())}:${getDayPrefix(minute.toString())}${timeOfDay === 1 ? "am" : "pm"}`,
+            time: `${(hour + 1 == 0 ? 12 : hour + 1).toString()}:${getDayPrefix(minute.toString())}${timeOfDay === 1 ? "am" : "pm"}`,
             year: date.getFullYear().toString()
         };
         setConfiguredCalendarEvents(calendarCopy);
