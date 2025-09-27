@@ -6,6 +6,7 @@ import { useAppDataContext } from "../context/AppDataContext.tsx";
 import ClearIcon from '@mui/icons-material/Clear';
 import CheckIcon from '@mui/icons-material/Check';
 import {AASData} from "../types/ApplicationTypes.tsx";
+import {styled} from "@mui/material/styles";
 
 interface ApplicationPageContainerProps {
     configuredModeResetFunction: (appData: AASData) => void;
@@ -14,9 +15,22 @@ interface ApplicationPageContainerProps {
     children: React.ReactNode;
     configureMode:boolean;
     setConfigureMode:(value: boolean) => void;
+    uploadFile?: boolean;
+    uploadFileFunction?: (image: Blob | MediaSource | null) => void;
 }
+const VisuallyHiddenInput = styled('input')({
+    clip: 'rect(0 0 0 0)',
+    clipPath: 'inset(50%)',
+    height: "100%",
+    overflow: 'hidden',
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    whiteSpace: 'nowrap',
+    width: "100%",
+});
 
-export const ApplicationPageContainer = ({configuredModeResetFunction, submitAppDataFunction, addNewEntryFunction, configureMode, setConfigureMode, children}:ApplicationPageContainerProps) => {
+export const ApplicationPageContainer = ({configuredModeResetFunction, submitAppDataFunction, addNewEntryFunction, configureMode, setConfigureMode, uploadFile, uploadFileFunction, children}:ApplicationPageContainerProps) => {
     const {appData} = useAppDataContext();
     const openSettings = () => {
         if (configureMode) {
@@ -34,14 +48,27 @@ export const ApplicationPageContainer = ({configuredModeResetFunction, submitApp
                             <SettingsIcon fontSize={"large"}/>
                         }
                     </IconButton>
-                    <IconButton aria-label="add alarm icon" onClick={configureMode ? () => submitAppDataFunction() : () => {
-                        addNewEntryFunction()
-                    }}>
-                        {configureMode ?
-                            <CheckIcon fontSize={"large"}/> :
-                            <AddIcon fontSize={"large"}/>
-                        }
-                    </IconButton>
+                    {
+                        <IconButton component={"label"} aria-label="add alarm icon"
+                                    onClick={configureMode ? () => submitAppDataFunction() : () => {
+                                        addNewEntryFunction()
+                                    }}>
+                            {
+                                uploadFile &&
+                                <VisuallyHiddenInput
+                                    type="file"
+                                    // @ts-ignore
+                                    onChange={(event) => uploadFileFunction ? uploadFileFunction(event.target.files[0]) : undefined}
+                                    multiple
+                                />
+                            }
+                            {
+                                configureMode ?
+                                    <CheckIcon fontSize={"large"}/> :
+                                    <AddIcon fontSize={"large"}/>
+                            }
+                        </IconButton>
+                    }
                 </Stack>
                 {children}
             </Container>
