@@ -34,9 +34,9 @@ export const ApplicationPageContainer = ({configuredModeResetFunction, submitApp
     const {appData} = useAppDataContext();
     const openSettings = () => {
         if (configureMode) {
-            configuredModeResetFunction(appData); //wipes away the updated data with the old alarm data
+            configuredModeResetFunction(appData);
         }
-        setConfigureMode(!configureMode); //turns settings on or off
+        setConfigureMode(!configureMode);
     }
     return (
         <ApplicationContainer>
@@ -57,8 +57,7 @@ export const ApplicationPageContainer = ({configuredModeResetFunction, submitApp
                                 uploadFile &&
                                 <VisuallyHiddenInput
                                     type="file"
-                                    // @ts-ignore
-                                    onChange={(event) => uploadFileFunction ? uploadFileFunction(event.target.files[0]) : undefined}
+                                    onChange={(event) => uploadFileFunction ? uploadFileFunction(event.target?.files?.[0] || new Blob()) : undefined}
                                     multiple
                                 />
                             }

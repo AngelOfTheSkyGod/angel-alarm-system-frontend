@@ -28,7 +28,7 @@ export interface CalendarDataRowData{
 }
 
 export interface SlideShowPictureData{
-    imageArray: Uint8Array;
+    imageArray: number[];
 }
 
 

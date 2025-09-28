@@ -1,4 +1,4 @@
-import {useState, useEffect} from "react";
+import {useState} from "react";
 import {ApplicationPageContainer} from "../../components/ApplicationPageContainer.tsx";
 import DeleteIcon from '@mui/icons-material/Delete';
 
@@ -21,59 +21,83 @@ const DemoPaper = styled(Paper)(({ theme }) => ({
 
 
 export const SlideShowContainer = () => {
+    const {appData, updateAppData} = useAppDataContext();
+    const [updatedData , setUpdatedData] = useState<SlideShowPictureDataWithBlob[]>(slideShowDataToSlideShowDataWithBlob([...JSON.parse(JSON.stringify(appData.slideShowData))]));
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const [configureMode, setConfigureMode] = useState<boolean>(false);
     const [uploadFile, setUploadFile] = useState(true);
-    const {appData, updateAppData} = useAppDataContext();
-    const [updatedData , setUpdatedData] = useState<SlideShowPictureDataWithBlob[]>(slideShowDataToSlideShowDataWithBlob([...appData.slideShowData]));
-    const [selectedImageList, setSelectedImageList] = useState<(SlideShowPictureDataWithBlob | null)[]>([...updatedData]);
-    const uploadImage = (image: Blob | null) => {
+    const uploadImage = (image: Blob) => {
         image?.arrayBuffer().then((result) => {
             const imageArray = new Uint8Array(result);
-            const list = selectedImageList !== null && selectedImageList.length > 0 ? [...selectedImageList] : [];
+            const list = updatedData !== null && updatedData.length > 0 ? [...updatedData] : [];
             list.push({imageArray: imageArray, imageBlob: image});
-            setSelectedImageList(list);
+            updateAppData({...appData, slideShowData: list.map((value) => {return {imageArray: Array.from(value.imageArray)}})})
+            setUpdatedData(list)
         });
-        console.log("image list: ", list);
     }
     const setConfigureModeFunction = (value: boolean) => {
-        setUploadFile(!value);
         setConfigureMode(value);
+        if (!value){
+            setTimeout(() => {
+                setUploadFile(true);
+            }, 1000);
+        }else{
+            setUploadFile(false);
+        }
+    }
+    const removePicture = () => {
+        const list = updatedData !== null && updatedData.length > 0 ? [...updatedData] : [];
+        list.splice(currentImageIndex, 1);
+        if (currentImageIndex >= list.length) {
+            setCurrentImageIndex(list.length - 1);
+        }
+        if (list.length <= 0){
+            setCurrentImageIndex(0);
+        }
+        setUpdatedData(list);
+    }
+
+    const configureModeResetFunction = () => {
+        setUpdatedData(slideShowDataToSlideShowDataWithBlob([...JSON.parse(JSON.stringify(appData.slideShowData))]));
+    }
+    const submitAppDataFunction = () => {
+        updateAppData({...appData, slideShowData: updatedData.map((value) => {return {imageArray: Array.from(value.imageArray)}})})
+        setConfigureModeFunction(false);
     }
     return (
         <ApplicationPageContainer
-            configuredModeResetFunction={() =>{}}
-            submitAppDataFunction={() => {}}
+            configuredModeResetFunction={configureModeResetFunction}
+            submitAppDataFunction={() => submitAppDataFunction()}
             addNewEntryFunction={() => {}}
             configureMode={configureMode}
             setConfigureMode={setConfigureModeFunction}
             uploadFile={uploadFile}
-            uploadFileFunction={(file) => uploadImage(file)}
+            uploadFileFunction={(file) => uploadImage(file || new Blob())}
         >
             <Alert variant="filled" severity="info" sx={{marginTop:"2rem"}}>
                 Add a New Picture Or Delete a Current Entry
             </Alert>
             <Stack sx={{overFlowY: "auto", padding: '2rem 0 0 0', height: "75vh"}} direction={"row"} justifyContent={"center"} alignItems={"center"}>
-                {selectedImageList.length > 1 &&
-                    <IconButton aria-label="backwards" onClick={() => {setCurrentImageIndex(currentImageIndex > 0 ? currentImageIndex - 1 : selectedImageList.length - 1)}}>
+                {updatedData.length > 1 &&
+                    <IconButton aria-label="backwards" onClick={() => {setCurrentImageIndex(currentImageIndex > 0 ? currentImageIndex - 1 : updatedData.length - 1)}}>
                         <ArrowBack/>
                     </IconButton>
                 }
                 <DemoPaper square={false}>
-                    { configureMode &&
-                        <IconButton sx={{position: "absolute"}} aria-label="delete" size="large">
+                    { configureMode && updatedData?.length > 0 &&
+                        <IconButton sx={{position: "absolute"}} aria-label="delete" size="large" onClick ={() => {removePicture()}}>
                             <DeleteIcon fontSize="inherit" />
                         </IconButton>
                     }
-                    {selectedImageList.length > 0 &&
+                    {updatedData.length > 0 &&
                         <img
                             alt="not found"
                             width={"100%"}
                             height={"100%"}
-                            src={URL.createObjectURL(selectedImageList?.[currentImageIndex]?.imageBlob)}
+                            src={URL.createObjectURL(updatedData?.[currentImageIndex]?.imageBlob)}
                         />}
                 </DemoPaper>
-                {selectedImageList.length > 1 &&<IconButton aria-label="forwards" onClick={() => {setCurrentImageIndex(currentImageIndex < selectedImageList.length - 1 ? currentImageIndex + 1 : 0)}}>
+                {updatedData.length > 1 &&<IconButton aria-label="forwards" onClick={() => {setCurrentImageIndex(currentImageIndex < updatedData.length - 1 ? currentImageIndex + 1 : 0)}}>
                     <ArrowForward />
                 </IconButton>
                 }
