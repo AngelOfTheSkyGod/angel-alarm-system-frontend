@@ -3,6 +3,7 @@ export interface AASData {
     password: string;
     alarmData: AlarmDataRowData[];
     calendarData: CalendarDataRowData[];
+    slideShowData: SlideShowPictureData[];
 }
 
 
@@ -24,4 +25,14 @@ export interface CalendarDataRowData{
     dayOfTheWeek: string;
     key:number;
     active?:boolean;
+}
+
+export interface SlideShowPictureData{
+    imageArray: Uint8Array;
+}
+
+
+export interface SlideShowPictureDataWithBlob{
+    imageArray: Uint8Array;
+    imageBlob: Blob;
 }

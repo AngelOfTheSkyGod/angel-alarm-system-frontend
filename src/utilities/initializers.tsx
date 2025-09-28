@@ -1,4 +1,5 @@
 import {AASData} from "../types/ApplicationTypes.tsx";
+import {luffyImage} from "./Images.tsx";
 
 export const initializeAASData = () :AASData => {
     return {
@@ -35,6 +36,11 @@ export const initializeAASData = () :AASData => {
             {month: "12", day: "18", year: "2025", time: "12:01pm", description: "late lunch PTO", dayOfTheWeek: "Th", key:10},
             {month: "12", day: "18", year: "2025", time: "12:01am", description: "late lunch PTO", dayOfTheWeek: "Th", key:11},
             {month: "8", day: "25", year: "2025", time: "", description: "Mom's Birthday", dayOfTheWeek: "M", key:13}
+        ],
+        slideShowData:[
+            {
+                imageArray: luffyImage
+            }
         ]
     }
 }

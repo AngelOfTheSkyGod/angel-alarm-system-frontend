@@ -16,7 +16,7 @@ interface ApplicationPageContainerProps {
     configureMode:boolean;
     setConfigureMode:(value: boolean) => void;
     uploadFile?: boolean;
-    uploadFileFunction?: (image: Blob | MediaSource | null) => void;
+    uploadFileFunction?: (image: Blob | null) => void;
 }
 const VisuallyHiddenInput = styled('input')({
     clip: 'rect(0 0 0 0)',

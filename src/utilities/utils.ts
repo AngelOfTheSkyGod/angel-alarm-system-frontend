@@ -1,4 +1,9 @@
-import {AlarmDataRowData, CalendarDataRowData} from "../types/ApplicationTypes.tsx";
+import {
+    AlarmDataRowData,
+    CalendarDataRowData,
+    SlideShowPictureData,
+    SlideShowPictureDataWithBlob
+} from "../types/ApplicationTypes.tsx";
 import {Dispatch, SetStateAction} from "react";
 
 export const areObjectsEqualDeep = (obj1: any, obj2: any): boolean => {
@@ -151,3 +156,18 @@ export const deleteItem = (event: React.MouseEvent, updatedData: AlarmDataRowDat
     setUpdatedData(otherAlarms);
     event.stopPropagation();
 }
+
+export const int8ArrayToBlob = (array: Uint8Array): Blob => {
+    return new Blob([array], { type: "image/png" });
+};
+
+export const slideShowDataToSlideShowDataWithBlob = (
+    data: SlideShowPictureData[]
+): SlideShowPictureDataWithBlob[] => {
+    return data.map((entry) => {
+        return {
+            imageArray: new Uint8Array(entry.imageArray),
+            imageBlob: int8ArrayToBlob(new Uint8Array(entry.imageArray)),
+        };
+    });
+};
