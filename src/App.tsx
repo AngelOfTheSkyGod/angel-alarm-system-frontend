@@ -1,6 +1,6 @@
 import {BrowserRouter, Route, Routes} from 'react-router'
 import './App.css'
-import Login from "./pages/login/Login.tsx";
+import {Login} from "./pages/login/Login.tsx";
 import {AlarmContainerWithRouting} from "./pages/alarm/AlarmContainerWithRouting.tsx";
 import SignUp from "./pages/signup/SignUp.tsx";
 import {SlideShowContainer} from "./pages/slideshow/SlideShowContainer.tsx";

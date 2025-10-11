@@ -36,3 +36,7 @@ export interface SlideShowPictureDataWithBlob{
     imageArray: Uint8Array;
     imageBlob: Blob;
 }
+
+export interface ConfigContextProps {
+    baseUrl:string;
+}
