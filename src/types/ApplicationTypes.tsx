@@ -4,6 +4,7 @@ export interface AASData {
     alarmData: AlarmDataRowData[];
     calendarData: CalendarDataRowData[];
     slideShowData: SlideShowPictureData[];
+    userIdentifier: string;
 }
 
 
