@@ -3,6 +3,7 @@ import {luffyImage} from "./Images.tsx";
 
 export const initializeAASData = () :AASData => {
     return {
+        userIdentifier: "",
         username: "",
         password: "",
         alarmData: [{
