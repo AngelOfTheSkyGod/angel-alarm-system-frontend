@@ -24,7 +24,7 @@ const LoginContainer: React.FC = () => {
         }
     }, [])
     const postObject: AASData= {
-        alarmData: alarmData, calendarData: calendarData, password: "password", slideShowData: slideShowData, username: "username", userIdentifier: identifier
+        alarmData: alarmData, calendarData: calendarData, password, slideShowData: slideShowData, username, userIdentifier: identifier
     }
     useEffect(() => {
         navigate(`../login`, { replace: true })
