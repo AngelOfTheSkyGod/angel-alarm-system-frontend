@@ -41,3 +41,8 @@ export interface SlideShowPictureDataWithBlob{
 export interface ConfigContextProps {
     baseUrl:string;
 }
+
+export interface SlideShowData{
+    imageCount: number;
+    imageList: string[];
+}
