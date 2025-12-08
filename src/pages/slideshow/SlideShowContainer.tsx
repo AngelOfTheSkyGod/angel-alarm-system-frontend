@@ -27,13 +27,17 @@ export const SlideShowContainer = () => {
     const [configureMode, setConfigureMode] = useState<boolean>(false);
     const [uploadFile, setUploadFile] = useState(true);
     const uploadImage = (image: Blob) => {
-        image?.arrayBuffer().then((result) => {
-            const imageArray = new Uint8Array(result);
+        const reader = new FileReader();
+        reader.readAsDataURL(image);
+
+        reader.onloadend = () => {
+            const dataUrl = (reader.result || "").toString();
+            const base64String = dataUrl.split(',')[1];
             const list = updatedData !== null && updatedData.length > 0 ? [...updatedData] : [];
-            list.push({imageArray: imageArray, imageBlob: image});
-            updateAppData({...appData, slideShowData: list.map((value) => {return {imageArray: Array.from(value.imageArray)}})})
+            list.push({imageDataUrl: base64String, imageBlob: image});
+            updateAppData({...appData, slideShowData: list.map((value) => {return {imageDataUrl: base64String,  imageBlob:value.imageBlob}})})
             setUpdatedData(list)
-        });
+        }
     }
     const setConfigureModeFunction = (value: boolean) => {
         setConfigureMode(value);
@@ -61,7 +65,7 @@ export const SlideShowContainer = () => {
         setUpdatedData(slideShowDataToSlideShowDataWithBlob([...JSON.parse(JSON.stringify(appData.slideShowData))]));
     }
     const submitAppDataFunction = () => {
-        updateAppData({...appData, slideShowData: updatedData.map((value) => {return {imageArray: Array.from(value.imageArray)}})})
+        updateAppData({...appData, slideShowData: updatedData.map((value) => {return {imageDataUrl: value.imageDataUrl}})})
         setConfigureModeFunction(false);
     }
     return (

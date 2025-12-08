@@ -29,12 +29,12 @@ export interface CalendarDataRowData{
 }
 
 export interface SlideShowPictureData{
-    imageArray: number[];
+    imageDataUrl: string;
 }
 
 
 export interface SlideShowPictureDataWithBlob{
-    imageArray: Uint8Array;
+    imageDataUrl: string;
     imageBlob: Blob;
 }
 

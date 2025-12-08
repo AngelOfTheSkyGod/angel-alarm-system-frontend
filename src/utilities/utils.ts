@@ -161,13 +161,22 @@ export const int8ArrayToBlob = (array: Uint8Array): Blob => {
     return new Blob([array], { type: "image/png" });
 };
 
+const base64EncodedStringToBlob = (base64String: string): Blob  => {
+    const byteCharacters = atob(base64String);
+    const byteNumbers = new Array(byteCharacters.length);
+    for (let i = 0; i < byteCharacters.length; i++) {
+        byteNumbers[i] = byteCharacters.charCodeAt(i);
+    }
+    const byteArray = new Uint8Array(byteNumbers);
+    return int8ArrayToBlob(byteArray);
+}
 export const slideShowDataToSlideShowDataWithBlob = (
     data: SlideShowPictureData[]
 ): SlideShowPictureDataWithBlob[] => {
     return data.map((entry) => {
         return {
-            imageArray: new Uint8Array(entry.imageArray),
-            imageBlob: int8ArrayToBlob(new Uint8Array(entry.imageArray)),
+            imageBlob: base64EncodedStringToBlob(entry.imageDataUrl || ""),
+            imageDataUrl: entry.imageDataUrl
         };
     });
 };
