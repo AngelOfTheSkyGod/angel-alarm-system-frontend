@@ -13,7 +13,7 @@ export const useLoginStore= (): UseQueryResult<SlideShowData | undefined> => {
         alarmData: alarmData, calendarData: calendarData, password, slideShowData: slideShowData, username, userIdentifier: identifier || ""
     }
     return useQuery<SlideShowData | undefined>({
-        queryKey:["loginStore", username, password, postObject],
+        queryKey:["loginStore", username, password, identifier],
         queryFn: (): SlideShowData | undefined => {
             if (!postObject.username || !postObject.password || !identifier){
                 return undefined;
