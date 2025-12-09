@@ -7,7 +7,7 @@ import { styled } from '@mui/material/styles';
 import {Alert, IconButton, Stack} from "@mui/material";
 import {ArrowBack, ArrowForward} from "@mui/icons-material";
 import {useAppDataContext} from "../../context/AppDataContext.tsx";
-import {SlideShowPictureData, SlideShowPictureDataWithBlob} from "../../types/ApplicationTypes.tsx";
+import {SlideShowPictureDataWithBlob} from "../../types/ApplicationTypes.tsx";
 import {slideShowDataToSlideShowDataWithBlob} from "../../utilities/utils.ts";
 import {useLoginStore} from "../../stores/LoginStore.tsx";
 import {useNavigate} from "react-router-dom";
@@ -24,11 +24,11 @@ const DemoPaper = styled(Paper)(({ theme }) => ({
 
 export const SlideShowContainer = () => {
     const {appData, updateAppData} = useAppDataContext();
-    const {data: loginData} = useLoginStore();
-    const [updatedData , setUpdatedData] = useState<SlideShowPictureDataWithBlob[]>(slideShowDataToSlideShowDataWithBlob(loginData?.imageList.map((entry):SlideShowPictureData=> {return {imageDataUrl: entry}}) || []));
+    const [updatedData , setUpdatedData] = useState<SlideShowPictureDataWithBlob[]>(slideShowDataToSlideShowDataWithBlob([...appData.slideShowData]));
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const [configureMode, setConfigureMode] = useState<boolean>(false);
     const [uploadFile, setUploadFile] = useState(true);
+    const {data: loginData} = useLoginStore();
     const navigate = useNavigate();
     const uploadImage = (image: Blob) => {
         const reader = new FileReader();

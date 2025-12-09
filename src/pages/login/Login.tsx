@@ -5,6 +5,7 @@ import ApplicationCredentialForm from "../../components/ApplicationCredentialFor
 import { useNavigate } from "react-router-dom";
 import {useLoginStore} from "../../stores/LoginStore.tsx";
 import {useAppDataContext} from "../../context/AppDataContext.tsx";
+import {SlideShowPictureData} from "../../types/ApplicationTypes.tsx";
 
 const LoginContainer: React.FC = () => {
     const navigate = useNavigate();
@@ -27,6 +28,7 @@ const LoginContainer: React.FC = () => {
     }, [])
     useEffect(() => {
         if (loginData?.imageList) {
+            updateAppData({...appData, slideShowData: loginData?.imageList.map((entry):SlideShowPictureData=> {return {imageDataUrl: entry }}) || []})
             navigate(`../alarm`, { replace: true })
         }
     }, [loginData, isLoginDataFetching])
