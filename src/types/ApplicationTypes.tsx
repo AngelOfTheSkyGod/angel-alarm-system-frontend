@@ -46,3 +46,8 @@ export interface SlideShowData{
     imageCount: number;
     imageList: string[];
 }
+
+
+export interface LoginData{
+    slideShowData: SlideShowData;
+}

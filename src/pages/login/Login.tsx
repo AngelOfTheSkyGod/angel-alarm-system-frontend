@@ -1,52 +1,56 @@
 import React, {useEffect, useState} from 'react';
-import {Container, CssBaseline} from '@mui/material';
+import {CircularProgress, Container, CssBaseline} from '@mui/material';
 import { v4 as uuidv4 } from 'uuid';
 import ApplicationCredentialForm from "../../components/ApplicationCredentialForm.tsx";
-import {useAppDataContext} from "../../context/AppDataContext.tsx";
 import { useNavigate } from "react-router-dom";
-import {ConfigContextProvider, useConfigContext} from "../../hooks/useConfigContext.tsx";
-import {postCall} from "../../utilities/postCall.ts";
-import {AASData} from "../../types/ApplicationTypes.tsx";
+import {useLoginStore} from "../../stores/LoginStore.tsx";
+import {useAppDataContext} from "../../context/AppDataContext.tsx";
 
 const LoginContainer: React.FC = () => {
-    const { appData:{username, password, slideShowData, alarmData, calendarData} } = useAppDataContext();
     const navigate = useNavigate();
-    const {config : {baseUrl}} = useConfigContext();
-    const [identifier, setIdentifier] = useState<string>(uuidv4());
-
+    const [identifier, setIdentifier] = useState<string>(localStorage.getItem("identifier") || "");
+    const {data: loginData, isFetching: isLoginDataFetching} = useLoginStore();
+    const { appData, updateAppData } = useAppDataContext();
+    const [username, setUsername] = useState<string>("");
+    const [password, setPassword] = useState<string>("");
     useEffect(() => {
-        if (!localStorage.getItem("identifier")){
+        if (!identifier){
             const identifier = uuidv4()
             localStorage.setItem("identifier", identifier);
             setIdentifier(uuidv4());
-        }else if (localStorage.getItem("identifier")){
+        }else if (identifier){
             setIdentifier(localStorage.getItem("identifier") || uuidv4())
         }
     }, [])
-    const postObject: AASData= {
-        alarmData: alarmData, calendarData: calendarData, password, slideShowData: slideShowData, username, userIdentifier: identifier
-    }
     useEffect(() => {
         navigate(`../login`, { replace: true })
     }, [])
-    const handleLogin = () => {
-        console.log('Username:', username, 'Password:', password);
-        postCall(baseUrl, "connect", postObject)
-        navigate(`../alarm`, { replace: true })
-    };
+    useEffect(() => {
+        if (loginData?.imageList) {
+            navigate(`../alarm`, { replace: true })
+        }
+    }, [loginData, isLoginDataFetching])
+    if (isLoginDataFetching){
+        return <CircularProgress />
+    }
     return (
         <React.Fragment>
             <CssBaseline/>
             <Container sx={{height: "100%", minHeight:"100vh", width: "75vw"}}  maxWidth="md">
-                <ApplicationCredentialForm pageTitle={"Login"} pageSubmitTitle={"Login"} submitFormAction={handleLogin}/>
+                <ApplicationCredentialForm
+                    pageTitle={"Login"}
+                    pageSubmitTitle={"Login"}
+                    username={username}
+                    setUsername={setUsername}
+                    password={password}
+                    setPassword={setPassword}
+                    submitFormAction={() => {updateAppData({...appData, username, password})}}/>
             </Container>
         </React.Fragment>
     );
 };
 
 const LoginContainerWithProviders = () => {
-    return (<ConfigContextProvider>
-        <LoginContainer />
-    </ConfigContextProvider>)
+    return (<LoginContainer />)
 }
 export {LoginContainerWithProviders as Login};

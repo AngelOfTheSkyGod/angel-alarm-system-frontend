@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {ApplicationPageContainer} from "../../components/ApplicationPageContainer.tsx";
 import DeleteIcon from '@mui/icons-material/Delete';
 
@@ -9,6 +9,8 @@ import {ArrowBack, ArrowForward} from "@mui/icons-material";
 import {useAppDataContext} from "../../context/AppDataContext.tsx";
 import {SlideShowPictureDataWithBlob} from "../../types/ApplicationTypes.tsx";
 import {slideShowDataToSlideShowDataWithBlob} from "../../utilities/utils.ts";
+import {useLoginStore} from "../../stores/LoginStore.tsx";
+import {useNavigate} from "react-router-dom";
 
 const DemoPaper = styled(Paper)(({ theme }) => ({
     width: "80%",
@@ -26,6 +28,8 @@ export const SlideShowContainer = () => {
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const [configureMode, setConfigureMode] = useState<boolean>(false);
     const [uploadFile, setUploadFile] = useState(true);
+    const {data: loginData} = useLoginStore();
+    const navigate = useNavigate();
     const uploadImage = (image: Blob) => {
         const reader = new FileReader();
         reader.readAsDataURL(image);
@@ -67,6 +71,14 @@ export const SlideShowContainer = () => {
     const submitAppDataFunction = () => {
         updateAppData({...appData, slideShowData: updatedData.map((value) => {return {imageDataUrl: value.imageDataUrl}})})
         setConfigureModeFunction(false);
+    }
+    useEffect(() => {
+        if (!loginData?.imageList) {
+            navigate(`../login`, { replace: true })
+        }
+    }, [])
+    if (!loginData?.imageList) {
+        return null;
     }
     return (
         <ApplicationPageContainer
