@@ -52,6 +52,11 @@ export interface AddImageRequest extends LoginData{
     imageDataUrl: string;
 }
 
+export interface DeleteImageRequest extends LoginData{
+    imagePosition: number | null;
+    imageDataUrl: string;
+}
+
 export interface imageRequestResponse {
     imageCount: number;
     success: boolean;

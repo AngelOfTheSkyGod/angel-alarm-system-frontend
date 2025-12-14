@@ -7,11 +7,17 @@ import { styled } from '@mui/material/styles';
 import {Alert, IconButton, Stack} from "@mui/material";
 import {ArrowBack, ArrowForward} from "@mui/icons-material";
 import {useAppDataContext} from "../../context/AppDataContext.tsx";
-import {AddImageRequest, SlideShowPictureDataWithBlob} from "../../types/ApplicationTypes.tsx";
-import {slideShowDataToSlideShowDataWithBlob} from "../../utilities/utils.ts";
+import {
+    AddImageRequest,
+    DeleteImageRequest,
+    LoginData,
+    SlideShowPictureDataWithBlob
+} from "../../types/ApplicationTypes.tsx";
+import {getLoginInfo, slideShowDataToSlideShowDataWithBlob} from "../../utilities/utils.ts";
 import {useLoginStore} from "../../stores/LoginStore.tsx";
 import {useNavigate} from "react-router-dom";
 import {useAddSlideShowImageStore} from "../../stores/AddSlideShowImageStore.tsx";
+import {useDeleteSlideShowImageStore} from "../../stores/DeleteSlideShowImageStore.tsx";
 
 const DemoPaper = styled(Paper)(({ theme }) => ({
     width: "80%",
@@ -31,18 +37,22 @@ export const SlideShowContainer = () => {
     const [uploadFile, setUploadFile] = useState(true);
     const {data: loginData} = useLoginStore();
     const [imageCount, setImageCount] = useState(updatedData.length);
+    const loginInfo: LoginData = getLoginInfo(appData);
     const [slideShowImageRequest, setSlideShowImageRequest] = useState<AddImageRequest>({
-        username: appData.username,
-        password: appData.password,
-        userIdentifier: appData.userIdentifier,
+        ...loginInfo,
+        imageDataUrl: ""
+    });
+    const [deleteSlideShowImageRequest, setDeleteSlideShowImageRequest] = useState<DeleteImageRequest>({
+        ...loginInfo,
+        imagePosition: null,
         imageDataUrl: ""
     });
     const {data: addSlideShowImageData} = useAddSlideShowImageStore(slideShowImageRequest);
+    const {data: deleteSlideShowImageData} = useDeleteSlideShowImageStore(deleteSlideShowImageRequest);
     const navigate = useNavigate();
     const uploadImage = (image: Blob) => {
         const reader = new FileReader();
         reader.readAsDataURL(image);
-
         reader.onloadend = () => {
             const dataUrl = (reader.result || "").toString();
             const base64String = dataUrl.split(',')[1];
@@ -57,6 +67,11 @@ export const SlideShowContainer = () => {
     useEffect(() => {
         setImageCount(addSlideShowImageData?.imageCount ?? updatedData.length);
     }, [addSlideShowImageData?.imageCount]);
+
+    useEffect(() => {
+        setImageCount(deleteSlideShowImageData?.imageCount ?? updatedData.length);
+        setDeleteSlideShowImageRequest({...slideShowImageRequest, imagePosition: null});
+    }, [deleteSlideShowImageData?.imageCount, deleteSlideShowImageData?.success]);
     const setConfigureModeFunction = (value: boolean) => {
         setConfigureMode(value);
         if (!value){
@@ -70,6 +85,11 @@ export const SlideShowContainer = () => {
     const removePicture = () => {
         const list = updatedData !== null && updatedData.length > 0 ? [...updatedData] : [];
         list.splice(currentImageIndex, 1);
+        setDeleteSlideShowImageRequest({
+            ...loginInfo,
+            imagePosition: currentImageIndex,
+            imageDataUrl: list[currentImageIndex]?.imageDataUrl
+        });
         if (currentImageIndex >= list.length) {
             setCurrentImageIndex(list.length - 1);
         }

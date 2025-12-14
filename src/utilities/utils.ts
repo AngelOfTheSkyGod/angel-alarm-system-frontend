@@ -1,6 +1,7 @@
 import {
+    AASData,
     AlarmDataRowData,
-    CalendarDataRowData,
+    CalendarDataRowData, LoginData,
     SlideShowPictureData,
     SlideShowPictureDataWithBlob
 } from "../types/ApplicationTypes.tsx";
@@ -180,3 +181,11 @@ export const slideShowDataToSlideShowDataWithBlob = (
         };
     });
 };
+
+export const getLoginInfo = (data: AASData): LoginData => {
+    return {
+        username: data?.username,
+        userIdentifier: data?.userIdentifier,
+        password: data?.password
+    }
+}
