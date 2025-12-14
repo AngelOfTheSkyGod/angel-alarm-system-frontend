@@ -13,6 +13,6 @@ export const useAddSlideShowImageStore= (addImageRequest: AddImageRequest): UseQ
         queryFn: (): imageRequestResponse | undefined => {
             return post(baseUrl, "addImage", addImageRequest)
         },
-        enabled: !!(addImageRequest.imageDataUrl && addImageRequest.username && addImageRequest.password && !identifier)
+        enabled: !!(addImageRequest.imageDataUrl && addImageRequest.username && addImageRequest.password && identifier)
     })
 }
