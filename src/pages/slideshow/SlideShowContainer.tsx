@@ -70,7 +70,7 @@ export const SlideShowContainer = () => {
 
     useEffect(() => {
         setImageCount(deleteSlideShowImageData?.imageCount ?? updatedData.length);
-        setDeleteSlideShowImageRequest({...slideShowImageRequest, imagePosition: null});
+        setDeleteSlideShowImageRequest({...deleteSlideShowImageRequest, imagePosition: null});
     }, [deleteSlideShowImageData?.imageCount, deleteSlideShowImageData?.success]);
     const setConfigureModeFunction = (value: boolean) => {
         setConfigureMode(value);

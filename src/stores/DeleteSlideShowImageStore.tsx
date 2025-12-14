@@ -6,8 +6,8 @@ import {usePostRequest} from "../utilities/usePostRequest.tsx";
 export const useDeleteSlideShowImageStore= (deleteImageRequest: DeleteImageRequest): UseQueryResult<imageRequestResponse | undefined> => {
     const post = usePostRequest();
     const {config : {baseUrl}} = useConfigContext();
-    const identifier = localStorage.getItem("identifier");
-
+    const identifier = deleteImageRequest?.userIdentifier;
+    console.log("request", deleteImageRequest);
     return useQuery<imageRequestResponse | undefined>({
         queryKey:["addSlideShowImageStore", deleteImageRequest.imageDataUrl],
         queryFn: (): imageRequestResponse | undefined => {
