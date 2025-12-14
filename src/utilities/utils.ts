@@ -185,7 +185,7 @@ export const slideShowDataToSlideShowDataWithBlob = (
 export const getLoginInfo = (data: AASData): LoginData => {
     return {
         username: data?.username,
-        userIdentifier: data?.userIdentifier,
+        userIdentifier: localStorage.getItem("identifier") ?? "",
         password: data?.password
     }
 }

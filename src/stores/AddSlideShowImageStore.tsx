@@ -6,7 +6,7 @@ import {usePostRequest} from "../utilities/usePostRequest.tsx";
 export const useAddSlideShowImageStore= (addImageRequest: AddImageRequest): UseQueryResult<imageRequestResponse | undefined> => {
     const post = usePostRequest();
     const {config : {baseUrl}} = useConfigContext();
-    const identifier = localStorage.getItem("identifier");
+    const identifier = addImageRequest?.userIdentifier;
 
     return useQuery<imageRequestResponse | undefined>({
         queryKey:["addSlideShowImageStore", addImageRequest.imageDataUrl],
