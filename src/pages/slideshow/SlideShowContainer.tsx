@@ -7,10 +7,11 @@ import { styled } from '@mui/material/styles';
 import {Alert, IconButton, Stack} from "@mui/material";
 import {ArrowBack, ArrowForward} from "@mui/icons-material";
 import {useAppDataContext} from "../../context/AppDataContext.tsx";
-import {SlideShowPictureDataWithBlob} from "../../types/ApplicationTypes.tsx";
+import {AddImageRequest, SlideShowPictureDataWithBlob} from "../../types/ApplicationTypes.tsx";
 import {slideShowDataToSlideShowDataWithBlob} from "../../utilities/utils.ts";
 import {useLoginStore} from "../../stores/LoginStore.tsx";
 import {useNavigate} from "react-router-dom";
+import {useAddSlideShowImageStore} from "../../stores/AddSlideShowImageStore.tsx";
 
 const DemoPaper = styled(Paper)(({ theme }) => ({
     width: "80%",
@@ -29,6 +30,14 @@ export const SlideShowContainer = () => {
     const [configureMode, setConfigureMode] = useState<boolean>(false);
     const [uploadFile, setUploadFile] = useState(true);
     const {data: loginData} = useLoginStore();
+    const [imageCount, setImageCount] = useState(updatedData.length);
+    const [slideShowImageRequest, setSlideShowImageRequest] = useState<AddImageRequest>({
+        username: appData.username,
+        password: appData.password,
+        userIdentifier: appData.userIdentifier,
+        imageDataUrl: ""
+    });
+    const {data: addSlideShowImageData} = useAddSlideShowImageStore(slideShowImageRequest);
     const navigate = useNavigate();
     const uploadImage = (image: Blob) => {
         const reader = new FileReader();
@@ -41,8 +50,13 @@ export const SlideShowContainer = () => {
             list.push({imageDataUrl: base64String, imageBlob: image});
             updateAppData({...appData, slideShowData: list.map((value) => {return {imageDataUrl: base64String,  imageBlob:value.imageBlob}})})
             setUpdatedData(list)
+            setSlideShowImageRequest({...slideShowImageRequest, imageDataUrl: base64String})
         }
     }
+
+    useEffect(() => {
+        setImageCount(addSlideShowImageData?.imageCount ?? updatedData.length);
+    }, [addSlideShowImageData?.imageCount]);
     const setConfigureModeFunction = (value: boolean) => {
         setConfigureMode(value);
         if (!value){
@@ -94,18 +108,18 @@ export const SlideShowContainer = () => {
                 Add a New Picture Or Delete a Current Entry
             </Alert>
             <Stack sx={{overFlowY: "auto", padding: '2rem 0 0 0', height: "75vh"}} direction={"row"} justifyContent={"center"} alignItems={"center"}>
-                {updatedData.length > 1 &&
-                    <IconButton aria-label="backwards" onClick={() => {setCurrentImageIndex(currentImageIndex > 0 ? currentImageIndex - 1 : updatedData.length - 1)}}>
+                {imageCount > 1 &&
+                    <IconButton aria-label="backwards" onClick={() => {setCurrentImageIndex(currentImageIndex > 0 ? currentImageIndex - 1 : imageCount - 1)}}>
                         <ArrowBack/>
                     </IconButton>
                 }
                 <DemoPaper square={false}>
-                    { configureMode && updatedData?.length > 0 &&
+                    { configureMode && imageCount > 0 &&
                         <IconButton sx={{position: "absolute"}} aria-label="delete" size="large" onClick ={() => {removePicture()}}>
                             <DeleteIcon fontSize="inherit" />
                         </IconButton>
                     }
-                    {updatedData.length > 0 &&
+                    {imageCount > 0 &&
                         <img
                             alt="not found"
                             width={"100%"}
@@ -113,7 +127,7 @@ export const SlideShowContainer = () => {
                             src={URL.createObjectURL(updatedData?.[currentImageIndex]?.imageBlob)}
                         />}
                 </DemoPaper>
-                {updatedData.length > 1 &&<IconButton aria-label="forwards" onClick={() => {setCurrentImageIndex(currentImageIndex < updatedData.length - 1 ? currentImageIndex + 1 : 0)}}>
+                {imageCount > 1 &&<IconButton aria-label="forwards" onClick={() => {setCurrentImageIndex(currentImageIndex < imageCount - 1 ? currentImageIndex + 1 : 0)}}>
                     <ArrowForward />
                 </IconButton>
                 }

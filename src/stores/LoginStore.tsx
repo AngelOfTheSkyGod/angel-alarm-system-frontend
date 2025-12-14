@@ -15,10 +15,8 @@ export const useLoginStore= (): UseQueryResult<SlideShowData | undefined> => {
     return useQuery<SlideShowData | undefined>({
         queryKey:["loginStore", username, password, identifier],
         queryFn: (): SlideShowData | undefined => {
-            if (!postObject.username || !postObject.password || !identifier){
-                return undefined;
-            }
             return post(baseUrl, "connect", postObject)
-        }
+        },
+        enabled: !!(postObject.username && postObject.password && identifier)
     })
 }

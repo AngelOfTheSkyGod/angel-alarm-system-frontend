@@ -1,11 +1,10 @@
 import axios from "axios";
-import {AASData, SlideShowData} from "../types/ApplicationTypes.tsx";
 import {useCallback} from "react";
 export const usePostRequest = (
 ) => {
     return useCallback((baseRoute: string,
         redirectUri: string,
-        postObject: AASData): SlideShowData => { // @ts-ignore
+        postObject: any): any => {
         return axios({
         baseURL: `${baseRoute}/${redirectUri}`,
         method: "POST",
@@ -17,7 +16,7 @@ export const usePostRequest = (
 
         data: postObject,
     }).then(
-        (response):SlideShowData => {
+        (response):any => {
             return response.data;
         },
         (error) => {

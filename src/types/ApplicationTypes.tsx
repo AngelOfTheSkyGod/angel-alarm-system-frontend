@@ -1,12 +1,13 @@
-export interface AASData {
+export interface LoginData {
     username: string;
     password: string;
+    userIdentifier: string;
+}
+export interface AASData extends LoginData{
     alarmData: AlarmDataRowData[];
     calendarData: CalendarDataRowData[];
     slideShowData: SlideShowPictureData[];
-    userIdentifier: string;
 }
-
 
 export interface AlarmDataRowData {
     time: string;
@@ -47,7 +48,11 @@ export interface SlideShowData{
     imageList: string[];
 }
 
+export interface AddImageRequest extends LoginData{
+    imageDataUrl: string;
+}
 
-export interface LoginData{
-    slideShowData: SlideShowData;
+export interface imageRequestResponse {
+    imageCount: number;
+    success: boolean;
 }
