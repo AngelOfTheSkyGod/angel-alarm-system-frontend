@@ -10,7 +10,7 @@ import {SlideShowPictureData} from "../../types/ApplicationTypes.tsx";
 const LoginContainer: React.FC = () => {
     const navigate = useNavigate();
     const [identifier, setIdentifier] = useState<string>(localStorage.getItem("identifier") || "");
-    const {data: loginData, isFetching: isLoginDataFetching} = useLoginStore();
+    const {data: loginData, isFetching: isLoginDataFetching, isError: isLoginError} = useLoginStore();
     const { appData, updateAppData } = useAppDataContext();
     const [username, setUsername] = useState<string>("");
     const [password, setPassword] = useState<string>("");
@@ -26,6 +26,14 @@ const LoginContainer: React.FC = () => {
     useEffect(() => {
         navigate(`../login`, { replace: true })
     }, [])
+
+    useEffect(() => {
+        if (isLoginError){
+            updateAppData({...appData, username: "", password: ""})
+            setPassword("");
+            setUsername("");
+        }
+    }, [isLoginError])
     useEffect(() => {
         if (loginData?.imageList) {
             updateAppData({...appData, slideShowData: loginData?.imageList.map((entry):SlideShowPictureData=> {return {imageDataUrl: entry }}) || []})
