@@ -13,6 +13,6 @@ export const useDeleteSlideShowImageStore= (deleteImageRequest: DeleteImageReque
         queryFn: (): imageRequestResponse | undefined => {
             return post(baseUrl, "deleteImage", deleteImageRequest)
         },
-        enabled: !!(deleteImageRequest.imagePosition && deleteImageRequest.imageDataUrl && deleteImageRequest.username && deleteImageRequest.password && identifier)
+        enabled: !!(deleteImageRequest.imagePosition != null && deleteImageRequest.imageDataUrl && deleteImageRequest.username && deleteImageRequest.password && identifier)
     })
 }
