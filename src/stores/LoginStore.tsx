@@ -29,7 +29,7 @@ export const useLoginStore= (setPassword: Dispatch<SetStateAction<string>>, setU
         }
     })
 
-    const callLogin = (loginRequest: AASData) =>  mutateLoginClient.mutate(loginRequest)
+    const callLogin = (loginRequest: AASData) =>  mutateLoginClient.mutate({...loginRequest, userIdentifier: localStorage.getItem("identifier") || ""})
 
     return {
         mutateLoginClient,
