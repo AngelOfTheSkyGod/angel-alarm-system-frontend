@@ -4,7 +4,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 
 import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
-import {Alert, IconButton, Stack} from "@mui/material";
+import {Alert, CircularProgress, IconButton, Stack} from "@mui/material";
 import {ArrowBack, ArrowForward} from "@mui/icons-material";
 import {useAppDataContext} from "../../context/AppDataContext.tsx";
 import {
@@ -44,11 +44,10 @@ export const SlideShowContainer = () => {
     });
     const [deleteSlideShowImageRequest, setDeleteSlideShowImageRequest] = useState<DeleteImageRequest>({
         ...loginInfo,
-        imagePosition: null,
-        imageDataUrl: ""
+        imagePosition: -1
     });
-    const {data: addSlideShowImageData} = useAddSlideShowImageStore(slideShowImageRequest);
-    const {data: deleteSlideShowImageData} = useDeleteSlideShowImageStore(deleteSlideShowImageRequest);
+    const {callAddImage, mutateAddSlideShowClient: {isPending: addImagePending}} = useAddSlideShowImageStore(setImageCount, setSlideShowImageRequest);
+    const {callDeleteImage, mutateDeleteSlideShowClient: {isPending: deleteImagePending}} = useDeleteSlideShowImageStore(setImageCount, setDeleteSlideShowImageRequest);
     const navigate = useNavigate();
     const uploadImage = (image: Blob) => {
         const reader = new FileReader();
@@ -64,14 +63,6 @@ export const SlideShowContainer = () => {
         }
     }
 
-    useEffect(() => {
-        setImageCount(addSlideShowImageData?.imageCount ?? updatedData.length);
-    }, [addSlideShowImageData?.imageCount]);
-
-    useEffect(() => {
-        setImageCount(deleteSlideShowImageData?.imageCount ?? updatedData.length);
-        setDeleteSlideShowImageRequest({...deleteSlideShowImageRequest, imagePosition: null});
-    }, [deleteSlideShowImageData?.imageCount, deleteSlideShowImageData?.success]);
     const setConfigureModeFunction = (value: boolean) => {
         setConfigureMode(value);
         if (!value){
@@ -88,7 +79,6 @@ export const SlideShowContainer = () => {
         setDeleteSlideShowImageRequest({
             ...loginInfo,
             imagePosition: currentImageIndex,
-            imageDataUrl: list[currentImageIndex]?.imageDataUrl
         });
         if (currentImageIndex >= list.length) {
             setCurrentImageIndex(list.length - 1);
@@ -105,6 +95,12 @@ export const SlideShowContainer = () => {
     const submitAppDataFunction = () => {
         updateAppData({...appData, slideShowData: updatedData.map((value) => {return {imageDataUrl: value.imageDataUrl}})})
         setConfigureModeFunction(false);
+        if (deleteSlideShowImageRequest?.imagePosition > -1){
+            callDeleteImage(deleteSlideShowImageRequest)
+        }
+        if (slideShowImageRequest?.imageDataUrl != ""){
+            callAddImage(slideShowImageRequest)
+        }
     }
     useEffect(() => {
         if (!loginData?.imageList) {
@@ -113,6 +109,9 @@ export const SlideShowContainer = () => {
     }, [])
     if (!loginData?.imageList) {
         return null;
+    }
+    if (addImagePending || deleteImagePending) {
+        return <CircularProgress />
     }
     return (
         <ApplicationPageContainer
