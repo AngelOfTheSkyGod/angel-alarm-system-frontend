@@ -4,12 +4,11 @@ import {useConfigContext} from "../hooks/useConfigContext.tsx";
 import {usePostRequest} from "../utilities/usePostRequest.tsx";
 import {Dispatch, SetStateAction} from "react";
 
-export const useAddSlideShowImageStore= (setImageCount: Dispatch<SetStateAction<number>>, setSlideShowImageRequest: Dispatch<SetStateAction<AddImageRequest>>): {mutateAddSlideShowClient: UseMutationResult<ImageRequestResponse, Error, AddImageRequest, unknown>, callAddImage: any} => {
+export const useAddSlideShowImageStore= (setImageCount: Dispatch<SetStateAction<number>>): {mutateAddSlideShowClient: UseMutationResult<ImageRequestResponse, Error, AddImageRequest, unknown>, callAddImage: any} => {
     const post = usePostRequest();
     const {config : {baseUrl}} = useConfigContext();
     const mutateAddSlideShowClient =  useMutation({
         mutationFn: (addImageRequest: AddImageRequest) => {
-            setSlideShowImageRequest({...addImageRequest, imageDataUrl: ""})
             return post(baseUrl, "addImage", addImageRequest)
         },
         onSuccess: async (data: ImageRequestResponse) => { setImageCount(data?.imageCount) }

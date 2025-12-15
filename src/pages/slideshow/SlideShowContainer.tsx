@@ -8,7 +8,6 @@ import {Alert, CircularProgress, IconButton, Stack} from "@mui/material";
 import {ArrowBack, ArrowForward} from "@mui/icons-material";
 import {useAppDataContext} from "../../context/AppDataContext.tsx";
 import {
-    AddImageRequest,
     DeleteImageRequest,
     LoginData,
     SlideShowPictureDataWithBlob
@@ -38,15 +37,11 @@ export const SlideShowContainer = () => {
     const {data: loginData} = useLoginStore();
     const [imageCount, setImageCount] = useState(updatedData.length);
     const loginInfo: LoginData = getLoginInfo(appData);
-    const [slideShowImageRequest, setSlideShowImageRequest] = useState<AddImageRequest>({
-        ...loginInfo,
-        imageDataUrl: ""
-    });
     const [deleteSlideShowImageRequest, setDeleteSlideShowImageRequest] = useState<DeleteImageRequest>({
         ...loginInfo,
         imagePosition: -1
     });
-    const {callAddImage, mutateAddSlideShowClient: {isPending: addImagePending}} = useAddSlideShowImageStore(setImageCount, setSlideShowImageRequest);
+    const {callAddImage, mutateAddSlideShowClient: {isPending: addImagePending}} = useAddSlideShowImageStore(setImageCount);
     const {callDeleteImage, mutateDeleteSlideShowClient: {isPending: deleteImagePending}} = useDeleteSlideShowImageStore(setImageCount, setDeleteSlideShowImageRequest);
     const navigate = useNavigate();
     const uploadImage = (image: Blob) => {
@@ -59,7 +54,7 @@ export const SlideShowContainer = () => {
             list.push({imageDataUrl: base64String, imageBlob: image});
             updateAppData({...appData, slideShowData: list.map((value) => {return {imageDataUrl: base64String,  imageBlob:value.imageBlob}})})
             setUpdatedData(list)
-            setSlideShowImageRequest({...slideShowImageRequest, imageDataUrl: base64String})
+            callAddImage({...loginInfo, imageDataUrl: base64String})
         }
     }
 
@@ -97,9 +92,6 @@ export const SlideShowContainer = () => {
         setConfigureModeFunction(false);
         if (deleteSlideShowImageRequest?.imagePosition > -1){
             callDeleteImage(deleteSlideShowImageRequest)
-        }
-        if (slideShowImageRequest?.imageDataUrl != ""){
-            callAddImage(slideShowImageRequest)
         }
     }
     useEffect(() => {
