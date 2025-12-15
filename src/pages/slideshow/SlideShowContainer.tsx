@@ -13,7 +13,6 @@ import {
     SlideShowPictureDataWithBlob
 } from "../../types/ApplicationTypes.tsx";
 import {getLoginInfo, slideShowDataToSlideShowDataWithBlob} from "../../utilities/utils.ts";
-import {useLoginStore} from "../../stores/LoginStore.tsx";
 import {useNavigate} from "react-router-dom";
 import {useAddSlideShowImageStore} from "../../stores/AddSlideShowImageStore.tsx";
 import {useDeleteSlideShowImageStore} from "../../stores/DeleteSlideShowImageStore.tsx";
@@ -34,7 +33,6 @@ export const SlideShowContainer = () => {
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const [configureMode, setConfigureMode] = useState<boolean>(false);
     const [uploadFile, setUploadFile] = useState(true);
-    const {data: loginData} = useLoginStore();
     const [imageCount, setImageCount] = useState(updatedData.length);
     const loginInfo: LoginData = getLoginInfo(appData);
     const [deleteSlideShowImageRequest, setDeleteSlideShowImageRequest] = useState<DeleteImageRequest>({
@@ -95,11 +93,11 @@ export const SlideShowContainer = () => {
         }
     }
     useEffect(() => {
-        if (!loginData?.imageList) {
+        if (!appData?.slideShowData) {
             navigate(`../login`, { replace: true })
         }
     }, [])
-    if (!loginData?.imageList) {
+    if (!appData?.slideShowData) {
         return null;
     }
     if (addImagePending || deleteImagePending) {

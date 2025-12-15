@@ -5,15 +5,14 @@ import ApplicationCredentialForm from "../../components/ApplicationCredentialFor
 import { useNavigate } from "react-router-dom";
 import {useLoginStore} from "../../stores/LoginStore.tsx";
 import {useAppDataContext} from "../../context/AppDataContext.tsx";
-import {SlideShowPictureData} from "../../types/ApplicationTypes.tsx";
 
 const LoginContainer: React.FC = () => {
     const navigate = useNavigate();
     const [identifier, setIdentifier] = useState<string>(localStorage.getItem("identifier") || "");
-    const {data: loginData, isFetching: isLoginDataFetching, isError: isLoginError} = useLoginStore();
     const { appData, updateAppData } = useAppDataContext();
     const [username, setUsername] = useState<string>("");
     const [password, setPassword] = useState<string>("");
+    const {callLogin, mutateLoginClient: {isPending}} = useLoginStore(setPassword, setUsername, updateAppData, appData)
     useEffect(() => {
         if (!identifier){
             const identifier = uuidv4()
@@ -27,20 +26,7 @@ const LoginContainer: React.FC = () => {
         navigate(`../login`, { replace: true })
     }, [])
 
-    useEffect(() => {
-        if (isLoginError){
-            updateAppData({...appData, username: "", password: ""})
-            setPassword("");
-            setUsername("");
-        }
-    }, [isLoginError])
-    useEffect(() => {
-        if (loginData?.imageList) {
-            updateAppData({...appData, slideShowData: loginData?.imageList.map((entry):SlideShowPictureData=> {return {imageDataUrl: entry }}) || []})
-            navigate(`../alarm`, { replace: true })
-        }
-    }, [loginData, isLoginDataFetching])
-    if (isLoginDataFetching){
+    if (isPending){
         return <CircularProgress />
     }
     return (
@@ -54,7 +40,10 @@ const LoginContainer: React.FC = () => {
                     setUsername={setUsername}
                     password={password}
                     setPassword={setPassword}
-                    submitFormAction={() => {updateAppData({...appData, username, password})}}/>
+                    submitFormAction={() => {
+                        updateAppData({...appData, username, password})
+                        callLogin({...appData, username, password})
+                    }}/>
             </Container>
         </React.Fragment>
     );
