@@ -11,7 +11,7 @@ const ConfigContext = createContext<MyContextType | undefined>(undefined);
 
 const ConfigContextProvider = ({children}:{children:any}) => {
     const [config, setConfigContext] = useState({
-        baseUrl: "http://73.51.227.102:1312"
+        baseUrl: "http://quinonesangel.com:1312"
     });
     const updateValue = (newValue: ConfigContextProps) => {
         setConfigContext(newValue);
