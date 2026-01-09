@@ -9,11 +9,11 @@ export const CalendarContainerWithRouting = () => {
     const { appData } = useAppDataContext();
     const navigate = useNavigate();
     useEffect(() => {
-        if (!appData?.slideShowData) {
+        if (!appData?.isLoggedIn) {
             navigate(`../login`, { replace: true })
         }
     }, [])
-    if (!appData?.slideShowData) {
+    if (!appData?.isLoggedIn) {
         return null;
     }
     return(

@@ -7,6 +7,7 @@ export interface AASData extends LoginData{
     alarmData: AlarmDataRowData[];
     calendarData: CalendarDataRowData[];
     slideShowData?: SlideShowPictureData[];
+    isLoggedIn?: boolean;
 }
 
 export interface AlarmDataRowData {

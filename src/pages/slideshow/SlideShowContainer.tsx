@@ -93,11 +93,11 @@ export const SlideShowContainer = () => {
         }
     }
     useEffect(() => {
-        if (!appData?.slideShowData) {
+        if (!appData?.isLoggedIn) {
             navigate(`../login`, { replace: true })
         }
     }, [])
-    if (!appData?.slideShowData) {
+    if (!appData?.isLoggedIn) {
         return null;
     }
     if (addImagePending || deleteImagePending) {

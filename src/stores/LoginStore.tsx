@@ -20,7 +20,7 @@ export const useLoginStore= (setPassword: Dispatch<SetStateAction<string>>, setU
         },
         onSuccess: async (data: SlideShowData) => {
             navigate(`../alarm`, { replace: true })
-            updateAppData({...appData, slideShowData: data?.imageList.map((entry):SlideShowPictureData=> {return {imageDataUrl: entry }}) || []})
+            updateAppData({...appData, isLoggedIn: true, slideShowData: data?.imageList.map((entry):SlideShowPictureData=> {return {imageDataUrl: entry }}) || []})
         },
         onError: async () => {
           setPassword("");
