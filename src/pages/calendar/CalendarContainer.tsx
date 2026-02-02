@@ -10,7 +10,7 @@ import {useNavigate} from "react-router-dom";
 export const CalendarContainer = () => {
     const [configureMode, setConfigureMode] = useState<boolean>(false);
     const {appData, updateAppData} = useAppDataContext();
-    const [updatedData , setUpdatedData] = useState<CalendarDataRowData[]>([...appData.calendarData]);
+    const [updatedData , setUpdatedData] = useState<CalendarDataRowData[] | null>([...appData.calendarData || []]);
     const navigate = useNavigate();
     const submitAppData = () => {
         updateAppData({...appData, calendarData: updatedData}); //updates our alarms with the ones we just updated

@@ -152,8 +152,8 @@ export const sortDate = (dateA: CalendarDataRowData, dateB: CalendarDataRowData)
 }
 
 
-export const deleteItem = (event: React.MouseEvent, updatedData: AlarmDataRowData[] | CalendarDataRowData[], setUpdatedData:Dispatch<SetStateAction<AlarmDataRowData[]>> | Dispatch<SetStateAction<CalendarDataRowData[]>>, data: AlarmDataRowData | CalendarDataRowData) => {
-    const otherAlarms: any =  updatedData.filter((item) => (!areObjectsEqualDeep(item, data) && item.key !== data.key)).flatMap((item, index) => ({...item, key: index}));
+export const deleteItem = (event: React.MouseEvent, updatedData: AlarmDataRowData[] | CalendarDataRowData[] | null, setUpdatedData:Dispatch<SetStateAction<AlarmDataRowData[] | null>> | Dispatch<SetStateAction<CalendarDataRowData[] | null>>, data: AlarmDataRowData | CalendarDataRowData) => {
+    const otherAlarms: any =  (updatedData || []).filter((item) => (!areObjectsEqualDeep(item, data) && item.key !== data.key)).flatMap((item, index) => ({...item, key: index}));
     setUpdatedData(otherAlarms);
     event.stopPropagation();
 }

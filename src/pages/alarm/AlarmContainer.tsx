@@ -12,7 +12,7 @@ export const AlarmContainer = () => {
     const {appData, updateAppData} = useAppDataContext();
     const navigate = useNavigate();
     const [configureMode, setConfigureMode] = useState<boolean>(false);
-    const [updatedData , setUpdatedData] = useState<AlarmDataRowData[]>([...appData.alarmData]);
+    const [updatedData , setUpdatedData] = useState<AlarmDataRowData[] | null>([...appData.alarmData || []]);
     const submitAppData = () => {
         updateAppData({...appData, alarmData: updatedData}); //updates our alarms with the ones we just updated
         setConfigureMode(false);//turns settings off
@@ -27,7 +27,7 @@ export const AlarmContainer = () => {
     }
 
     const switchAlarmStatus = (data:AlarmDataRowData, event: React.ChangeEvent<HTMLInputElement>) => {
-        const newData = [...appData.alarmData];
+        const newData = [...appData.alarmData || []];
         newData[data.key].active = !newData[data.key].active;
         updateAppData({...appData, alarmData: newData});
         setUpdatedData(newData);

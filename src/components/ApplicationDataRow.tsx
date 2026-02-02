@@ -6,11 +6,11 @@ interface AlarmDataRowProps {
     data: AlarmDataRowData | CalendarDataRowData;
     isConfigureMode:boolean;
     updatedData:AlarmDataRowData[] | CalendarDataRowData[];
-    setUpdatedData:Dispatch<SetStateAction<AlarmDataRowData[]>> | Dispatch<SetStateAction<CalendarDataRowData[]>>;
+    setUpdatedData:Dispatch<SetStateAction<AlarmDataRowData[] | null>> | Dispatch<SetStateAction<CalendarDataRowData[] | null>>;
     deleteEntry:(event:React.MouseEvent) => void;
     switchEntryStatus?:(event: React.ChangeEvent<HTMLInputElement>) => void;
     selectCard: () => void;
-    dataArray: AlarmDataRowData[] | CalendarDataRowData[];
+    dataArray: AlarmDataRowData[] | CalendarDataRowData[] | null;
     children: React.ReactNode;
 }
 export const ApplicationDataRow = ({data, isConfigureMode, deleteEntry, switchEntryStatus, selectCard, dataArray, children}:AlarmDataRowProps) => {
@@ -42,7 +42,7 @@ export const ApplicationDataRow = ({data, isConfigureMode, deleteEntry, switchEn
                     />
                 }
             </Stack>
-            {data.key >= dataArray.length - 1 && <Divider component="div"/>}
+            {data.key >= (dataArray?.length || 0) - 1 && <Divider component="div"/>}
         </Container>
     )
 }
