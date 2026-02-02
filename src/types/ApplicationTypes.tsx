@@ -4,10 +4,9 @@ export interface LoginData {
     userIdentifier: string;
 }
 export interface AASData extends LoginData{
-    alarmData: AlarmDataRowData[];
-    calendarData: CalendarDataRowData[];
-    slideShowData?: SlideShowPictureData[];
-    isLoggedIn?: boolean;
+    alarmData: AlarmDataRowData[] | null;
+    calendarData: CalendarDataRowData[] | null;
+    slideShowData?: SlideShowPictureData[] | null;
 }
 
 export interface AlarmDataRowData {
@@ -60,4 +59,9 @@ export interface DeleteImageRequest extends LoginData{
 export interface ImageRequestResponse {
     imageCount: number;
     success: boolean;
+}
+
+export interface LoginConnectResponse extends LoginData{
+    alarmData: AlarmDataRowData[] | null;
+    calendarData: CalendarDataRowData[] | null;
 }

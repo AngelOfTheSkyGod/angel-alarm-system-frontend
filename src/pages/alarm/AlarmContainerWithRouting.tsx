@@ -9,11 +9,11 @@ export const AlarmContainerWithRouting = () => {
     const { appData } = useAppDataContext();
     const navigate = useNavigate();
     useEffect(() => {
-        if (!appData?.isLoggedIn) {
+        if (!appData?.alarmData) {
             navigate(`../login`, { replace: true })
         }
     }, [])
-    if (!appData?.isLoggedIn) {
+    if (!appData?.alarmData) {
         return null;
     }
     return(

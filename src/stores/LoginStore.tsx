@@ -1,8 +1,6 @@
 import {useMutation, UseMutationResult} from "@tanstack/react-query";
 import {
-    AASData,
-    SlideShowData,
-    SlideShowPictureData
+    AASData, LoginConnectResponse
 } from "../types/ApplicationTypes.tsx";
 import {useConfigContext} from "../hooks/useConfigContext.tsx";
 import {usePostRequest} from "../utilities/usePostRequest.tsx";
@@ -10,7 +8,7 @@ import {Dispatch, SetStateAction} from "react";
 import {useNavigate} from "react-router-dom";
 
 export const useLoginStore= (setPassword: Dispatch<SetStateAction<string>>, setUsername: Dispatch<SetStateAction<string>>, updateAppData: (newValue: AASData) => void, appData:AASData):
-    {mutateLoginClient: UseMutationResult<SlideShowData, Error, AASData, unknown>, callLogin: any} => {
+    {mutateLoginClient: UseMutationResult<LoginConnectResponse, Error, AASData, unknown>, callLogin: any} => {
     const post = usePostRequest();
     const {config : {baseUrl}} = useConfigContext();
     const navigate = useNavigate();
@@ -18,9 +16,9 @@ export const useLoginStore= (setPassword: Dispatch<SetStateAction<string>>, setU
         mutationFn: (loginRequest: AASData) => {
             return post(baseUrl, "connect", loginRequest)
         },
-        onSuccess: async (data: SlideShowData) => {
+        onSuccess: async (data: LoginConnectResponse) => {
+            updateAppData({...data})
             navigate(`../alarm`, { replace: true })
-            updateAppData({...appData, slideShowData: data?.imageList.map((entry):SlideShowPictureData=> {return {imageDataUrl: entry }}) || []})
         },
         onError: async () => {
           setPassword("");

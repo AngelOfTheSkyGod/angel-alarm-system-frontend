@@ -13,8 +13,8 @@ const AppDataContext = createContext<MyContextType | undefined>(undefined);
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-expect-error
-const sortAndIndexData = (newValue: AlarmDataRowData[] | CalendarDataRowData[], sortFunction: (a, b) => number) => {
-    const sortedData = [...newValue]?.sort(sortFunction);
+const sortAndIndexData = (newValue: AlarmDataRowData[] | CalendarDataRowData[] | null, sortFunction: (a, b) => number) => {
+    const sortedData = [...newValue || []]?.sort(sortFunction);
     sortedData?.forEach((item, index) => {item.key = index})
     return sortedData
 }
@@ -22,8 +22,8 @@ const sortAndIndexData = (newValue: AlarmDataRowData[] | CalendarDataRowData[], 
 // @ts-expect-error
 const AppDataContextProvider = ({ children }) => {
     const initializedData = initializeAASData();
-    const [appData, setAppData] = useState({...initializedData, alarmData: sortAndIndexData(initializedData?.alarmData, sortTime) as AlarmDataRowData[],
-        calendarData: sortAndIndexData(initializedData?.calendarData, sortDate) as CalendarDataRowData[]});
+    const [appData, setAppData] = useState({...initializedData, alarmData: sortAndIndexData(initializedData?.alarmData, sortTime) as AlarmDataRowData[] | null,
+        calendarData: sortAndIndexData(initializedData?.calendarData, sortDate) as CalendarDataRowData[] | null});
     const appDataReference = useRef(appData);
     const updateAppData = (newValue: AASData) => {
         appDataReference.current = newValue;
