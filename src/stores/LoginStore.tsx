@@ -9,8 +9,7 @@ import {usePostRequest} from "../utilities/usePostRequest.tsx";
 import {Dispatch, SetStateAction} from "react";
 import {useNavigate} from "react-router-dom";
 
-export const
-    useLoginStore= (setPassword: Dispatch<SetStateAction<string>>, setUsername: Dispatch<SetStateAction<string>>, updateAppData: (newValue: AASData) => void, appData:AASData):
+export const useLoginStore= (setPassword: Dispatch<SetStateAction<string>>, setUsername: Dispatch<SetStateAction<string>>, updateAppData: (newValue: AASData) => void, appData:AASData):
     {mutateLoginClient: UseMutationResult<SlideShowData, Error, AASData, unknown>, callLogin: any} => {
     const post = usePostRequest();
     const {config : {baseUrl}} = useConfigContext();
@@ -20,8 +19,8 @@ export const
             return post(baseUrl, "connect", loginRequest)
         },
         onSuccess: async (data: SlideShowData) => {
-            updateAppData({...appData, isLoggedIn: true, slideShowData: data?.imageList.map((entry):SlideShowPictureData=> {return {imageDataUrl: entry }}) || []})
             navigate(`../alarm`, { replace: true })
+            updateAppData({...appData, slideShowData: data?.imageList.map((entry):SlideShowPictureData=> {return {imageDataUrl: entry }}) || []})
         },
         onError: async () => {
           setPassword("");
