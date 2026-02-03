@@ -6,12 +6,14 @@ import {useConfigContext} from "../hooks/useConfigContext.tsx";
 import {usePostRequest} from "../utilities/usePostRequest.tsx";
 import {Dispatch, SetStateAction} from "react";
 import {useNavigate} from "react-router-dom";
+import {useSlideShowStore} from "./SlideShowStore.tsx";
 
 export const useLoginStore= (setPassword: Dispatch<SetStateAction<string>>, setUsername: Dispatch<SetStateAction<string>>, updateAppData: (newValue: AASData) => void, appData:AASData):
     {mutateLoginClient: UseMutationResult<LoginConnectResponse, Error, AASData, unknown>, callLogin: any} => {
     const post = usePostRequest();
     const {config : {baseUrl}} = useConfigContext();
     const navigate = useNavigate();
+    const {callSlideShow} = useSlideShowStore(updateAppData, appData);
     const mutateLoginClient =  useMutation({
         mutationFn: (loginRequest: AASData) => {
             return post(baseUrl, "connect", loginRequest)
@@ -19,6 +21,7 @@ export const useLoginStore= (setPassword: Dispatch<SetStateAction<string>>, setU
         onSuccess: async (data: LoginConnectResponse) => {
             updateAppData({...data})
             navigate(`../alarm`, { replace: true })
+            callSlideShow()
         },
         onError: async () => {
           setPassword("");
@@ -34,19 +37,3 @@ export const useLoginStore= (setPassword: Dispatch<SetStateAction<string>>, setU
         callLogin
     }
 }
-// export const useLoginStore= (): UseQueryResult<SlideShowData | undefined> => {
-//     const { appData:{username, password, slideShowData, alarmData, calendarData} } = useAppDataContext();
-//     const post = usePostRequest();
-//     const {config : {baseUrl}} = useConfigContext();
-//     const identifier = localStorage.getItem("identifier");
-//     const postObject: AASData= {
-//         alarmData: alarmData, calendarData: calendarData, password, slideShowData: slideShowData, username, userIdentifier: identifier || ""
-//     }
-//     return useQuery<SlideShowData | undefined>({
-//         queryKey:["loginStore", username, password, identifier],
-//         queryFn: (): SlideShowData | undefined => {
-//             return post(baseUrl, "connect", postObject)
-//         },
-//         enabled: !!(postObject.username && postObject.password && identifier)
-//     })
-// }
