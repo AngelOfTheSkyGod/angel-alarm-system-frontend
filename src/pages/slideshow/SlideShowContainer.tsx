@@ -121,12 +121,12 @@ export const SlideShowContainer = () => {
             }}
             configureMode={configureMode}
             setConfigureMode={setConfigureModeFunction}
-            uploadFile={uploadFile}
+            uploadFile={uploadFile && !(addImagePending || deleteImagePending || !appData?.slideShowData)}
             uploadFileFunction={(file) => uploadImage(file || new Blob())}
         >
-            <Alert variant="filled" severity="info" sx={{marginTop: "2rem"}}>
+            {!(addImagePending || deleteImagePending || !appData?.slideShowData) &&<Alert variant="filled" severity="info" sx={{marginTop: "2rem"}}>
                 Add a New Picture Or Delete a Current Entry
-            </Alert>
+            </Alert>}
             {addImagePending || deleteImagePending || !appData?.slideShowData ?
                 <CircularProgress/>
                 :
