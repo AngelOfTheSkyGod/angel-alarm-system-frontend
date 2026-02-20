@@ -29,6 +29,7 @@ const DemoPaper = styled(Paper)(({theme}) => ({
 export const SlideShowContainer = () => {
     const {appData, updateAppData} = useAppDataContext();
     const [updatedData, setUpdatedData] = useState<SlideShowPictureDataWithBlob[]>(slideShowDataToSlideShowDataWithBlob([...appData?.slideShowData || []]));
+    console.log(appData);
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const [configureMode, setConfigureMode] = useState<boolean>(false);
     const [uploadFile, setUploadFile] = useState(true);
