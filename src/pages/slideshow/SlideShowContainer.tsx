@@ -113,9 +113,6 @@ export const SlideShowContainer = () => {
     if (!appData?.alarmData) {
         return null;
     }
-    if (addImagePending || deleteImagePending || !appData?.slideShowData) {
-        return <CircularProgress/>
-    }
     return (
         <ApplicationPageContainer
             configuredModeResetFunction={configureModeResetFunction}
