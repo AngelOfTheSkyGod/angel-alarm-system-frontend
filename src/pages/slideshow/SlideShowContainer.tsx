@@ -16,7 +16,6 @@ import {getLoginInfo, slideShowDataToSlideShowDataWithBlob} from "../../utilitie
 import {useNavigate} from "react-router-dom";
 import {useAddSlideShowImageStore} from "../../stores/AddSlideShowImageStore.tsx";
 import {useDeleteSlideShowImageStore} from "../../stores/DeleteSlideShowImageStore.tsx";
-import {useSlideShowStore} from "../../stores/SlideShowStore.tsx";
 
 const DemoPaper = styled(Paper)(({ theme }) => ({
     width: "80%",
@@ -30,7 +29,6 @@ const DemoPaper = styled(Paper)(({ theme }) => ({
 
 export const SlideShowContainer = () => {
     const {appData, updateAppData} = useAppDataContext();
-    const {mutateSlideShowClient: { isPending: isSlideShowPending}} = useSlideShowStore(updateAppData, appData);
     const [updatedData , setUpdatedData] = useState<SlideShowPictureDataWithBlob[]>(slideShowDataToSlideShowDataWithBlob([...appData?.slideShowData || []]));
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const [configureMode, setConfigureMode] = useState<boolean>(false);
@@ -102,7 +100,7 @@ export const SlideShowContainer = () => {
     if (!appData?.alarmData) {
         return null;
     }
-    if (addImagePending || deleteImagePending || isSlideShowPending) {
+    if (addImagePending || deleteImagePending || !appData?.slideShowData) {
         return <CircularProgress />
     }
     return (
