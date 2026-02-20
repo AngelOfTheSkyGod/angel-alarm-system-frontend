@@ -98,6 +98,7 @@ export const SlideShowContainer = () => {
     }
     useEffect(() => {
         if (!appData?.username) {
+            console.log("username is empty! user refreshed the page", appData?.username);
             navigate(`../login`, { replace: true })
         }
     }, [])
