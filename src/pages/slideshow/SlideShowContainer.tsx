@@ -30,7 +30,7 @@ const DemoPaper = styled(Paper)(({ theme }) => ({
 
 export const SlideShowContainer = () => {
     const {appData, updateAppData} = useAppDataContext();
-    const {callSlideShow, mutateSlideShowClient: { isPending: isSlideShowPending}} = useSlideShowStore(updateAppData, appData);
+    const {mutateSlideShowClient: { isPending: isSlideShowPending}} = useSlideShowStore(updateAppData, appData);
     const [updatedData , setUpdatedData] = useState<SlideShowPictureDataWithBlob[]>(slideShowDataToSlideShowDataWithBlob([...appData?.slideShowData || []]));
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const [configureMode, setConfigureMode] = useState<boolean>(false);
@@ -57,9 +57,6 @@ export const SlideShowContainer = () => {
             callAddImage({...loginInfo, imageDataUrl: base64String})
         }
     }
-    useEffect(() => {
-        callSlideShow({username: appData?.username, password: appData?.password, userIdentifier: localStorage.getItem("identifier") ?? ""})
-    }, [])
     const setConfigureModeFunction = (value: boolean) => {
         setConfigureMode(value);
         if (!value){
