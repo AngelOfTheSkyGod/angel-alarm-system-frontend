@@ -34,6 +34,7 @@ export const SlideShowContainer = () => {
     const [configureMode, setConfigureMode] = useState<boolean>(false);
     const [uploadFile, setUploadFile] = useState(true);
     const [imageCount, setImageCount] = useState(updatedData.length);
+    console.log("imagecount: ", imageCount);
     const loginInfo: LoginData = getLoginInfo(appData);
     const [deleteSlideShowImageRequest, setDeleteSlideShowImageRequest] = useState<DeleteImageRequest>({
         ...loginInfo,
