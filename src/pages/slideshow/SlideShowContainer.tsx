@@ -33,7 +33,7 @@ export const SlideShowContainer = () => {
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const [configureMode, setConfigureMode] = useState<boolean>(false);
     const [uploadFile, setUploadFile] = useState(true);
-    const [imageCount, setImageCount] = useState(appData?.slideShowData?.length ?? 0);
+    const [imageCount, setImageCount] = useState(updatedData.length);
     console.log("imagecount: ", imageCount);
     const loginInfo: LoginData = getLoginInfo(appData);
     const [deleteSlideShowImageRequest, setDeleteSlideShowImageRequest] = useState<DeleteImageRequest>({
@@ -106,6 +106,11 @@ export const SlideShowContainer = () => {
             callDeleteImage(deleteSlideShowImageRequest)
         }
     }
+    useEffect(() => {
+        if (imageCount !== appData?.slideShowData?.length){
+            setImageCount(appData?.slideShowData?.length ?? imageCount);
+        }
+    }, [appData?.slideShowData])
     useEffect(() => {
         if (!appData?.username) {
             console.log("username is empty! user refreshed the page", appData?.username);
