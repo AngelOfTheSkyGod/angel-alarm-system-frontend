@@ -107,6 +107,11 @@ export const SlideShowContainer = () => {
         }
     }
     useEffect(() => {
+        if (imageCount !== appData?.slideShowData?.length){
+            setImageCount(appData?.slideShowData?.length ?? imageCount);
+        }
+    }, [appData?.slideShowData])
+    useEffect(() => {
         if (!appData?.username) {
             console.log("username is empty! user refreshed the page", appData?.username);
             navigate(`../login`, {replace: true})
