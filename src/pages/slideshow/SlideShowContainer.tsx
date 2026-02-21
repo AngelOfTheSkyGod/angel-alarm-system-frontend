@@ -108,9 +108,9 @@ export const SlideShowContainer = () => {
     }
     useEffect(() => {
         if (imageCount !== appData?.slideShowData?.length){
-            setImageCount(appData?.slideShowData?.length ?? imageCount);
+            setUpdatedData(slideShowDataToSlideShowDataWithBlob([...appData?.slideShowData || []]));
         }
-    }, [appData?.slideShowData])
+    }, [appData])
     useEffect(() => {
         if (!appData?.username) {
             console.log("username is empty! user refreshed the page", appData?.username);
