@@ -147,7 +147,7 @@ export const SlideShowContainer = () => {
                             <ArrowBack/>
                         </IconButton>
                     }
-                    <DemoPaper square={false}>
+                    <DemoPaper square={false} style={{height: "600px", width: "1024px"}}>
                         {configureMode && imageCount > 0 &&
                             <IconButton sx={{position: "absolute"}} aria-label="delete" size="large" onClick={() => {
                                 removePicture()
