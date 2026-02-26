@@ -9,6 +9,10 @@ export interface AASData extends LoginData{
     slideShowData?: SlideShowPictureData[] | null;
 }
 
+export interface SlideShowRequest extends LoginData{
+    pageNumber: number;
+}
+
 export interface AlarmDataRowData {
     time: string;
     days: string[];

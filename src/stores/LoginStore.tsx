@@ -21,7 +21,7 @@ export const useLoginStore= (setPassword: Dispatch<SetStateAction<string>>, setU
         onSuccess: async (data: LoginConnectResponse) => {
             updateAppData({...appData, calendarData: data?.calendarData, alarmData: data?.alarmData})
             navigate(`../alarm`, { replace: true })
-            callSlideShow({username: appData?.username, password: appData?.password})
+            callSlideShow({username: appData?.username, password: appData?.password, pageNumber: 0})
         },
         onError: async () => {
           setPassword("");

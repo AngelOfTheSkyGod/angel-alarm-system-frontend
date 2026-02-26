@@ -16,6 +16,7 @@ import {getLoginInfo, slideShowDataToSlideShowDataWithBlob} from "../../utilitie
 import {useNavigate} from "react-router-dom";
 import {useAddSlideShowImageStore} from "../../stores/AddSlideShowImageStore.tsx";
 import {useDeleteSlideShowImageStore} from "../../stores/DeleteSlideShowImageStore.tsx";
+import {useSlideShowStore} from "../../stores/SlideShowStore.tsx";
 
 const DemoPaper = styled(Paper)(({theme}) => ({
     width: "80%",
@@ -29,12 +30,16 @@ const DemoPaper = styled(Paper)(({theme}) => ({
 export const SlideShowContainer = () => {
     const {appData, updateAppData} = useAppDataContext();
     const [updatedData, setUpdatedData] = useState<SlideShowPictureDataWithBlob[]>(slideShowDataToSlideShowDataWithBlob([...appData?.slideShowData || []]));
+    const navigate = useNavigate();
     console.log(appData);
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const [configureMode, setConfigureMode] = useState<boolean>(false);
     const [uploadFile, setUploadFile] = useState(true);
     const [imageCount, setImageCount] = useState(updatedData.length);
-    console.log("imagecount: ", imageCount);
+    const imagesLength = updatedData?.length;
+    const {callSlideShow, mutateSlideShowClient:{isPending: isSlideShowPending}} = useSlideShowStore(updateAppData, appData, setImageCount);
+    const [pageNumber, setPageNumber] = useState(0);
+
     const loginInfo: LoginData = getLoginInfo(appData);
     const [deleteSlideShowImageRequest, setDeleteSlideShowImageRequest] = useState<DeleteImageRequest>({
         ...loginInfo,
@@ -48,24 +53,18 @@ export const SlideShowContainer = () => {
         callDeleteImage,
         mutateDeleteSlideShowClient: {isPending: deleteImagePending}
     } = useDeleteSlideShowImageStore(setImageCount, setDeleteSlideShowImageRequest);
-    const navigate = useNavigate();
+
+
     const uploadImage = (image: Blob) => {
         const reader = new FileReader();
         reader.readAsDataURL(image);
         reader.onloadend = () => {
             const dataUrl = (reader.result || "").toString();
             const base64String = dataUrl.split(',')[1];
-            const list = updatedData !== null && updatedData.length > 0 ? [...updatedData] : [];
-            list.push({imageDataUrl: base64String, imageBlob: image});
-            updateAppData({
-                ...appData, slideShowData: list.map((value) => {
-                    return {imageDataUrl: base64String, imageBlob: value.imageBlob}
-                })
-            })
-            setUpdatedData(list)
             callAddImage({...loginInfo, imageDataUrl: base64String})
         }
     }
+
     const setConfigureModeFunction = (value: boolean) => {
         setConfigureMode(value);
         if (!value) {
@@ -76,6 +75,7 @@ export const SlideShowContainer = () => {
             setUploadFile(false);
         }
     }
+
     const removePicture = () => {
         const list = updatedData !== null && updatedData.length > 0 ? [...updatedData] : [];
         list.splice(currentImageIndex, 1);
@@ -95,6 +95,7 @@ export const SlideShowContainer = () => {
     const configureModeResetFunction = () => {
         setUpdatedData(slideShowDataToSlideShowDataWithBlob([...JSON.parse(JSON.stringify(appData.slideShowData))]));
     }
+
     const submitAppDataFunction = () => {
         updateAppData({
             ...appData, slideShowData: updatedData.map((value) => {
@@ -106,21 +107,35 @@ export const SlideShowContainer = () => {
             callDeleteImage(deleteSlideShowImageRequest)
         }
     }
+
+    const moveUp = () => {
+        if (currentImageIndex >= imagesLength && currentImageIndex < imageCount){
+            callSlideShow({username: appData?.username, password: appData?.password, pageNumber: pageNumber + 1})
+            setPageNumber(pageNumber + 1)
+            return;
+        }
+        setCurrentImageIndex(currentImageIndex + 1)
+    }
+
     useEffect(() => {
         if (imageCount !== appData?.slideShowData?.length){
             setUpdatedData(slideShowDataToSlideShowDataWithBlob([...appData?.slideShowData || []]));
             setImageCount(appData?.slideShowData?.length || 0)
         }
     }, [appData])
+
     useEffect(() => {
         if (!appData?.username) {
             console.log("username is empty! user refreshed the page", appData?.username);
             navigate(`../login`, {replace: true})
         }
     }, [])
+
+
     if (!appData?.alarmData) {
         return null;
     }
+
     return (
         <ApplicationPageContainer
             configuredModeResetFunction={configureModeResetFunction}
@@ -132,10 +147,10 @@ export const SlideShowContainer = () => {
             uploadFile={uploadFile && !(addImagePending || deleteImagePending || !appData?.slideShowData)}
             uploadFileFunction={(file) => uploadImage(file || new Blob())}
         >
-            {!(addImagePending || deleteImagePending || !appData?.slideShowData) &&<Alert variant="filled" severity="info" sx={{marginTop: "2rem"}}>
+            {!(addImagePending || deleteImagePending || isSlideShowPending || !appData?.slideShowData) && <Alert variant="filled" severity="info" sx={{marginTop: "2rem"}}>
                 Add a New Picture Or Delete a Current Entry
             </Alert>}
-            {addImagePending || deleteImagePending || !appData?.slideShowData ?
+            {addImagePending || deleteImagePending || isSlideShowPending || !appData?.slideShowData ?
                 <CircularProgress/>
                 :
                 <Stack sx={{overFlowY: "auto", padding: '2rem 0 0 0', height: "75vh"}} direction={"row"}
@@ -164,7 +179,7 @@ export const SlideShowContainer = () => {
                             />}
                     </DemoPaper>
                     {imageCount > 1 && <IconButton aria-label="forwards" onClick={() => {
-                        setCurrentImageIndex(currentImageIndex < imageCount - 1 ? currentImageIndex + 1 : 0)
+                        moveUp()
                     }}>
                         <ArrowForward/>
                     </IconButton>

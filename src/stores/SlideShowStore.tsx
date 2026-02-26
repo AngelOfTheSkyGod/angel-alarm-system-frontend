@@ -1,19 +1,23 @@
 import {useMutation, UseMutationResult} from "@tanstack/react-query";
 import {
-    AASData, SlideShowData, SlideShowPictureData
+    AASData, SlideShowData, SlideShowPictureData, SlideShowRequest
 } from "../types/ApplicationTypes.tsx";
 import {useConfigContext} from "../hooks/useConfigContext.tsx";
 import {usePostRequest} from "../utilities/usePostRequest.tsx";
 
-export const useSlideShowStore= (updateAppData: (newValue: AASData) => void, appData:AASData):
-    {mutateSlideShowClient: UseMutationResult<SlideShowData, Error, AASData, unknown>, callSlideShow: any} => {
+export const useSlideShowStore= (updateAppData: (newValue: AASData) => void, appData:AASData, setImageCount?: (imageCount: number) => void):
+    {mutateSlideShowClient: UseMutationResult<SlideShowData, Error, SlideShowRequest, unknown>, callSlideShow: any} => {
     const post = usePostRequest();
     const {config : {baseUrl}} = useConfigContext();
     const mutateSlideShowClient =  useMutation({
-        mutationFn: (slideShowRequest: AASData) => {
+        mutationFn: (slideShowRequest: SlideShowRequest) => {
             return post(baseUrl, "connectSlideShow", slideShowRequest)
         },
-        onSuccess: async (data: SlideShowData) => { updateAppData({
+        onSuccess: async (data: SlideShowData) => {
+            if (setImageCount){
+                setImageCount(data.imageCount ?? 0)
+            }
+            updateAppData({
             ...appData,
             slideShowData: data?.imageList.map((entry): SlideShowPictureData => {
                 return {imageDataUrl: entry}
@@ -21,7 +25,7 @@ export const useSlideShowStore= (updateAppData: (newValue: AASData) => void, app
         }) }
     })
 
-    const callSlideShow = (slideShowRequest: AASData) =>  mutateSlideShowClient.mutate({...slideShowRequest, userIdentifier: localStorage.getItem("identifier") || ""})
+    const callSlideShow = (slideShowRequest: SlideShowRequest) =>  mutateSlideShowClient.mutate({...slideShowRequest, userIdentifier: localStorage.getItem("identifier") || ""})
 
     return {
         mutateSlideShowClient,
