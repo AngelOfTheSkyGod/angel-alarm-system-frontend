@@ -18,7 +18,7 @@ export const useSlideShowStore= (updateAppData: (newValue: AASData) => void, app
             const newImages = (appData?.slideShowData || [])?.concat(data?.imageList.map((entry): SlideShowPictureData => {
                 return {imageDataUrl: entry}
             }) || []);
-            console.log("images length: ", data.imageCount)
+            console.log("images length: ", data.imageCount, "set state: ", setImageCount)
             if (setImageCount){
                 console.log("updating images length", data.imageCount)
                 setImageCount(data.imageCount ?? 0)
