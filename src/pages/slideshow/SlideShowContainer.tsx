@@ -35,7 +35,7 @@ export const SlideShowContainer = () => {
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const [configureMode, setConfigureMode] = useState<boolean>(false);
     const [uploadFile, setUploadFile] = useState(true);
-    const [imageCount, setImageCount] = useState(updatedData.length);
+    const [imageCount, setImageCount] = useState(0);
     const imagesLength = updatedData?.length;
     const {callSlideShow, mutateSlideShowClient:{isPending: isSlideShowPending}} = useSlideShowStore(updateAppData, appData, setImageCount, setUpdatedData);
     const [pageNumber, setPageNumber] = useState(0);
