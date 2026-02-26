@@ -18,14 +18,15 @@ export const useSlideShowStore= (updateAppData: (newValue: AASData) => void, app
             if (setImageCount){
                 setImageCount(data.imageCount ?? 0)
             }
+            const newImages = (appData?.slideShowData || [])?.concat(data?.imageList.map((entry): SlideShowPictureData => {
+                return {imageDataUrl: entry}
+            }) || []);
             updateAppData({
             ...appData,
-            slideShowData: (appData?.slideShowData || [])?.concat(data?.imageList.map((entry): SlideShowPictureData => {
-                return {imageDataUrl: entry}
-            }) || [])
+            slideShowData: newImages
         })
             if (setUpdatedData){
-                setUpdatedData(slideShowDataToSlideShowDataWithBlob([...appData?.slideShowData || []]))
+                setUpdatedData(slideShowDataToSlideShowDataWithBlob([...newImages || []]))
             }
         console.log("appData", appData);
         }
