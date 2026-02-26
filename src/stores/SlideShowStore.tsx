@@ -1,14 +1,11 @@
 import {useMutation, UseMutationResult} from "@tanstack/react-query";
 import {
-    AASData, SlideShowData, SlideShowPictureData, SlideShowPictureDataWithBlob, SlideShowRequest
+    AASData, SlideShowData, SlideShowPictureData, SlideShowRequest
 } from "../types/ApplicationTypes.tsx";
 import {useConfigContext} from "../hooks/useConfigContext.tsx";
 import {usePostRequest} from "../utilities/usePostRequest.tsx";
-import {slideShowDataToSlideShowDataWithBlob} from "../utilities/utils.ts";
 
-export const useSlideShowStore= (updateAppData: (newValue: AASData) => void, appData:AASData, ref?: React.MutableRefObject<
-    React.Dispatch<React.SetStateAction<SlideShowPictureDataWithBlob[]>> | undefined
->):
+export const useSlideShowStore= (updateAppData: (newValue: AASData) => void, appData:AASData):
     {mutateSlideShowClient: UseMutationResult<SlideShowData, Error, SlideShowRequest, unknown>, callSlideShow: any} => {
     const post = usePostRequest();
     const {config : {baseUrl}} = useConfigContext();
@@ -25,9 +22,6 @@ export const useSlideShowStore= (updateAppData: (newValue: AASData) => void, app
                 slideShowImageCount: data.imageCount,
             slideShowData: newImages
         })
-            if (ref && ref.current) {
-                ref.current(prev => slideShowDataToSlideShowDataWithBlob([...(prev || []), ...data.imageList.map(entry => ({imageDataUrl: entry}))]));
-            }
         console.log("appData", appData);
         }
     })

@@ -1,4 +1,4 @@
-import {useEffect, useRef, useState} from "react";
+import {useEffect, useState} from "react";
 import {ApplicationPageContainer} from "../../components/ApplicationPageContainer.tsx";
 import DeleteIcon from '@mui/icons-material/Delete';
 
@@ -30,14 +30,13 @@ const DemoPaper = styled(Paper)(({theme}) => ({
 export const SlideShowContainer = () => {
     const {appData, updateAppData} = useAppDataContext();
     const [updatedData, setUpdatedData] = useState<SlideShowPictureDataWithBlob[]>(slideShowDataToSlideShowDataWithBlob([...appData?.slideShowData || []]));
-    const ref = useRef(setUpdatedData)
     const navigate = useNavigate();
     console.log(appData);
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const [configureMode, setConfigureMode] = useState<boolean>(false);
     const [uploadFile, setUploadFile] = useState(true);
     const imagesLength = updatedData?.length;
-    const {callSlideShow, mutateSlideShowClient:{isPending: isSlideShowPending}} = useSlideShowStore(updateAppData, appData, ref);
+    const {callSlideShow, mutateSlideShowClient:{isPending: isSlideShowPending}} = useSlideShowStore(updateAppData, appData);
     const imageCount = appData?.slideShowImageCount || 0;
     const [pageNumber, setPageNumber] = useState(0);
 
@@ -131,7 +130,7 @@ export const SlideShowContainer = () => {
             console.log("updated effect");
             setUpdatedData(slideShowDataToSlideShowDataWithBlob([...appData?.slideShowData || []]));
         }
-    }, [appData])
+    }, [appData.slideShowData])
 
     useEffect(() => {
         if (!appData?.username) {
