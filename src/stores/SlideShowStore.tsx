@@ -23,6 +23,7 @@ export const useSlideShowStore= (updateAppData: (newValue: AASData) => void, app
                 slideShowImageCount: data.imageCount,
             slideShowData: newImages
         })
+            console.log("set updated data: " + setUpdatedData);
             if (setUpdatedData){
                 setUpdatedData(slideShowDataToSlideShowDataWithBlob([...newImages || []]))
             }
