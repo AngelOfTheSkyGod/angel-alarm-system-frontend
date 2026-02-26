@@ -113,10 +113,11 @@ export const SlideShowContainer = () => {
         if (currentImageIndex >= imagesLength - 1 && currentImageIndex < imageCount){
             console.log("calling for more images...", pageNumber + 1)
             callSlideShow({username: appData?.username, password: appData?.password, pageNumber: pageNumber + 1})
+            setCurrentImageIndex(currentImageIndex + 1)
             setPageNumber(pageNumber + 1)
             return;
         }
-        setCurrentImageIndex(currentImageIndex + 1)
+        setCurrentImageIndex(0)
     }
 
     useEffect(() => {
