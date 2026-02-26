@@ -15,12 +15,14 @@ export const useSlideShowStore= (updateAppData: (newValue: AASData) => void, app
             return post(baseUrl, "connectSlideShow", slideShowRequest)
         },
         onSuccess: async (data: SlideShowData) => {
-            if (setImageCount){
-                setImageCount(data.imageCount ?? 0)
-            }
             const newImages = (appData?.slideShowData || [])?.concat(data?.imageList.map((entry): SlideShowPictureData => {
                 return {imageDataUrl: entry}
             }) || []);
+            console.log("images length: ", data.imageCount)
+            if (setImageCount){
+                console.log("updating images length", data.imageCount)
+                setImageCount(data.imageCount ?? 0)
+            }
             updateAppData({
             ...appData,
             slideShowData: newImages

@@ -116,7 +116,7 @@ export const SlideShowContainer = () => {
             setCurrentImageIndex(currentImageIndex + 1)
             setPageNumber(pageNumber + 1)
             return;
-        }else if (currentImageIndex > imageCount - 1){
+        }else if (currentImageIndex >= imageCount - 1){
             console.log("resetting back to 0... image count:", imageCount, "current image index:", currentImageIndex)
             setCurrentImageIndex(0)
             return;
