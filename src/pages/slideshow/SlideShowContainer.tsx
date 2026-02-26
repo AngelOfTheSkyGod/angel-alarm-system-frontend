@@ -109,7 +109,7 @@ export const SlideShowContainer = () => {
     }
 
     const moveUp = () => {
-        if (currentImageIndex >= imagesLength && currentImageIndex < imageCount){
+        if (currentImageIndex >= imagesLength - 1 && currentImageIndex < imageCount){
             callSlideShow({username: appData?.username, password: appData?.password, pageNumber: pageNumber + 1})
             setPageNumber(pageNumber + 1)
             return;
