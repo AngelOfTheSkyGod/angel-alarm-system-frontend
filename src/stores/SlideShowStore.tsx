@@ -5,7 +5,7 @@ import {
 import {useConfigContext} from "../hooks/useConfigContext.tsx";
 import {usePostRequest} from "../utilities/usePostRequest.tsx";
 
-export const useSlideShowStore= (updateAppData: (newValue: AASData) => void, appData:AASData, setImageCount?: (imageCount: number) => void):
+export const useSlideShowStore= (updateAppData: (newValue: AASData) => void, appData:AASData, setImageCount?: (imageCount: number) => void, setUpdatedData?: (data: SlideShowPictureData[]) => void):
     {mutateSlideShowClient: UseMutationResult<SlideShowData, Error, SlideShowRequest, unknown>, callSlideShow: any} => {
     const post = usePostRequest();
     const {config : {baseUrl}} = useConfigContext();
@@ -23,6 +23,9 @@ export const useSlideShowStore= (updateAppData: (newValue: AASData) => void, app
                 return {imageDataUrl: entry}
             }) || [])
         })
+            if (setUpdatedData){
+                setUpdatedData(appData?.slideShowData || [])
+            }
         console.log("appData", appData);
         }
     })

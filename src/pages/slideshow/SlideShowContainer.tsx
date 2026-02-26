@@ -37,7 +37,7 @@ export const SlideShowContainer = () => {
     const [uploadFile, setUploadFile] = useState(true);
     const [imageCount, setImageCount] = useState(updatedData.length);
     const imagesLength = updatedData?.length;
-    const {callSlideShow, mutateSlideShowClient:{isPending: isSlideShowPending}} = useSlideShowStore(updateAppData, appData, setImageCount);
+    const {callSlideShow, mutateSlideShowClient:{isPending: isSlideShowPending}} = useSlideShowStore(updateAppData, appData, setImageCount, setUpdatedData);
     const [pageNumber, setPageNumber] = useState(0);
 
     const loginInfo: LoginData = getLoginInfo(appData);
