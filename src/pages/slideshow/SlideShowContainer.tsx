@@ -116,8 +116,10 @@ export const SlideShowContainer = () => {
             setCurrentImageIndex(currentImageIndex + 1)
             setPageNumber(pageNumber + 1)
             return;
+        }else if (currentImageIndex >= imageCount){
+            setCurrentImageIndex(0)
         }
-        setCurrentImageIndex(0)
+        setCurrentImageIndex(currentImageIndex + 1)
     }
 
     useEffect(() => {
