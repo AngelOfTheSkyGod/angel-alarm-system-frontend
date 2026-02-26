@@ -19,9 +19,9 @@ export const useSlideShowStore= (updateAppData: (newValue: AASData) => void, app
             }
             updateAppData({
             ...appData,
-            slideShowData: data?.imageList.map((entry): SlideShowPictureData => {
+            slideShowData: appData?.slideShowData?.concat(data?.imageList.map((entry): SlideShowPictureData => {
                 return {imageDataUrl: entry}
-            }) || []
+            }) || [])
         }) }
     })
 
