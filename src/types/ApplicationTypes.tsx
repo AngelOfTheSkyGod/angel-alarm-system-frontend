@@ -7,6 +7,7 @@ export interface AASData extends LoginData{
     alarmData: AlarmDataRowData[] | null;
     calendarData: CalendarDataRowData[] | null;
     slideShowData?: SlideShowPictureData[] | null;
+    slideShowImageCount?: number;
 }
 
 export interface SlideShowRequest extends LoginData{

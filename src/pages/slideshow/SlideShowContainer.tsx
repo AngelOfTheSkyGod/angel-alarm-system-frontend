@@ -35,9 +35,9 @@ export const SlideShowContainer = () => {
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const [configureMode, setConfigureMode] = useState<boolean>(false);
     const [uploadFile, setUploadFile] = useState(true);
-    const [imageCount, setImageCount] = useState(0);
     const imagesLength = updatedData?.length;
-    const {callSlideShow, mutateSlideShowClient:{isPending: isSlideShowPending}} = useSlideShowStore(updateAppData, appData, setImageCount, setUpdatedData);
+    const {callSlideShow, mutateSlideShowClient:{isPending: isSlideShowPending}} = useSlideShowStore(updateAppData, appData, setUpdatedData);
+    const imageCount = appData?.slideShowImageCount || 0;
     const [pageNumber, setPageNumber] = useState(0);
 
     const loginInfo: LoginData = getLoginInfo(appData);
@@ -48,11 +48,11 @@ export const SlideShowContainer = () => {
     const {
         callAddImage,
         mutateAddSlideShowClient: {isPending: addImagePending}
-    } = useAddSlideShowImageStore(setImageCount);
+    } = useAddSlideShowImageStore();
     const {
         callDeleteImage,
         mutateDeleteSlideShowClient: {isPending: deleteImagePending}
-    } = useDeleteSlideShowImageStore(setImageCount, setDeleteSlideShowImageRequest);
+    } = useDeleteSlideShowImageStore(setDeleteSlideShowImageRequest);
 
 
     const uploadImage = (image: Blob) => {
@@ -129,7 +129,6 @@ export const SlideShowContainer = () => {
         if (imageCount !== appData?.slideShowData?.length){
             console.log("updated effect");
             setUpdatedData(slideShowDataToSlideShowDataWithBlob([...appData?.slideShowData || []]));
-            setImageCount(appData?.slideShowData?.length || 0)
         }
     }, [appData])
 
