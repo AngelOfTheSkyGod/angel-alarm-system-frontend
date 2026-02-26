@@ -4,6 +4,7 @@ import {
 } from "../types/ApplicationTypes.tsx";
 import {useConfigContext} from "../hooks/useConfigContext.tsx";
 import {usePostRequest} from "../utilities/usePostRequest.tsx";
+import {slideShowDataToSlideShowDataWithBlob} from "../utilities/utils.ts";
 
 export const useSlideShowStore= (updateAppData: (newValue: AASData) => void, appData:AASData, setImageCount?: (imageCount: number) => void, setUpdatedData?: (data: SlideShowPictureDataWithBlob[]) => void):
     {mutateSlideShowClient: UseMutationResult<SlideShowData, Error, SlideShowRequest, unknown>, callSlideShow: any} => {
@@ -24,7 +25,7 @@ export const useSlideShowStore= (updateAppData: (newValue: AASData) => void, app
             }) || [])
         })
             if (setUpdatedData){
-                setUpdatedData(appData?.slideShowData || [])
+                setUpdatedData(slideShowDataToSlideShowDataWithBlob([...appData?.slideShowData || []]))
             }
         console.log("appData", appData);
         }
