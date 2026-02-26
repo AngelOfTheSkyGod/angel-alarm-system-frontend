@@ -127,6 +127,7 @@ export const SlideShowContainer = () => {
 
     useEffect(() => {
         if (imageCount !== appData?.slideShowData?.length){
+            console.log("updated effect");
             setUpdatedData(slideShowDataToSlideShowDataWithBlob([...appData?.slideShowData || []]));
             setImageCount(appData?.slideShowData?.length || 0)
         }
