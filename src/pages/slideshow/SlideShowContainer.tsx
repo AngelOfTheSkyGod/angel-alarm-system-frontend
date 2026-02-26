@@ -110,7 +110,7 @@ export const SlideShowContainer = () => {
 
     const moveUp = () => {
         console.log("current image index:", currentImageIndex, "image count:", imageCount, "pageNumber: ", pageNumber);
-        if (currentImageIndex >= imagesLength - 1 && currentImageIndex <= imageCount - 1){
+        if (currentImageIndex >= imagesLength - 1 && currentImageIndex < imageCount - 1){
             console.log("calling for more images...", pageNumber + 1)
             callSlideShow({username: appData?.username, password: appData?.password, pageNumber: pageNumber + 1})
             setCurrentImageIndex(currentImageIndex + 1)
