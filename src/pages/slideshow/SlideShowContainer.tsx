@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import {useEffect, useMemo, useState} from "react";
 import {ApplicationPageContainer} from "../../components/ApplicationPageContainer.tsx";
 import DeleteIcon from '@mui/icons-material/Delete';
 
@@ -39,7 +39,7 @@ export const SlideShowContainer = () => {
     const {callSlideShow, mutateSlideShowClient:{isPending: isSlideShowPending}} = useSlideShowStore(updateAppData, appData);
     const imageCount = appData?.slideShowImageCount || 0;
     const [pageNumber, setPageNumber] = useState(0);
-
+    useMemo(() => {slideShowDataToSlideShowDataWithBlob([...appData?.slideShowData || []])}, [appData])
     const loginInfo: LoginData = getLoginInfo(appData);
     const [deleteSlideShowImageRequest, setDeleteSlideShowImageRequest] = useState<DeleteImageRequest>({
         ...loginInfo,
