@@ -6,7 +6,7 @@ import {useConfigContext} from "../hooks/useConfigContext.tsx";
 import {usePostRequest} from "../utilities/usePostRequest.tsx";
 import {slideShowDataToSlideShowDataWithBlob} from "../utilities/utils.ts";
 
-export const useSlideShowStore= (updateAppData: (newValue: AASData) => void, appData:AASData, setUpdatedData?: (data: SlideShowPictureDataWithBlob[]) => void):
+export const useSlideShowStore= (updateAppData: (newValue: AASData) => void, appData:AASData, setUpdatedData?: React.Dispatch<React.SetStateAction<SlideShowPictureDataWithBlob[]>>):
     {mutateSlideShowClient: UseMutationResult<SlideShowData, Error, SlideShowRequest, unknown>, callSlideShow: any} => {
     const post = usePostRequest();
     const {config : {baseUrl}} = useConfigContext();
@@ -24,8 +24,8 @@ export const useSlideShowStore= (updateAppData: (newValue: AASData) => void, app
             slideShowData: newImages
         })
             console.log("set updated data: " + setUpdatedData);
-            if (setUpdatedData){
-                setUpdatedData(slideShowDataToSlideShowDataWithBlob([...newImages || []]))
+            if (setUpdatedData) {
+                setUpdatedData(prev => slideShowDataToSlideShowDataWithBlob([...(prev || []), ...data.imageList.map(entry => ({imageDataUrl: entry}))]));
             }
         console.log("appData", appData);
         }
