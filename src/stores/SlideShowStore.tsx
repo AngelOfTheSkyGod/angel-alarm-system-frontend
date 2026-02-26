@@ -1,11 +1,11 @@
 import {useMutation, UseMutationResult} from "@tanstack/react-query";
 import {
-    AASData, SlideShowData, SlideShowPictureData, SlideShowRequest
+    AASData, SlideShowData, SlideShowPictureData, SlideShowPictureDataWithBlob, SlideShowRequest
 } from "../types/ApplicationTypes.tsx";
 import {useConfigContext} from "../hooks/useConfigContext.tsx";
 import {usePostRequest} from "../utilities/usePostRequest.tsx";
 
-export const useSlideShowStore= (updateAppData: (newValue: AASData) => void, appData:AASData, setImageCount?: (imageCount: number) => void, setUpdatedData?: (data: SlideShowPictureData[]) => void):
+export const useSlideShowStore= (updateAppData: (newValue: AASData) => void, appData:AASData, setImageCount?: (imageCount: number) => void, setUpdatedData?: (data: SlideShowPictureDataWithBlob[]) => void):
     {mutateSlideShowClient: UseMutationResult<SlideShowData, Error, SlideShowRequest, unknown>, callSlideShow: any} => {
     const post = usePostRequest();
     const {config : {baseUrl}} = useConfigContext();
