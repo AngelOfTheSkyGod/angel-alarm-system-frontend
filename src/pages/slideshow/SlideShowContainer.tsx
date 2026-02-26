@@ -166,7 +166,7 @@ export const SlideShowContainer = () => {
                        justifyContent={"center"} alignItems={"center"}>
                     {imageCount > 1 &&
                         <IconButton aria-label="backwards" onClick={() => {
-                            setCurrentImageIndex(currentImageIndex > 0 ? currentImageIndex - 1 : imageCount - 1)
+                            setCurrentImageIndex(currentImageIndex > 0 ? currentImageIndex - 1 : imagesLength - 1)
                         }}>
                             <ArrowBack/>
                         </IconButton>
