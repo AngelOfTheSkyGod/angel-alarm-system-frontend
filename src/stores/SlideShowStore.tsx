@@ -22,7 +22,9 @@ export const useSlideShowStore= (updateAppData: (newValue: AASData) => void, app
             slideShowData: (appData?.slideShowData || [])?.concat(data?.imageList.map((entry): SlideShowPictureData => {
                 return {imageDataUrl: entry}
             }) || [])
-        }) }
+        })
+        console.log("appData", appData);
+        }
     })
 
     const callSlideShow = (slideShowRequest: SlideShowRequest) =>  mutateSlideShowClient.mutate({...slideShowRequest, userIdentifier: localStorage.getItem("identifier") || ""})
