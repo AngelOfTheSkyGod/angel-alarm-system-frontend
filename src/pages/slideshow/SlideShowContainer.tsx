@@ -36,10 +36,12 @@ export const SlideShowContainer = () => {
     const [configureMode, setConfigureMode] = useState<boolean>(false);
     const [uploadFile, setUploadFile] = useState(true);
     const imagesLength = updatedData?.length;
-    const {callSlideShow, mutateSlideShowClient:{isPending: isSlideShowPending}} = useSlideShowStore(updateAppData, appData);
+    const {callSlideShow, mutateSlideShowClient:{isPending: isSlideShowPending, data}} = useSlideShowStore(updateAppData, appData);
     const imageCount = appData?.slideShowImageCount || 0;
     const [pageNumber, setPageNumber] = useState(0);
-    useMemo(() => {setUpdatedData(slideShowDataToSlideShowDataWithBlob([...appData?.slideShowData || []]))}, [appData])
+    useMemo(() => {
+        console.log("data updated:" + data)
+        setUpdatedData(slideShowDataToSlideShowDataWithBlob([...appData?.slideShowData || []]))}, [data])
     const loginInfo: LoginData = getLoginInfo(appData);
     const [deleteSlideShowImageRequest, setDeleteSlideShowImageRequest] = useState<DeleteImageRequest>({
         ...loginInfo,
