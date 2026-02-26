@@ -144,7 +144,7 @@ export const SlideShowContainer = () => {
     if (!appData?.alarmData) {
         return null;
     }
-
+    console.log("updated data:", updatedData);
     return (
         <ApplicationPageContainer
             configuredModeResetFunction={configureModeResetFunction}
