@@ -31,7 +31,6 @@ export const SlideShowContainer = () => {
     const {appData, updateAppData} = useAppDataContext();
     const [updatedData, setUpdatedData] = useState<SlideShowPictureDataWithBlob[]>(slideShowDataToSlideShowDataWithBlob([...appData?.slideShowData || []]));
     const navigate = useNavigate();
-    console.log(appData);
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const [configureMode, setConfigureMode] = useState<boolean>(false);
     const [uploadFile, setUploadFile] = useState(true);
@@ -130,7 +129,6 @@ export const SlideShowContainer = () => {
 
     useEffect(() => {
         if (!appData?.username) {
-            console.log("username is empty! user refreshed the page", appData?.username);
             navigate(`../login`, {replace: true})
         }
     }, [])
@@ -139,7 +137,6 @@ export const SlideShowContainer = () => {
     if (!appData?.alarmData) {
         return null;
     }
-    console.log("updated data:", updatedData, "app data:", appData);
     return (
         <ApplicationPageContainer
             configuredModeResetFunction={configureModeResetFunction}
