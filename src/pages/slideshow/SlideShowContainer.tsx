@@ -36,12 +36,11 @@ export const SlideShowContainer = () => {
     const [configureMode, setConfigureMode] = useState<boolean>(false);
     const [uploadFile, setUploadFile] = useState(true);
     const imagesLength = updatedData?.length;
-    const {callSlideShow, mutateSlideShowClient:{isPending: isSlideShowPending, data}} = useSlideShowStore(updateAppData, appData);
+    const {callSlideShow, mutateSlideShowClient:{isPending: isSlideShowPending}} = useSlideShowStore(updateAppData, appData);
     const imageCount = appData?.slideShowImageCount || 0;
     const [pageNumber, setPageNumber] = useState(0);
     useMemo(() => {
-        console.log("data updated:" + data)
-        setUpdatedData(slideShowDataToSlideShowDataWithBlob([...appData?.slideShowData || []]))}, [data])
+        setUpdatedData(slideShowDataToSlideShowDataWithBlob([...appData?.slideShowData || []]))}, [appData?.slideShowData])
     const loginInfo: LoginData = getLoginInfo(appData);
     const [deleteSlideShowImageRequest, setDeleteSlideShowImageRequest] = useState<DeleteImageRequest>({
         ...loginInfo,
@@ -128,11 +127,6 @@ export const SlideShowContainer = () => {
     }
 
     useEffect(() => {
-            console.log("updated effect", appData);
-            setUpdatedData(slideShowDataToSlideShowDataWithBlob([...appData?.slideShowData || []]));
-    }, [appData, imageCount])
-
-    useEffect(() => {
         if (!appData?.username) {
             console.log("username is empty! user refreshed the page", appData?.username);
             navigate(`../login`, {replace: true})
@@ -171,7 +165,7 @@ export const SlideShowContainer = () => {
                         </IconButton>
                     }
                     <DemoPaper square={false} style={{height: "600px", width: "1024px"}}>
-                        {configureMode && imageCount > 0 &&
+                        {configureMode && updatedData?.length > 0 && imageCount > 0 &&
                             <IconButton sx={{position: "absolute"}} aria-label="delete" size="large" onClick={() => {
                                 removePicture()
                             }}>
@@ -186,7 +180,7 @@ export const SlideShowContainer = () => {
                                 src={URL.createObjectURL(updatedData?.[currentImageIndex]?.imageBlob)}
                             />}
                     </DemoPaper>
-                    {imageCount > 1 && <IconButton aria-label="forwards" onClick={() => {
+                    {imageCount > 1 && updatedData?.length > 1 && <IconButton aria-label="forwards" onClick={() => {
                         moveUp()
                     }}>
                         <ArrowForward/>
