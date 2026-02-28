@@ -47,7 +47,7 @@ export const SlideShowContainer = () => {
         ...loginInfo,
         imagePosition: -1
     });
-    const moveUp = () => {
+    const moveUp = (imageCount: number) => {
         console.log("current image index:", currentImageIndex, "image count:", imageCount, "pageNumber: ", pageNumber);
         if (currentImageIndex >= imagesLength - 1 && currentImageIndex < imageCount - 1){
             console.log("calling for more images...", pageNumber + 1)
@@ -66,7 +66,7 @@ export const SlideShowContainer = () => {
     const {
         callAddImage,
         mutateAddSlideShowClient: {isPending: addImagePending}
-    } = useAddSlideShowImageStore(moveUp);
+    } = useAddSlideShowImageStore((e) => moveUp(e));
     const {
         callDeleteImage,
         mutateDeleteSlideShowClient: {isPending: deleteImagePending}
@@ -180,7 +180,7 @@ export const SlideShowContainer = () => {
                             />}
                     </DemoPaper>
                     {imageCount > 1 && updatedData?.length > 1 && <IconButton aria-label="forwards" onClick={() => {
-                        moveUp()
+                        moveUp(imageCount)
                     }}>
                         <ArrowForward/>
                     </IconButton>
