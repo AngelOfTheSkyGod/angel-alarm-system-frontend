@@ -3,9 +3,8 @@ import {AddImageRequest, ImageRequestResponse} from "../types/ApplicationTypes.t
 import {useConfigContext} from "../hooks/useConfigContext.tsx";
 import {usePostRequest} from "../utilities/usePostRequest.tsx";
 import {useAppDataContext} from "../context/AppDataContext.tsx";
-import {Dispatch, SetStateAction} from "react";
 
-export const useAddSlideShowImageStore= (setCurrentIndex: Dispatch<SetStateAction<number>>): {mutateAddSlideShowClient: UseMutationResult<ImageRequestResponse, Error, AddImageRequest, unknown>, callAddImage: any} => {
+export const useAddSlideShowImageStore= (): {mutateAddSlideShowClient: UseMutationResult<ImageRequestResponse, Error, AddImageRequest, unknown>, callAddImage: any} => {
     const post = usePostRequest();
     const {appData, updateAppData} = useAppDataContext();
     const {config : {baseUrl}} = useConfigContext();
@@ -14,7 +13,6 @@ export const useAddSlideShowImageStore= (setCurrentIndex: Dispatch<SetStateActio
             return post(baseUrl, "addImage", addImageRequest)
         },
         onSuccess: async (data: ImageRequestResponse) => {
-            setCurrentIndex((prev) => prev + 1);
             updateAppData({...appData, slideShowImageCount: data?.imageCount})
         }
     })
