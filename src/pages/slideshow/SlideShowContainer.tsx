@@ -172,7 +172,7 @@ export const SlideShowContainer = () => {
                                 <DeleteIcon fontSize="inherit"/>
                             </IconButton>
                         }
-                        {imageCount > 0 && updatedData?.length >= currentImageIndex &&
+                        {imageCount > 0 && updatedData?.length >= currentImageIndex && updatedData?.length >= 0 &&
                             <img
                                 alt="not found"
                                 width={"100%"}
