@@ -4,7 +4,7 @@ import {useConfigContext} from "../hooks/useConfigContext.tsx";
 import {usePostRequest} from "../utilities/usePostRequest.tsx";
 import {useAppDataContext} from "../context/AppDataContext.tsx";
 
-export const useAddSlideShowImageStore= (): {mutateAddSlideShowClient: UseMutationResult<ImageRequestResponse, Error, AddImageRequest, unknown>, callAddImage: any} => {
+export const useAddSlideShowImageStore= (callBackFunction: () => void): {mutateAddSlideShowClient: UseMutationResult<ImageRequestResponse, Error, AddImageRequest, unknown>, callAddImage: any} => {
     const post = usePostRequest();
     const {appData, updateAppData} = useAppDataContext();
     const {config : {baseUrl}} = useConfigContext();
@@ -13,6 +13,7 @@ export const useAddSlideShowImageStore= (): {mutateAddSlideShowClient: UseMutati
             return post(baseUrl, "addImage", addImageRequest)
         },
         onSuccess: async (data: ImageRequestResponse) => {
+            callBackFunction()
             updateAppData({...appData, slideShowImageCount: data?.imageCount})
         }
     })

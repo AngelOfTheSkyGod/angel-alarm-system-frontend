@@ -48,10 +48,26 @@ export const SlideShowContainer = () => {
         ...loginInfo,
         imagePosition: -1
     });
+    const moveUp = () => {
+        console.log("current image index:", currentImageIndex, "image count:", imageCount, "pageNumber: ", pageNumber);
+        if (currentImageIndex >= imagesLength - 1 && currentImageIndex < imageCount - 1){
+            console.log("calling for more images...", pageNumber + 1)
+            callSlideShow({username: appData?.username, password: appData?.password, pageNumber: pageNumber + 1, startNumber: currentImageIndex + 1})
+            setCurrentImageIndex(currentImageIndex + 1)
+            setPageNumber(pageNumber + 1)
+            return;
+        }else if (currentImageIndex >= imageCount - 1){
+            console.log("resetting back to 0... image count:", imageCount, "current image index:", currentImageIndex)
+            setCurrentImageIndex(0)
+            return;
+        }
+        console.log("moving up", currentImageIndex + 1)
+        setCurrentImageIndex(currentImageIndex + 1)
+    }
     const {
         callAddImage,
         mutateAddSlideShowClient: {isPending: addImagePending}
-    } = useAddSlideShowImageStore();
+    } = useAddSlideShowImageStore(moveUp);
     const {
         callDeleteImage,
         mutateDeleteSlideShowClient: {isPending: deleteImagePending}
@@ -67,7 +83,6 @@ export const SlideShowContainer = () => {
             const base64String = dataUrl.split(',')[1];
             callAddImage({...loginInfo, imageDataUrl: base64String})
         }
-        moveUp();
     }
 
     const setConfigureModeFunction = (value: boolean) => {
@@ -111,23 +126,6 @@ export const SlideShowContainer = () => {
         if (deleteSlideShowImageRequest?.imagePosition > -1) {
             callDeleteImage(deleteSlideShowImageRequest)
         }
-    }
-
-    const moveUp = () => {
-        console.log("current image index:", currentImageIndex, "image count:", imageCount, "pageNumber: ", pageNumber);
-        if (currentImageIndex >= imagesLength - 1 && currentImageIndex < imageCount - 1){
-            console.log("calling for more images...", pageNumber + 1)
-            callSlideShow({username: appData?.username, password: appData?.password, pageNumber: pageNumber + 1, startNumber: currentImageIndex + 1})
-            setCurrentImageIndex(currentImageIndex + 1)
-            setPageNumber(pageNumber + 1)
-            return;
-        }else if (currentImageIndex >= imageCount - 1){
-            console.log("resetting back to 0... image count:", imageCount, "current image index:", currentImageIndex)
-            setCurrentImageIndex(0)
-            return;
-        }
-        console.log("moving up", currentImageIndex + 1)
-        setCurrentImageIndex(currentImageIndex + 1)
     }
 
     useEffect(() => {
