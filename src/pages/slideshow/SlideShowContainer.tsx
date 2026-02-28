@@ -40,7 +40,9 @@ export const SlideShowContainer = () => {
     const imageCount = appData?.slideShowImageCount || 0;
     const [pageNumber, setPageNumber] = useState(0);
     useMemo(() => {
-        setUpdatedData(slideShowDataToSlideShowDataWithBlob([...appData?.slideShowData || []]))}, [appData?.slideShowData])
+        setUpdatedData(slideShowDataToSlideShowDataWithBlob([...appData?.slideShowData || []]))
+        }, [appData?.slideShowData]
+    )
     const loginInfo: LoginData = getLoginInfo(appData);
     const [deleteSlideShowImageRequest, setDeleteSlideShowImageRequest] = useState<DeleteImageRequest>({
         ...loginInfo,
@@ -57,6 +59,7 @@ export const SlideShowContainer = () => {
 
 
     const uploadImage = (image: Blob) => {
+        if (isSlideShowPending) return;
         const reader = new FileReader();
         reader.readAsDataURL(image);
         reader.onloadend = () => {
@@ -64,6 +67,7 @@ export const SlideShowContainer = () => {
             const base64String = dataUrl.split(',')[1];
             callAddImage({...loginInfo, imageDataUrl: base64String})
         }
+        moveUp();
     }
 
     const setConfigureModeFunction = (value: boolean) => {
