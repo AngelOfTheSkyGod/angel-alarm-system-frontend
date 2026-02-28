@@ -49,11 +49,11 @@ export const SlideShowContainer = () => {
     const {
         callAddImage,
         mutateAddSlideShowClient: {isPending: addImagePending}
-    } = useAddSlideShowImageStore();
+    } = useAddSlideShowImageStore(setCurrentImageIndex);
     const {
         callDeleteImage,
         mutateDeleteSlideShowClient: {isPending: deleteImagePending}
-    } = useDeleteSlideShowImageStore(setDeleteSlideShowImageRequest);
+    } = useDeleteSlideShowImageStore(setDeleteSlideShowImageRequest, setCurrentImageIndex);
 
 
     const uploadImage = (image: Blob) => {
