@@ -12,6 +12,7 @@ export interface AASData extends LoginData{
 
 export interface SlideShowRequest extends LoginData{
     pageNumber: number;
+    startNumber: number;
 }
 
 export interface AlarmDataRowData {
