@@ -128,7 +128,7 @@ export const SlideShowContainer = () => {
     }
 
     useEffect(() => {
-            console.log("updated effect");
+            console.log("updated effect", appData);
             setUpdatedData(slideShowDataToSlideShowDataWithBlob([...appData?.slideShowData || []]));
     }, [appData.slideShowData])
 
