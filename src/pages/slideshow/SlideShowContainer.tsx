@@ -37,7 +37,6 @@ export const SlideShowContainer = () => {
     const imagesLength = updatedData?.length;
     const {callSlideShow, mutateSlideShowClient:{isPending: isSlideShowPending}} = useSlideShowStore(updateAppData, appData);
     const imageCount = appData?.slideShowImageCount || 0;
-    const [pageNumber, setPageNumber] = useState(0);
     useMemo(() => {
         setUpdatedData(slideShowDataToSlideShowDataWithBlob([...appData?.slideShowData || []]))
         }, [appData?.slideShowData]
@@ -48,12 +47,10 @@ export const SlideShowContainer = () => {
         imagePosition: -1
     });
     const moveUp = (imageCount: number) => {
-        console.log("current image index:", currentImageIndex, "image count:", imageCount, "pageNumber: ", pageNumber);
+        console.log("current image index:", currentImageIndex, "image count:", imageCount, "pageNumber: ", Math.floor((currentImageIndex) / 3));
         if (currentImageIndex >= imagesLength - 1 && currentImageIndex < imageCount - 1){
-            console.log("calling for more images...", pageNumber + 1)
             setCurrentImageIndex(currentImageIndex + 1)
-            setPageNumber(Math.floor(currentImageIndex / 3))
-            callSlideShow({username: appData?.username, password: appData?.password, pageNumber: Math.floor(currentImageIndex / 3), startNumber: currentImageIndex + 1})
+            callSlideShow({username: appData?.username, password: appData?.password, pageNumber: Math.floor((currentImageIndex + 1) / 3), startNumber: currentImageIndex + 1})
             return;
         }else if (currentImageIndex >= imageCount - 1){
             console.log("resetting back to 0... image count:", imageCount, "current image index:", currentImageIndex)
