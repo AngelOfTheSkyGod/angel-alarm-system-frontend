@@ -51,9 +51,9 @@ export const SlideShowContainer = () => {
         console.log("current image index:", currentImageIndex, "image count:", imageCount, "pageNumber: ", pageNumber);
         if (currentImageIndex > imagesLength - 1 && currentImageIndex < imageCount - 1){
             console.log("calling for more images...", pageNumber + 1)
-            callSlideShow({username: appData?.username, password: appData?.password, pageNumber: pageNumber + 1, startNumber: currentImageIndex + 1})
+            callSlideShow({username: appData?.username, password: appData?.password, pageNumber: Math.floor(currentImageIndex / 3), startNumber: currentImageIndex + 1})
             setCurrentImageIndex(currentImageIndex + 1)
-            setPageNumber(pageNumber + 1)
+            setPageNumber(Math.floor(currentImageIndex / 3))
             return;
         }else if (currentImageIndex > imageCount - 1){
             console.log("resetting back to 0... image count:", imageCount, "current image index:", currentImageIndex)
@@ -66,7 +66,7 @@ export const SlideShowContainer = () => {
     const {
         callAddImage,
         mutateAddSlideShowClient: {isPending: addImagePending}
-    } = useAddSlideShowImageStore((e) => moveUp(e));
+    } = useAddSlideShowImageStore((e) => imagesLength === 0 ? moveUp(e) : () => {});
     const {
         callDeleteImage,
         mutateDeleteSlideShowClient: {isPending: deleteImagePending}
