@@ -66,7 +66,7 @@ export const SlideShowContainer = () => {
     const {
         callAddImage,
         mutateAddSlideShowClient: {isPending: addImagePending}
-    } = useAddSlideShowImageStore((e) => imagesLength === 0 ? moveUp(e) : () => {});
+    } = useAddSlideShowImageStore((e) =>moveUp(e));
     const {
         callDeleteImage,
         mutateDeleteSlideShowClient: {isPending: deleteImagePending}
