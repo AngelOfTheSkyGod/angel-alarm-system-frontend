@@ -39,7 +39,6 @@ export const SlideShowContainer = () => {
     const currentImageUrl = updatedData?.[currentImageIndex]?.imageDataUrl;
     useMemo(() => {
         setUpdatedData([...appData?.slideShowData || []])
-        console.log("app data updated: ", appData?.slideShowData)
         }, [appData?.slideShowData]
     )
     const loginInfo: LoginData = getLoginInfo(appData);
@@ -50,7 +49,7 @@ export const SlideShowContainer = () => {
     const moveUp = (imageCount: number) => {
         if (currentImageIndex >= imagesLength - 1 && currentImageIndex < imageCount - 1){
             setCurrentImageIndex(currentImageIndex + 1)
-            callSlideShow({username: appData?.username, password: appData?.password, pageNumber: Math.floor((currentImageIndex + 1) / 3), startNumber: currentImageIndex + 1})
+            callSlideShow({username: appData?.username, password: appData?.password, pageNumber: Math.floor((currentImageIndex + 1) / 3), startNumber: currentImageIndex})
             return;
         }else if (currentImageIndex >= imageCount - 1){
             console.log("resetting back to 0... image count:", imageCount, "current image index:", currentImageIndex)
@@ -140,7 +139,6 @@ export const SlideShowContainer = () => {
     if (!appData?.alarmData) {
         return null;
     }
-    console.log("current image index:", currentImageIndex, "image count:", imageCount, "pageNumber: ", Math.floor((currentImageIndex) / 3), updatedData);
     return (
         <ApplicationPageContainer
             configuredModeResetFunction={configureModeResetFunction}
