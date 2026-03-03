@@ -48,7 +48,6 @@ export const SlideShowContainer = () => {
         imagePosition: -1
     });
     const moveUp = (imageCount: number) => {
-        console.log("current image index:", currentImageIndex, "image count:", imageCount, "pageNumber: ", Math.floor((currentImageIndex) / 3));
         if (currentImageIndex >= imagesLength - 1 && currentImageIndex < imageCount - 1){
             setCurrentImageIndex(currentImageIndex + 1)
             callSlideShow({username: appData?.username, password: appData?.password, pageNumber: Math.floor((currentImageIndex + 1) / 3), startNumber: currentImageIndex + 1})
@@ -137,6 +136,7 @@ export const SlideShowContainer = () => {
     if (!appData?.alarmData) {
         return null;
     }
+    console.log("current image index:", currentImageIndex, "image count:", imageCount, "pageNumber: ", Math.floor((currentImageIndex) / 3));
     return (
         <ApplicationPageContainer
             configuredModeResetFunction={configureModeResetFunction}
