@@ -179,8 +179,8 @@ export const SlideShowContainer = () => {
                                 {updatedData.map((item) => (
                                     <ImageListItem key={item.imageDataUrl}>
                                         <img
-                                            srcSet={`${item.imageDataUrl}?w=164&h=164&auto=format&dpr=2 2x`}
-                                            src={`${item.imageDataUrl}?w=164&h=164&auto=format`}
+                                            srcSet={`${item.imageDataUrl}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
+                                            src={`${item.imageDataUrl}?w=164&h=164&fit=crop&auto=format`}
                                             alt={item.fileName}
                                             loading="lazy"
                                         />
