@@ -15,7 +15,7 @@ export const useSlideShowStore= (updateAppData: (newValue: AASData) => void, app
         },
         onSuccess: async (data: SlideShowData) => {
             const newImages = (appData?.slideShowData || [])?.concat(data?.imageList.map((entry): SlideShowPictureData => {
-                return {imageDataUrl: entry}
+                return {fileName: entry.fileName, imageDataUrl: entry.imageDataUrl}
             }) || []);
             updateAppData({
             ...appData,
