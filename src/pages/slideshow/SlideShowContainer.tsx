@@ -140,7 +140,7 @@ export const SlideShowContainer = () => {
     if (!appData?.alarmData) {
         return null;
     }
-    console.log("current image index:", currentImageIndex, "image count:", imageCount, "pageNumber: ", Math.floor((currentImageIndex) / 3));
+    console.log("current image index:", currentImageIndex, "image count:", imageCount, "pageNumber: ", Math.floor((currentImageIndex) / 3), updatedData);
     return (
         <ApplicationPageContainer
             configuredModeResetFunction={configureModeResetFunction}
