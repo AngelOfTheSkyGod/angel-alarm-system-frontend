@@ -61,7 +61,7 @@ export const SlideShowContainer = () => {
     }
 
     const addSlideShowImageHandler = () => {
-        callSlideShow({username: appData?.username, password: appData?.password, pageNumber: Math.floor((imagesLength) / 3), startNumber: (imagesLength)})
+        callSlideShow({username: appData?.username, password: appData?.password, pageNumber: Math.floor((imagesLength) / 3), startNumber: (imagesLength + 1)})
     }
     const {
         callAddImage,
