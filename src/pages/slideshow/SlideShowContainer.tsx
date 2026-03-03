@@ -57,7 +57,6 @@ export const SlideShowContainer = () => {
             setCurrentImageIndex(0)
             return;
         }
-        console.log("moving up", currentImageIndex + 1)
         setCurrentImageIndex(currentImageIndex + 1)
     }
     const {
