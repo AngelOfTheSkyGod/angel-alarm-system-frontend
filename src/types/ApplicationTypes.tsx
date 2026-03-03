@@ -37,11 +37,12 @@ export interface CalendarDataRowData{
 
 export interface SlideShowPictureData{
     imageDataUrl: string;
+    fileName: string;
 }
 
 
 export interface SlideShowPictureDataWithBlob{
-    imageDataUrl: string;
+    imageData: SlideShowPictureData;
     imageBlob: Blob;
 }
 
@@ -51,11 +52,12 @@ export interface ConfigContextProps {
 
 export interface SlideShowData{
     imageCount: number;
-    imageList: string[];
+    imageList: SlideShowPictureData[];
 }
 
 export interface AddImageRequest extends LoginData{
     imageDataUrl: string;
+    fileName: string;
 }
 
 export interface DeleteImageRequest extends LoginData{

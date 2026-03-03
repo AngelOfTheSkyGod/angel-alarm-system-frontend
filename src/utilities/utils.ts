@@ -177,7 +177,10 @@ export const slideShowDataToSlideShowDataWithBlob = (
     return data.map((entry) => {
         return {
             imageBlob: base64EncodedStringToBlob(entry.imageDataUrl || ""),
-            imageDataUrl: entry.imageDataUrl
+            imageData:{
+                imageDataUrl: entry.imageDataUrl || "",
+                fileName: entry.fileName || ""
+            },
         };
     });
 };

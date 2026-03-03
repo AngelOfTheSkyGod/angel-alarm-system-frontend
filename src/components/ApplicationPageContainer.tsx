@@ -16,7 +16,7 @@ interface ApplicationPageContainerProps {
     configureMode:boolean;
     setConfigureMode:(value: boolean) => void;
     uploadFile?: boolean;
-    uploadFileFunction?: (image: Blob | null) => void;
+    uploadFileFunction?: (image: File | undefined) => void;
 }
 const VisuallyHiddenInput = styled('input')({
     clip: 'rect(0 0 0 0)',
@@ -57,7 +57,7 @@ export const ApplicationPageContainer = ({configuredModeResetFunction, submitApp
                                 uploadFile &&
                                 <VisuallyHiddenInput
                                     type="file"
-                                    onChange={(event) => uploadFileFunction ? uploadFileFunction(event.target?.files?.[0] || new Blob()) : undefined}
+                                    onChange={(event) => uploadFileFunction ? uploadFileFunction(event.target?.files?.[0]) : undefined}
                                     multiple
                                 />
                             }

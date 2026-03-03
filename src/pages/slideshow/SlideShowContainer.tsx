@@ -70,14 +70,14 @@ export const SlideShowContainer = () => {
     } = useDeleteSlideShowImageStore(setDeleteSlideShowImageRequest, );
 
 
-    const uploadImage = (image: Blob) => {
-        if (isSlideShowPending) return;
+    const uploadImage = (image: File | undefined) => {
+        if (isSlideShowPending || !image) return;
         const reader = new FileReader();
         reader.readAsDataURL(image);
         reader.onloadend = () => {
             const dataUrl = (reader.result || "").toString();
             const base64String = dataUrl.split(',')[1];
-            callAddImage({...loginInfo, imageDataUrl: base64String})
+            callAddImage({...loginInfo, imageDataUrl: base64String, fileName: image.name});
         }
     }
 
@@ -115,7 +115,10 @@ export const SlideShowContainer = () => {
     const submitAppDataFunction = () => {
         updateAppData({
             ...appData, slideShowData: updatedData.map((value) => {
-                return {imageDataUrl: value.imageDataUrl}
+                return {
+                    imageDataUrl: value.imageData.imageDataUrl,
+                    fileName: value.imageData.fileName,
+                }
             })
         })
         setConfigureModeFunction(false);
@@ -143,7 +146,7 @@ export const SlideShowContainer = () => {
             configureMode={configureMode}
             setConfigureMode={setConfigureModeFunction}
             uploadFile={uploadFile && !(addImagePending || deleteImagePending || !appData?.slideShowData)}
-            uploadFileFunction={(file) => uploadImage(file || new Blob())}
+            uploadFileFunction={(file) => uploadImage(file)}
         >
             {!(addImagePending || deleteImagePending || isSlideShowPending || !appData?.slideShowData) && <Alert variant="filled" severity="info" sx={{marginTop: "2rem"}}>
                 Add a New Picture Or Delete a Current Entry
