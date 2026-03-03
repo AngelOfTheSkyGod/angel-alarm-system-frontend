@@ -77,7 +77,7 @@ export const SlideShowContainer = () => {
         reader.onloadend = () => {
             const dataUrl = (reader.result || "").toString();
             const base64String = dataUrl.split(',')[1];
-            callAddImage({...loginInfo, imageDataUrl: base64String, fileName: image.name});
+            callAddImage({...loginInfo, imageDataUrl: base64String, fileName: image.name.replace(/\.[^/.]+$/, "")});
         }
     }
 
