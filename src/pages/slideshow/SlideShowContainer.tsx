@@ -4,7 +4,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 
 import Paper from '@mui/material/Paper';
 import {styled} from '@mui/material/styles';
-import {Alert, CircularProgress, IconButton, Stack} from "@mui/material";
+import {Alert, CircularProgress, IconButton, ImageList, ImageListItem, Stack} from "@mui/material";
 import {ArrowBack, ArrowForward} from "@mui/icons-material";
 import {useAppDataContext} from "../../context/AppDataContext.tsx";
 import {
@@ -36,7 +36,6 @@ export const SlideShowContainer = () => {
     const imagesLength = updatedData?.length;
     const {callSlideShow, mutateSlideShowClient:{isPending: isSlideShowPending}} = useSlideShowStore(updateAppData, appData);
     const imageCount = appData?.slideShowImageCount || 0;
-    const currentImageUrl = updatedData?.[currentImageIndex]?.imageDataUrl;
     useMemo(() => {
         setUpdatedData([...appData?.slideShowData || []])
         console.log("app data updated: ", appData?.slideShowData)
@@ -176,12 +175,19 @@ export const SlideShowContainer = () => {
                             </IconButton>
                         }
                         {imageCount > 0 && updatedData?.length > currentImageIndex && updatedData?.length > 0 &&
-                            <img
-                                alt="not found"
-                                width={"100%"}
-                                height={"100%"}
-                                src={currentImageUrl}
-                            />}
+                            <ImageList sx={{ width: "100%", height: "100%" }} cols={3} rowHeight={164}>
+                                {updatedData.map((item) => (
+                                    <ImageListItem key={item.imageDataUrl}>
+                                        <img
+                                            srcSet={`${item.imageDataUrl}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
+                                            src={`${item.imageDataUrl}?w=164&h=164&fit=crop&auto=format`}
+                                            alt={item.imageDataUrl}
+                                            loading="lazy"
+                                        />
+                                    </ImageListItem>
+                                ))}
+                            </ImageList>
+                           }
                     </DemoPaper>
                     {imageCount > 1 && updatedData?.length > 1 && <IconButton aria-label="forwards" onClick={() => {
                         moveUp(imageCount)
