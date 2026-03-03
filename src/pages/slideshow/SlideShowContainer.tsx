@@ -59,10 +59,16 @@ export const SlideShowContainer = () => {
         }
         setCurrentImageIndex(currentImageIndex + 1)
     }
+
+    const addSlideShowImageHandler = () => {
+        if (currentImageIndex === imagesLength - 1){
+            moveUp(imagesLength - 1)
+        }
+    }
     const {
         callAddImage,
         mutateAddSlideShowClient: {isPending: addImagePending}
-    } = useAddSlideShowImageStore((e) =>moveUp(e));
+    } = useAddSlideShowImageStore(() =>addSlideShowImageHandler());
     const {
         callDeleteImage,
         mutateDeleteSlideShowClient: {isPending: deleteImagePending}
