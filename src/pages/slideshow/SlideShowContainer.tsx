@@ -176,7 +176,7 @@ export const SlideShowContainer = () => {
                                 alt="not found"
                                 width={"100%"}
                                 height={"100%"}
-                                src={"file:" + updatedData?.[currentImageIndex]?.imageData.imageDataUrl + ".png"}
+                                src={"file:" + updatedData?.[currentImageIndex]?.imageData.imageDataUrl}
                             />}
                     </DemoPaper>
                     {imageCount > 1 && updatedData?.length > 1 && <IconButton aria-label="forwards" onClick={() => {
