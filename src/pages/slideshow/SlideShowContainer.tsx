@@ -40,6 +40,7 @@ export const SlideShowContainer = () => {
     console.log("current image url: " + currentImageUrl);
     useMemo(() => {
         setUpdatedData([...appData?.slideShowData || []])
+        console.log("app data updated: " + appData?.slideShowData)
         }, [appData?.slideShowData]
     )
     const loginInfo: LoginData = getLoginInfo(appData);
