@@ -9,10 +9,9 @@ import {ArrowBack, ArrowForward} from "@mui/icons-material";
 import {useAppDataContext} from "../../context/AppDataContext.tsx";
 import {
     DeleteImageRequest,
-    LoginData,
-    SlideShowPictureDataWithBlob
+    LoginData, SlideShowPictureData,
 } from "../../types/ApplicationTypes.tsx";
-import {getLoginInfo, slideShowDataToSlideShowDataWithBlob} from "../../utilities/utils.ts";
+import {getLoginInfo} from "../../utilities/utils.ts";
 import {useNavigate} from "react-router-dom";
 import {useAddSlideShowImageStore} from "../../stores/AddSlideShowImageStore.tsx";
 import {useDeleteSlideShowImageStore} from "../../stores/DeleteSlideShowImageStore.tsx";
@@ -29,7 +28,7 @@ const DemoPaper = styled(Paper)(({theme}) => ({
 
 export const SlideShowContainer = () => {
     const {appData, updateAppData} = useAppDataContext();
-    const [updatedData, setUpdatedData] = useState<SlideShowPictureDataWithBlob[]>(slideShowDataToSlideShowDataWithBlob([...appData?.slideShowData || []]));
+    const [updatedData, setUpdatedData] = useState<SlideShowPictureData[]>([...appData?.slideShowData || []]);
     const navigate = useNavigate();
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const [configureMode, setConfigureMode] = useState<boolean>(false);
@@ -37,8 +36,10 @@ export const SlideShowContainer = () => {
     const imagesLength = updatedData?.length;
     const {callSlideShow, mutateSlideShowClient:{isPending: isSlideShowPending}} = useSlideShowStore(updateAppData, appData);
     const imageCount = appData?.slideShowImageCount || 0;
+    const currentImageUrl = updatedData?.[currentImageIndex]?.imageDataUrl;
+    console.log("current image url: " + currentImageUrl);
     useMemo(() => {
-        setUpdatedData(slideShowDataToSlideShowDataWithBlob([...appData?.slideShowData || []]))
+        setUpdatedData([...appData?.slideShowData || []])
         }, [appData?.slideShowData]
     )
     const loginInfo: LoginData = getLoginInfo(appData);
@@ -76,7 +77,7 @@ export const SlideShowContainer = () => {
         reader.onloadend = () => {
             const dataUrl = (reader.result || "").toString();
             const base64String = dataUrl.split(',')[1];
-            callAddImage({...loginInfo, imageDataUrl: base64String, fileName: image.name});
+            callAddImage({...loginInfo, imageDataUrl: base64String, fileName: image.name.replace(/\.[^/.]+$/, "")});
         }
     }
 
@@ -108,15 +109,15 @@ export const SlideShowContainer = () => {
     }
 
     const configureModeResetFunction = () => {
-        setUpdatedData(slideShowDataToSlideShowDataWithBlob([...JSON.parse(JSON.stringify(appData.slideShowData))]));
+        setUpdatedData(JSON.parse(JSON.stringify(appData.slideShowData)));
     }
 
     const submitAppDataFunction = () => {
         updateAppData({
             ...appData, slideShowData: updatedData.map((value) => {
                 return {
-                    imageDataUrl: value.imageData.imageDataUrl,
-                    fileName: value.imageData.fileName,
+                    imageDataUrl: value.imageDataUrl,
+                    fileName: value.fileName,
                 }
             })
         })
@@ -175,7 +176,7 @@ export const SlideShowContainer = () => {
                                 alt="not found"
                                 width={"100%"}
                                 height={"100%"}
-                                src={URL.createObjectURL(updatedData?.[currentImageIndex]?.imageBlob)}
+                                src={currentImageUrl}
                             />}
                     </DemoPaper>
                     {imageCount > 1 && updatedData?.length > 1 && <IconButton aria-label="forwards" onClick={() => {
