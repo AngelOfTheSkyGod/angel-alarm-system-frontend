@@ -36,7 +36,7 @@ export const SlideShowContainer = () => {
     const imagesLength = updatedData?.length;
     const {callSlideShow, mutateSlideShowClient:{isPending: isSlideShowPending}} = useSlideShowStore(updateAppData, appData);
     const imageCount = appData?.slideShowImageCount || 0;
-    const currentImageUrl = updatedData?.[currentImageIndex].imageDataUrl;
+    const currentImageUrl = updatedData?.[currentImageIndex]?.imageDataUrl;
     console.log("current image url: " + currentImageUrl);
     useMemo(() => {
         setUpdatedData([...appData?.slideShowData || []])
