@@ -37,6 +37,8 @@ export const SlideShowContainer = () => {
     const imagesLength = updatedData?.length;
     const {callSlideShow, mutateSlideShowClient:{isPending: isSlideShowPending}} = useSlideShowStore(updateAppData, appData);
     const imageCount = appData?.slideShowImageCount || 0;
+    const currentImageUrl = `http://quinonesangel.com:1312/images/${updatedData?.[currentImageIndex]?.imageData.imageDataUrl}`;
+    console.log("current image url: " + currentImageUrl);
     useMemo(() => {
         setUpdatedData(slideShowDataToSlideShowDataWithBlob([...appData?.slideShowData || []]))
         }, [appData?.slideShowData]
@@ -176,7 +178,7 @@ export const SlideShowContainer = () => {
                                 alt="not found"
                                 width={"100%"}
                                 height={"100%"}
-                                src={`http://quinonesangel.com:1312/images/${updatedData?.[currentImageIndex]?.imageData.imageDataUrl}`}
+                                src={currentImageUrl}
                             />}
                     </DemoPaper>
                     {imageCount > 1 && updatedData?.length > 1 && <IconButton aria-label="forwards" onClick={() => {
