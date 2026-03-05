@@ -4,7 +4,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 
 import Paper from '@mui/material/Paper';
 import {styled} from '@mui/material/styles';
-import {Alert, CircularProgress, IconButton, ImageList, ImageListItem, Stack} from "@mui/material";
+import {Alert, CircularProgress, IconButton, ImageList, ImageListItem, Stack, useMediaQuery} from "@mui/material";
 import {ArrowBack, ArrowForward} from "@mui/icons-material";
 import {useAppDataContext} from "../../context/AppDataContext.tsx";
 import {
@@ -39,6 +39,7 @@ export const SlideShowContainer = () => {
     const [deletedImages, setDeletedImages] = useState<number[]>([]);
     const imageCount = appData?.slideShowImageCount || 0;
     const loginInfo: LoginData = getLoginInfo(appData);
+    const isMobile = useMediaQuery('(min-width:600px)');
     const [deleteSlideShowImageRequest, setDeleteSlideShowImageRequest] = useState<DeleteImageRequest>({
         ...loginInfo,
         imagesDeleted: deletedImages,
@@ -208,7 +209,7 @@ export const SlideShowContainer = () => {
                     }
                     <DemoPaper square={false}>
                         {updatedData?.length > 0 &&
-                            <ImageList sx={{ width: "100%", height: "100%" }} cols={3} rowHeight={164}>
+                            <ImageList sx={{ width: "100%", height: "100%" }} cols={isMobile ? 1 : 3} rowHeight={"auto"}>
                                 {updatedData.map((item) => (
                                     <ImageListItem key={item.imageDataUrl}>
                                         {configureMode &&
