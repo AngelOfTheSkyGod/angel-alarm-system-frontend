@@ -101,6 +101,9 @@ export const SlideShowContainer = () => {
     }
 
     const removePicture = (currentImageIndex: number) => {
+        if (deletedImages.find((index) => index === currentImageIndex)){
+            return;
+        }
         const list = updatedData !== null && updatedData.length > 0 ? [...updatedData] : [];
         list.splice(currentImageIndex, 1);
         deletedImages.push(currentImageIndex);
