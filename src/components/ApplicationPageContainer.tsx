@@ -7,6 +7,7 @@ import ClearIcon from '@mui/icons-material/Clear';
 import CheckIcon from '@mui/icons-material/Check';
 import {AASData} from "../types/ApplicationTypes.tsx";
 import {styled} from "@mui/material/styles";
+import {useRef} from "react";
 
 interface ApplicationPageContainerProps {
     configuredModeResetFunction: (appData: AASData) => void;
@@ -38,6 +39,8 @@ export const ApplicationPageContainer = ({configuredModeResetFunction, submitApp
         }
         setConfigureMode(!configureMode);
     }
+    const handleFileInput = useRef(null);
+
     return (
         <ApplicationContainer>
             <Container maxWidth="md" sx={{height: "100%", maxHeight: "fit-content"}}>
@@ -57,28 +60,10 @@ export const ApplicationPageContainer = ({configuredModeResetFunction, submitApp
                                 uploadFile &&
                                 <VisuallyHiddenInput
                                     type="file"
-                                    multiple={false}
+                                    onChange={(event) => uploadFileFunction ? uploadFileFunction(event.target?.files?.[0]) : undefined}
+                                    multiple = {false}
+                                    ref={handleFileInput}
                                     accept="image/*"
-                                    onInput={(event) => {
-                                        const input = event.target as HTMLInputElement;
-                                        const file = input.files?.[0];
-
-                                        if (uploadFileFunction && file) {
-                                            uploadFileFunction(file);
-                                        }
-
-                                        input.value = "";
-                                    }}
-                                    onChange={(event) => {
-                                        const input = event.target as HTMLInputElement;
-                                        const file = input.files?.[0];
-
-                                        if (uploadFileFunction && file) {
-                                            uploadFileFunction(file);
-                                        }
-
-                                        input.value = "";
-                                    }}
                                 />
                             }
                             {
