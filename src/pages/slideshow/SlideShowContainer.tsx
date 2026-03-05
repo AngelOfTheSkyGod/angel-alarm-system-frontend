@@ -103,6 +103,7 @@ export const SlideShowContainer = () => {
     const removePicture = (item:SlideShowPictureData) => {
         const currentImageIndex = updatedData?.findIndex((element) => item.imageDataUrl === element.imageDataUrl && item.fileName === element.fileName) || -1
         const correctImageIndex = appData?.slideShowData?.findIndex((element) => item.imageDataUrl === element.imageDataUrl && item.fileName === element.fileName) || -1
+        console.log("item: ", item, "updated data:", updatedData, "app data:", appData?.slideShowData)
         if (deletedImages.find((index) => index === correctImageIndex || correctImageIndex === -1)){
             return;
         }
