@@ -101,10 +101,10 @@ export const SlideShowContainer = () => {
     }
 
     const removePicture = (item:SlideShowPictureData) => {
-        const currentImageIndex = updatedData?.findIndex((element) => item.imageDataUrl == element.imageDataUrl && item.fileName == element.fileName) || -1
-        const correctImageIndex = appData?.slideShowData?.findIndex((element) => item.imageDataUrl == element.imageDataUrl && item.fileName == element.fileName) || -1
+        const currentImageIndex = updatedData?.findIndex((element) => item.imageDataUrl == element.imageDataUrl && item.fileName == element.fileName)
+        const correctImageIndex = appData?.slideShowData?.findIndex((element) => item.imageDataUrl == element.imageDataUrl && item.fileName == element.fileName)
         console.log("item: ", item, "updated data:", updatedData, "app data:", appData?.slideShowData)
-        if (deletedImages.find((index) => index === correctImageIndex) || correctImageIndex === -1){
+        if (deletedImages.find((index) => index === correctImageIndex) || correctImageIndex === -1 || correctImageIndex === undefined){
             console.log("cant find element, ", item, "correct images: ", correctImageIndex);
             return;
         }
