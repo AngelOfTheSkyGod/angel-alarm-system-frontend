@@ -54,7 +54,7 @@ export interface ConfigContextProps {
 export interface SlideShowData{
     imageCount: number;
     imageList: SlideShowPictureData[];
-    pageNumber: number;
+    numberOfPages: number;
 }
 
 export interface AddImageRequest extends LoginData{
@@ -70,6 +70,7 @@ export interface DeleteImageRequest extends LoginData{
 export interface ImageRequestResponse {
     imageCount: number;
     success: boolean;
+    numberOfPages: number;
 }
 
 export interface LoginConnectResponse extends LoginData{

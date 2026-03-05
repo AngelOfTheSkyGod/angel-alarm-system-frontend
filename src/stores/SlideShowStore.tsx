@@ -22,7 +22,7 @@ export const useSlideShowStore = (updateAppData: (newValue: AASData) => void, ap
             }) || [];
             updateAppData({
                 ...appData,
-                slideShowPageCount: data.pageNumber,
+                slideShowPageCount: data.numberOfPages,
                 slideShowImageCount: data.imageCount,
                 slideShowData: newImages
             })

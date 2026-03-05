@@ -13,7 +13,7 @@ export const useAddSlideShowImageStore= (callBackFunction: () => void): {mutateA
             return post(baseUrl, "addImage", addImageRequest)
         },
         onSuccess: async (data: ImageRequestResponse) => {
-            updateAppData({...appData, slideShowImageCount: data?.imageCount})
+            updateAppData({...appData, slideShowImageCount: data?.imageCount, slideShowPageCount: data.numberOfPages});
             callBackFunction()
         }
     })
