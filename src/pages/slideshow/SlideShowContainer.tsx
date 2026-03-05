@@ -39,7 +39,6 @@ export const SlideShowContainer = () => {
     const imageCount = appData?.slideShowImageCount || 0;
     useMemo(() => {
         setUpdatedData([...appData?.slideShowData || []])
-        console.log("app data updated: ", appData?.slideShowData)
         }, [appData?.slideShowData]
     )
     const loginInfo: LoginData = getLoginInfo(appData);
@@ -49,7 +48,6 @@ export const SlideShowContainer = () => {
         pageNumber: -1
     });
     const moveUp = () => {
-        console.log("current page: ", currentPage);
         if (currentPage >= numberOfPages){
             setCurrentPage(0)
             slideShowImageHandler(0);
@@ -57,7 +55,6 @@ export const SlideShowContainer = () => {
         }
         setCurrentPage((prev) => prev + 1)
         slideShowImageHandler(currentPage + 1);
-        console.log("increasing: ",  currentPage + 1);
     }
 
     const slideShowImageHandler = (pageNumber: number) => {
@@ -139,7 +136,6 @@ export const SlideShowContainer = () => {
     if (!appData?.alarmData) {
         return null;
     }
-    console.log("page: ", currentPage);
     return (
         <ApplicationPageContainer
             configuredModeResetFunction={configureModeResetFunction}
