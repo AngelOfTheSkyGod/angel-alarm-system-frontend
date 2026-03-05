@@ -43,6 +43,9 @@ export const SlideShowContainer = () => {
         imagesDeleted: deletedImages,
         pageNumber: -1
     });
+    const slideShowImageHandler = (pageNumber: number) => {
+        callSlideShow({username: appData?.username, password: appData?.password, pageNumber: pageNumber})
+    }
     const moveUp = () => {
         if (currentPage >= numberOfPages){
             setCurrentPage(0)
@@ -65,9 +68,6 @@ export const SlideShowContainer = () => {
             }
         }, [appData?.slideShowData]
     )
-    const slideShowImageHandler = (pageNumber: number) => {
-        callSlideShow({username: appData?.username, password: appData?.password, pageNumber: pageNumber})
-    }
     const {
         callAddImage,
         mutateAddSlideShowClient: {isPending: addImagePending}
