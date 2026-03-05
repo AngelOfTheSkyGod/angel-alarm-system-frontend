@@ -39,7 +39,7 @@ export const SlideShowContainer = () => {
     const [deletedImages, setDeletedImages] = useState<number[]>([]);
     const imageCount = appData?.slideShowImageCount || 0;
     const loginInfo: LoginData = getLoginInfo(appData);
-    const isMobile = useMediaQuery('(min-width:600px)');
+    const isMobile = !useMediaQuery('(min-width:600px)');
     const [deleteSlideShowImageRequest, setDeleteSlideShowImageRequest] = useState<DeleteImageRequest>({
         ...loginInfo,
         imagesDeleted: deletedImages,
