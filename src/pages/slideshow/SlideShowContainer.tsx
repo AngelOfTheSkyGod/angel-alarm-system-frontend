@@ -56,7 +56,7 @@ export const SlideShowContainer = () => {
             return;
         }
         setCurrentPage((prev) => prev + 1)
-        slideShowImageHandler(currentPage);
+        slideShowImageHandler(currentPage + 1);
         console.log("increasing: ", currentPage);
     }
 
