@@ -30,10 +30,10 @@ export const SlideShowContainer = () => {
     const {appData, updateAppData} = useAppDataContext();
     const [updatedData, setUpdatedData] = useState<SlideShowPictureData[]>([...appData?.slideShowData || []]);
     const navigate = useNavigate();
-    const [currentImageIndex, setCurrentImageIndex] = useState(0);
+    const [currentPage, setCurrentPage] = useState(0);
     const [configureMode, setConfigureMode] = useState<boolean>(false);
     const [uploadFile, setUploadFile] = useState(true);
-    const imagesLength = updatedData?.length;
+    const numberOfPages = appData?.slideShowPageCount || 0;
     const {callSlideShow, mutateSlideShowClient:{isPending: isSlideShowPending}} = useSlideShowStore(updateAppData, appData);
     const imageCount = appData?.slideShowImageCount || 0;
     useMemo(() => {
@@ -46,21 +46,16 @@ export const SlideShowContainer = () => {
         ...loginInfo,
         imagePosition: -1
     });
-    const moveUp = (imageCount: number) => {
-        if (currentImageIndex >= imagesLength - 1 && currentImageIndex < imageCount - 1){
-            setCurrentImageIndex(currentImageIndex + 1)
-            callSlideShow({username: appData?.username, password: appData?.password, pageNumber: Math.floor((currentImageIndex + 1) / 3), startNumber: currentImageIndex + 1})
-            return;
-        }else if (currentImageIndex >= imageCount - 1){
-            console.log("resetting back to 0... image count:", imageCount, "current image index:", currentImageIndex)
-            setCurrentImageIndex(0)
+    const moveUp = () => {
+        if (currentPage >- numberOfPages){
+            setCurrentPage(0)
             return;
         }
-        setCurrentImageIndex(currentImageIndex + 1)
+        setCurrentPage(currentPage + 1)
     }
 
     const addSlideShowImageHandler = () => {
-        callSlideShow({username: appData?.username, password: appData?.password, pageNumber: Math.floor((imagesLength) / 3), startNumber: (imagesLength)})
+        callSlideShow({username: appData?.username, password: appData?.password, pageNumber: currentPage})
     }
     const {
         callAddImage,

@@ -5,11 +5,14 @@ import {
 import {useConfigContext} from "../hooks/useConfigContext.tsx";
 import {usePostRequest} from "../utilities/usePostRequest.tsx";
 
-export const useSlideShowStore= (updateAppData: (newValue: AASData) => void, appData:AASData):
-    {mutateSlideShowClient: UseMutationResult<SlideShowData, Error, SlideShowRequest, unknown>, callSlideShow: any} => {
+export const useSlideShowStore = (updateAppData: (newValue: AASData) => void, appData: AASData):
+    {
+        mutateSlideShowClient: UseMutationResult<SlideShowData, Error, SlideShowRequest, unknown>,
+        callSlideShow: any
+    } => {
     const post = usePostRequest();
-    const {config : {baseUrl}} = useConfigContext();
-    const mutateSlideShowClient =  useMutation({
+    const {config: {baseUrl}} = useConfigContext();
+    const mutateSlideShowClient = useMutation({
         mutationFn: (slideShowRequest: SlideShowRequest) => {
             return post(baseUrl, "connectSlideShow", slideShowRequest)
         },
@@ -18,34 +21,21 @@ export const useSlideShowStore= (updateAppData: (newValue: AASData) => void, app
                 return {fileName: entry.fileName, imageDataUrl: entry.imageDataUrl}
             }) || []);
             updateAppData({
-            ...appData,
+                ...appData,
+                slideShowPageCount: data.pageNumber,
                 slideShowImageCount: data.imageCount,
-            slideShowData: newImages
-        })
-        console.log("appData", appData);
+                slideShowData: newImages
+            })
         }
     })
 
-    const callSlideShow = (slideShowRequest: SlideShowRequest) =>  mutateSlideShowClient.mutate({...slideShowRequest, userIdentifier: localStorage.getItem("identifier") || ""})
+    const callSlideShow = (slideShowRequest: SlideShowRequest) => mutateSlideShowClient.mutate({
+        ...slideShowRequest,
+        userIdentifier: localStorage.getItem("identifier") || ""
+    })
 
     return {
         mutateSlideShowClient,
         callSlideShow
     }
 }
-// export const useLoginStore= (): UseQueryResult<SlideShowData | undefined> => {
-//     const { appData:{username, password, slideShowData, alarmData, calendarData} } = useAppDataContext();
-//     const post = usePostRequest();
-//     const {config : {baseUrl}} = useConfigContext();
-//     const identifier = localStorage.getItem("identifier");
-//     const postObject: AASData= {
-//         alarmData: alarmData, calendarData: calendarData, password, slideShowData: slideShowData, username, userIdentifier: identifier || ""
-//     }
-//     return useQuery<SlideShowData | undefined>({
-//         queryKey:["loginStore", username, password, identifier],
-//         queryFn: (): SlideShowData | undefined => {
-//             return post(baseUrl, "connect", postObject)
-//         },
-//         enabled: !!(postObject.username && postObject.password && identifier)
-//     })
-// }

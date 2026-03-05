@@ -8,6 +8,7 @@ export interface AASData extends LoginData{
     calendarData: CalendarDataRowData[] | null;
     slideShowData?: SlideShowPictureData[] | null;
     slideShowImageCount?: number;
+    slideShowPageCount?: number;
 }
 
 export interface SlideShowRequest extends LoginData{
@@ -53,6 +54,7 @@ export interface ConfigContextProps {
 export interface SlideShowData{
     imageCount: number;
     imageList: SlideShowPictureData[];
+    pageNumber: number;
 }
 
 export interface AddImageRequest extends LoginData{
