@@ -15,7 +15,7 @@ export const useDeleteSlideShowImageStore= (setDeleteSlideShowImageRequest: Disp
             return post(baseUrl, "deleteImage", deleteImageRequest)
         },
         onSuccess: async (data: ImageRequestResponse) => {
-            updateAppData({...appData, slideShowImageCount: data?.imageCount})
+            updateAppData({...appData, slideShowImageCount: data?.imageCount, slideShowPageCount: data.numberOfPages})
             callBackFunction();
         }
     })
