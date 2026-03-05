@@ -100,8 +100,9 @@ export const SlideShowContainer = () => {
         }
     }
 
-    const removePicture = (currentImageIndex: number) => {
-        if (deletedImages.find((index) => index === currentImageIndex)){
+    const removePicture = (item:SlideShowPictureData) => {
+        const currentImageIndex = appData.slideShowData?.findIndex((element) => item.imageDataUrl === element.imageDataUrl && item.fileName === element.fileName) || -1
+        if (deletedImages.find((index) => index === currentImageIndex || currentImageIndex === -1)){
             return;
         }
         const list = updatedData !== null && updatedData.length > 0 ? [...updatedData] : [];
@@ -180,7 +181,7 @@ export const SlideShowContainer = () => {
                                     <ImageListItem key={item.imageDataUrl}>
                                         {configureMode &&
                                             <IconButton sx={{position: "absolute"}} aria-label="delete" size="large" onClick={() => {
-                                                removePicture(appData.slideShowData?.findIndex((element) => item.imageDataUrl === element.imageDataUrl && item.fileName === element.fileName) || 0)
+                                                removePicture(item)
                                             }}>
                                                 <DeleteIcon fontSize="inherit"/>
                                             </IconButton>
