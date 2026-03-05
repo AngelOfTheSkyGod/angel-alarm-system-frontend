@@ -16,6 +16,7 @@ import {useNavigate} from "react-router-dom";
 import {useAddSlideShowImageStore} from "../../stores/AddSlideShowImageStore.tsx";
 import {useDeleteSlideShowImageStore} from "../../stores/DeleteSlideShowImageStore.tsx";
 import {useSlideShowStore} from "../../stores/SlideShowStore.tsx";
+import loadImage from "blueimp-load-image";
 
 const DemoPaper = styled(Paper)(({theme}) => ({
     width: "80%",
@@ -81,34 +82,26 @@ export const SlideShowContainer = () => {
 
     const uploadImage = (image: File | undefined) => {
         if (isSlideShowPending || !image) return;
-
-        const reader = new FileReader();
-
-        reader.onload = (event) => {
-            const img = new Image();
-
-            img.onload = () => {
+        loadImage(
+            image,
+            (canvas: any) => {
                 const MAX_WIDTH = 480;
                 const MAX_HEIGHT = 320;
 
-                const scale = Math.min(
-                    MAX_WIDTH / img.width,
-                    MAX_HEIGHT / img.height,
-                    1
-                );
+                const width = canvas.width;
+                const height = canvas.height;
 
-                const newWidth = img.width * scale;
-                const newHeight = img.height * scale;
+                const scale = Math.min(MAX_WIDTH / width, MAX_HEIGHT / height, 1);
 
-                const canvas = document.createElement("canvas");
-                const ctx = canvas.getContext("2d");
+                const resizedCanvas = document.createElement("canvas");
+                const ctx = resizedCanvas.getContext("2d");
 
-                canvas.width = newWidth;
-                canvas.height = newHeight;
+                resizedCanvas.width = width * scale;
+                resizedCanvas.height = height * scale;
 
-                ctx?.drawImage(img, 0, 0, newWidth, newHeight);
+                ctx?.drawImage(canvas, 0, 0, resizedCanvas.width, resizedCanvas.height);
 
-                const dataUrl = canvas.toDataURL("image/jpeg", 0.9);
+                const dataUrl = resizedCanvas.toDataURL("image/jpeg", 0.9);
                 const base64String = dataUrl.split(",")[1];
 
                 callAddImage({
@@ -116,11 +109,9 @@ export const SlideShowContainer = () => {
                     imageDataUrl: base64String,
                     fileName: image.name.replace(/\.[^/.]+$/, "")
                 });
-            };
-
-            img.src = event.target?.result as string;
-        };
-        reader.readAsDataURL(image);
+            },
+            { orientation: true, canvas: true }
+        );
     };
 
     const setConfigureModeFunction = (value: boolean) => {
