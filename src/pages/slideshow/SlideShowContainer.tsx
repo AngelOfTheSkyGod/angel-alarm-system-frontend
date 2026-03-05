@@ -56,7 +56,7 @@ export const SlideShowContainer = () => {
             return;
         }
         setCurrentPage((prev) => prev + 1)
-        slideShowImageHandler(currentPage + 1);
+        slideShowImageHandler(currentPage);
         console.log("increasing: ", currentPage);
     }
 
@@ -161,7 +161,7 @@ export const SlideShowContainer = () => {
                     {imageCount > 1 &&
                         <IconButton aria-label="backwards" onClick={() => {
                             setCurrentPage(currentPage > 0 ? currentPage - 1 : numberOfPages)
-                            slideShowImageHandler(currentPage - 1)
+                            slideShowImageHandler(currentPage)
                         }}>
                             <ArrowBack/>
                         </IconButton>
