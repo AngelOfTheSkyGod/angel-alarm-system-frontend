@@ -49,12 +49,15 @@ export const SlideShowContainer = () => {
         pageNumber: -1
     });
     const moveUp = () => {
+        console.log("current page: ", currentPage);
         if (currentPage >= numberOfPages){
             setCurrentPage(0)
+            console.log("current page reseted: ", currentPage);
             return;
         }
         setCurrentPage((prev) => prev + 1)
         slideShowImageHandler(currentPage + 1);
+        console.log("increasing: ", currentPage);
     }
 
     const slideShowImageHandler = (pageNumber: number) => {
@@ -136,6 +139,7 @@ export const SlideShowContainer = () => {
     if (!appData?.alarmData) {
         return null;
     }
+    console.log("page: ", currentPage);
     return (
         <ApplicationPageContainer
             configuredModeResetFunction={configureModeResetFunction}
