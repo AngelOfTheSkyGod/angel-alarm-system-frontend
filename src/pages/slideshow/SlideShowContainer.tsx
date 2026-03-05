@@ -52,7 +52,7 @@ export const SlideShowContainer = () => {
         console.log("current page: ", currentPage);
         if (currentPage >= numberOfPages){
             setCurrentPage(0)
-            console.log("current page reseted: ", currentPage);
+            slideShowImageHandler(currentPage + 1);
             return;
         }
         setCurrentPage((prev) => prev + 1)
@@ -139,7 +139,6 @@ export const SlideShowContainer = () => {
     if (!appData?.alarmData) {
         return null;
     }
-    console.log("page: ", currentPage);
     return (
         <ApplicationPageContainer
             configuredModeResetFunction={configureModeResetFunction}
@@ -162,6 +161,7 @@ export const SlideShowContainer = () => {
                     {imageCount > 1 &&
                         <IconButton aria-label="backwards" onClick={() => {
                             setCurrentPage(currentPage > 0 ? currentPage - 1 : numberOfPages)
+                            slideShowImageHandler(currentPage - 1)
                         }}>
                             <ArrowBack/>
                         </IconButton>
