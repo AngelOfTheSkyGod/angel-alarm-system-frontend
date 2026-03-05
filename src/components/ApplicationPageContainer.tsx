@@ -59,14 +59,25 @@ export const ApplicationPageContainer = ({configuredModeResetFunction, submitApp
                                     type="file"
                                     multiple={false}
                                     accept="image/*"
-                                    onChange={(event) => {
-                                        const file = event.target.files?.[0];
+                                    onInput={(event) => {
+                                        const input = event.target as HTMLInputElement;
+                                        const file = input.files?.[0];
+
                                         if (uploadFileFunction && file) {
                                             uploadFileFunction(file);
                                         }
 
-                                        // reset so camera/gallery selections always trigger onChange
-                                        event.target.value = "";
+                                        input.value = "";
+                                    }}
+                                    onChange={(event) => {
+                                        const input = event.target as HTMLInputElement;
+                                        const file = input.files?.[0];
+
+                                        if (uploadFileFunction && file) {
+                                            uploadFileFunction(file);
+                                        }
+
+                                        input.value = "";
                                     }}
                                 />
                             }
