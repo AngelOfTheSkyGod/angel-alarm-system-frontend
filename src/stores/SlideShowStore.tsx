@@ -17,9 +17,9 @@ export const useSlideShowStore = (updateAppData: (newValue: AASData) => void, ap
             return post(baseUrl, "connectSlideShow", slideShowRequest)
         },
         onSuccess: async (data: SlideShowData) => {
-            const newImages = (appData?.slideShowData || [])?.concat(data?.imageList.map((entry): SlideShowPictureData => {
+            const newImages = data?.imageList.map((entry): SlideShowPictureData => {
                 return {fileName: entry.fileName, imageDataUrl: entry.imageDataUrl}
-            }) || []);
+            }) || [];
             updateAppData({
                 ...appData,
                 slideShowPageCount: data.pageNumber,
