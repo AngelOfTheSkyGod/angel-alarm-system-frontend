@@ -82,9 +82,13 @@ export const SlideShowContainer = () => {
 
     const uploadImage = (image: File | undefined) => {
         if (isSlideShowPending || !image) return;
+
         loadImage(
             image,
             (canvas: any) => {
+
+                if (!(canvas instanceof HTMLCanvasElement)) return;
+
                 const MAX_WIDTH = 480;
                 const MAX_HEIGHT = 320;
 
@@ -110,10 +114,13 @@ export const SlideShowContainer = () => {
                     fileName: image.name.replace(/\.[^/.]+$/, "")
                 });
             },
-            { orientation: true, canvas: true }
+            {
+                orientation: true,
+                canvas: true,
+                meta: true
+            }
         );
     };
-
     const setConfigureModeFunction = (value: boolean) => {
         setConfigureMode(value);
         if (!value) {
