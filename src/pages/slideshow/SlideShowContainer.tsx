@@ -211,7 +211,7 @@ export const SlideShowContainer = () => {
                         {updatedData?.length > 0 &&
                             <ImageList sx={{ width: "100%", height: "100%" }} cols={isMobile ? 1 : 3} rowHeight={"auto"}>
                                 {updatedData.map((item) => (
-                                    <ImageListItem key={item.imageDataUrl}>
+                                    <ImageListItem key={`${item.fileName}-${Date.now()}`}>
                                         {configureMode &&
                                             <IconButton sx={{position: "absolute"}} aria-label="delete" size="large" onClick={() => {
                                                 removePicture(item)
@@ -220,9 +220,10 @@ export const SlideShowContainer = () => {
                                             </IconButton>
                                         }
                                         <img
+                                            key={`${item.fileName}-${Date.now()}`}
                                             src={`${item.imageDataUrl}?t=${Date.now()}`}
                                             alt={item.fileName}
-                                            loading="lazy"
+                                            loading="eager"
                                             style={{ width: "100%", height: "100%", objectFit: "cover" }}
                                         />
                                     </ImageListItem>
