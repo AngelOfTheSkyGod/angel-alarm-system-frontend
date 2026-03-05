@@ -12,7 +12,7 @@ interface ApplicationCredentialFormProps{
 }
 const ApplicationCredentialForm = ({pageTitle, pageSubmitTitle, submitFormAction, username, setUsername, setPassword, password} : ApplicationCredentialFormProps) => {
     return (
-            <Box display="flex" flexDirection="column" alignItems="center" mt={8}>
+            <Box display="flex" flexDirection="column" alignItems="center" mt={8} marginTop={0}>
                 <Typography variant="h4" gutterBottom>
                     {pageTitle}
                 </Typography>
