@@ -12,7 +12,7 @@ const LoginContainer: React.FC = () => {
     const { appData, updateAppData } = useAppDataContext();
     const [username, setUsername] = useState<string>("");
     const [password, setPassword] = useState<string>("");
-    const {callLogin, mutateLoginClient: {isPending}} = useLoginStore(setPassword, setUsername, updateAppData, appData)
+    const {callLogin, mutateLoginClient: {isPending}} = useLoginStore(setPassword, setUsername)
     useEffect(() => {
         if (!identifier){
             const identifier = uuidv4()
