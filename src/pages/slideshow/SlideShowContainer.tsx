@@ -37,10 +37,6 @@ export const SlideShowContainer = () => {
     const {callSlideShow, mutateSlideShowClient:{isPending: isSlideShowPending}} = useSlideShowStore(updateAppData, appData);
     const [deletedImages, setDeletedImages] = useState<number[]>([]);
     const imageCount = appData?.slideShowImageCount || 0;
-    useMemo(() => {
-        setUpdatedData([...appData?.slideShowData || []])
-        }, [appData?.slideShowData]
-    )
     const loginInfo: LoginData = getLoginInfo(appData);
     const [deleteSlideShowImageRequest, setDeleteSlideShowImageRequest] = useState<DeleteImageRequest>({
         ...loginInfo,
@@ -56,7 +52,18 @@ export const SlideShowContainer = () => {
         setCurrentPage((prev) => prev + 1)
         slideShowImageHandler(currentPage + 1);
     }
+    const moveDown = () => {
+        setCurrentPage(currentPage > 0 ? currentPage - 1 : numberOfPages)
+        slideShowImageHandler(currentPage > 0 ? currentPage - 1 : numberOfPages)
+    }
+    useMemo(() => {
+            setUpdatedData([...appData?.slideShowData || []])
 
+            if (appData?.slideShowData?.length === 0 && (appData?.slideShowPageCount || 0) > 0){
+                moveDown();
+            }
+        }, [appData?.slideShowData]
+    )
     const slideShowImageHandler = (pageNumber: number) => {
         callSlideShow({username: appData?.username, password: appData?.password, pageNumber: pageNumber})
     }
@@ -157,8 +164,7 @@ export const SlideShowContainer = () => {
                        justifyContent={"center"} alignItems={"center"}>
                     {imageCount > 1 && numberOfPages > 0 && !configureMode &&
                         <IconButton aria-label="backwards" onClick={() => {
-                            setCurrentPage(currentPage > 0 ? currentPage - 1 : numberOfPages)
-                            slideShowImageHandler(currentPage > 0 ? currentPage - 1 : numberOfPages)
+                            moveDown();
                         }}>
                             <ArrowBack/>
                         </IconButton>
