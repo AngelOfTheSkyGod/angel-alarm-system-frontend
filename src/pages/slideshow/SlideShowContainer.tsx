@@ -155,7 +155,7 @@ export const SlideShowContainer = () => {
                 :
                 <Stack sx={{overFlowY: "auto", padding: '2rem 0 0 0', height: "75vh"}} direction={"row"}
                        justifyContent={"center"} alignItems={"center"}>
-                    {imageCount > 1 &&
+                    {imageCount > 1 && !configureMode &&
                         <IconButton aria-label="backwards" onClick={() => {
                             setCurrentPage(currentPage > 0 ? currentPage - 1 : numberOfPages)
                             slideShowImageHandler(currentPage > 0 ? currentPage - 1 : numberOfPages)
@@ -186,7 +186,7 @@ export const SlideShowContainer = () => {
                             </ImageList>
                            }
                     </DemoPaper>
-                    { numberOfPages > 0 && <IconButton aria-label="forwards" onClick={() => {
+                    { numberOfPages > 0 && !configureMode && <IconButton aria-label="forwards" onClick={() => {
                         moveUp()
                     }}>
                         <ArrowForward/>
