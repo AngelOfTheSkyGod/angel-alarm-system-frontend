@@ -57,9 +57,17 @@ export const ApplicationPageContainer = ({configuredModeResetFunction, submitApp
                                 uploadFile &&
                                 <VisuallyHiddenInput
                                     type="file"
-                                    onChange={(event) => uploadFileFunction ? uploadFileFunction(event.target?.files?.[0]) : undefined}
-                                    multiple = {false}
+                                    multiple={false}
                                     accept="image/*"
+                                    onChange={(event) => {
+                                        const file = event.target.files?.[0];
+                                        if (uploadFileFunction && file) {
+                                            uploadFileFunction(file);
+                                        }
+
+                                        // reset so camera/gallery selections always trigger onChange
+                                        event.target.value = "";
+                                    }}
                                 />
                             }
                             {
