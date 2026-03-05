@@ -52,7 +52,7 @@ export const SlideShowContainer = () => {
         console.log("current page: ", currentPage);
         if (currentPage >= numberOfPages){
             setCurrentPage(0)
-            slideShowImageHandler(currentPage + 1);
+            slideShowImageHandler(0);
             return;
         }
         setCurrentPage((prev) => prev + 1)
