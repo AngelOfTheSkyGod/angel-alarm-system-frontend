@@ -101,7 +101,7 @@ export const SlideShowContainer = () => {
     }
 
     const removePicture = (item:SlideShowPictureData) => {
-        const currentImageIndex = appData.slideShowData?.findIndex((element) => item.imageDataUrl === element.imageDataUrl && item.fileName === element.fileName) || -1
+        const currentImageIndex = updatedData?.findIndex((element) => item.imageDataUrl === element.imageDataUrl && item.fileName === element.fileName) || -1
         if (deletedImages.find((index) => index === currentImageIndex || currentImageIndex === -1)){
             return;
         }
