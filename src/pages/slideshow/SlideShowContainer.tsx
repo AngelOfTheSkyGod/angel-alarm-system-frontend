@@ -102,12 +102,13 @@ export const SlideShowContainer = () => {
 
     const removePicture = (item:SlideShowPictureData) => {
         const currentImageIndex = updatedData?.findIndex((element) => item.imageDataUrl === element.imageDataUrl && item.fileName === element.fileName) || -1
-        if (deletedImages.find((index) => index === currentImageIndex || currentImageIndex === -1)){
+        const correctImageIndex = appData?.slideShowData?.findIndex((element) => item.imageDataUrl === element.imageDataUrl && item.fileName === element.fileName) || -1
+        if (deletedImages.find((index) => index === correctImageIndex || correctImageIndex === -1)){
             return;
         }
         const list = updatedData !== null && updatedData.length > 0 ? [...updatedData] : [];
         list.splice(currentImageIndex, 1);
-        deletedImages.push(currentImageIndex);
+        deletedImages.push(correctImageIndex);
         setDeletedImages([...deletedImages]);
         setDeleteSlideShowImageRequest({
             ...loginInfo,
