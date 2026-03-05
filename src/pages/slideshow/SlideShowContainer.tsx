@@ -222,10 +222,10 @@ export const SlideShowContainer = () => {
                                             </IconButton>
                                         }
                                         <img
-                                            srcSet={`${item.imageDataUrl}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
-                                            src={`${item.imageDataUrl}?w=164&h=164&fit=crop&auto=format`}
+                                            src={`data:image/jpeg;base64,${item.imageDataUrl}`}
                                             alt={item.fileName}
                                             loading="lazy"
+                                            style={{ width: "100%", height: "100%", objectFit: "cover" }}
                                         />
                                     </ImageListItem>
                                 ))}
