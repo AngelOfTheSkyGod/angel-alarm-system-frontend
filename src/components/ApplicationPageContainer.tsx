@@ -59,6 +59,8 @@ export const ApplicationPageContainer = ({configuredModeResetFunction, submitApp
                                     type="file"
                                     onChange={(event) => uploadFileFunction ? uploadFileFunction(event.target?.files?.[0]) : undefined}
                                     multiple = {false}
+                                    accept="image/*"
+                                    capture="environment"
                                 />
                             }
                             {
