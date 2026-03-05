@@ -30,7 +30,10 @@ export const useLoginStore= (setPassword: Dispatch<SetStateAction<string>>, setU
         }
     })
 
-    const callLogin = (loginRequest: AASData) =>  mutateLoginClient.mutate({...loginRequest, username: loginRequest?.username?.toLowerCase(), userIdentifier: localStorage.getItem("identifier") || ""})
+    const callLogin = (loginRequest: AASData) =>{
+        updateAppData({...appData, username: loginRequest.username, password: loginRequest.password});
+        mutateLoginClient.mutate({...loginRequest, username: loginRequest?.username?.toLowerCase(), userIdentifier: localStorage.getItem("identifier") || ""})
+    }
 
     return {
         mutateLoginClient,
