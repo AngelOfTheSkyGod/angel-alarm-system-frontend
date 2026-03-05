@@ -32,7 +32,7 @@ const LoginContainer: React.FC = () => {
     return (
         <React.Fragment>
             <CssBaseline/>
-            <Container sx={{height: "100%", minHeight:"100vh", width: "75vw"}}  maxWidth="md">
+            <Container sx={{height: "100vh", minHeight:"100vh", width: "75vw", alignContent:"center"}}  maxWidth="md">
                 <ApplicationCredentialForm
                     pageTitle={"Login"}
                     pageSubmitTitle={"Login"}
