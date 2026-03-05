@@ -54,19 +54,20 @@ export const SlideShowContainer = () => {
             return;
         }
         setCurrentPage(currentPage + 1)
+        slideShowImageHandler(currentPage + 1);
     }
 
-    const slideShowImageHandler = () => {
-        callSlideShow({username: appData?.username, password: appData?.password, pageNumber: currentPage})
+    const slideShowImageHandler = (pageNumber: number) => {
+        callSlideShow({username: appData?.username, password: appData?.password, pageNumber: pageNumber})
     }
     const {
         callAddImage,
         mutateAddSlideShowClient: {isPending: addImagePending}
-    } = useAddSlideShowImageStore(slideShowImageHandler);
+    } = useAddSlideShowImageStore(() => slideShowImageHandler(currentPage));
     const {
         callDeleteImage,
         mutateDeleteSlideShowClient: {isPending: deleteImagePending}
-    } = useDeleteSlideShowImageStore(setDeleteSlideShowImageRequest, slideShowImageHandler);
+    } = useDeleteSlideShowImageStore(setDeleteSlideShowImageRequest, () => slideShowImageHandler(currentPage));
 
 
     const uploadImage = (image: File | undefined) => {
@@ -184,7 +185,7 @@ export const SlideShowContainer = () => {
                             </ImageList>
                            }
                     </DemoPaper>
-                    { <IconButton aria-label="forwards" onClick={() => {
+                    { numberOfPages > 0 && <IconButton aria-label="forwards" onClick={() => {
                         moveUp()
                     }}>
                         <ArrowForward/>
