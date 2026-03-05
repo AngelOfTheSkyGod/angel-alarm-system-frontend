@@ -53,7 +53,7 @@ export const SlideShowContainer = () => {
             setCurrentPage(0)
             return;
         }
-        setCurrentPage(currentPage + 1)
+        setCurrentPage((prev) => prev + 1)
         slideShowImageHandler(currentPage + 1);
     }
 
