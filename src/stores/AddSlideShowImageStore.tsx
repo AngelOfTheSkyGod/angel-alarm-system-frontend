@@ -10,6 +10,7 @@ export const useAddSlideShowImageStore= (callBackFunction: () => void): {mutateA
     const {config : {baseUrl}} = useConfigContext();
     const mutateAddSlideShowClient =  useMutation({
         mutationFn: (addImageRequest: AddImageRequest) => {
+            console.log("request: ", addImageRequest);
             return post(baseUrl, "addImage", addImageRequest)
         },
         onSuccess: async (data: ImageRequestResponse) => {

@@ -82,12 +82,9 @@ export const SlideShowContainer = () => {
 
     const uploadImage = (image: File | undefined) => {
         if (isSlideShowPending || !image) return;
-
         loadImage(
             image,
             (canvas: any) => {
-
-                if (!(canvas instanceof HTMLCanvasElement)) return;
 
                 const MAX_WIDTH = 480;
                 const MAX_HEIGHT = 320;
@@ -105,7 +102,7 @@ export const SlideShowContainer = () => {
 
                 ctx?.drawImage(canvas, 0, 0, resizedCanvas.width, resizedCanvas.height);
 
-                const dataUrl = resizedCanvas.toDataURL("image/jpeg", 0.9);
+                const dataUrl = resizedCanvas.toDataURL("image/png", 0.9);
                 const base64String = dataUrl.split(",")[1];
 
                 callAddImage({
