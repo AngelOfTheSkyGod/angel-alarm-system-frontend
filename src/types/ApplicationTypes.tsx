@@ -63,7 +63,8 @@ export interface AddImageRequest extends LoginData{
 }
 
 export interface DeleteImageRequest extends LoginData{
-    imagePosition: number;
+    imagesDeleted: number[];
+    pageNumber: number;
 }
 
 export interface ImageRequestResponse {

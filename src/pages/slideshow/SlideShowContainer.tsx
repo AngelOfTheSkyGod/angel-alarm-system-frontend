@@ -35,6 +35,7 @@ export const SlideShowContainer = () => {
     const [uploadFile, setUploadFile] = useState(true);
     const numberOfPages = appData?.slideShowPageCount || 0;
     const {callSlideShow, mutateSlideShowClient:{isPending: isSlideShowPending}} = useSlideShowStore(updateAppData, appData);
+    const [deletedImages, setDeletedImages] = useState<number[]>([]);
     const imageCount = appData?.slideShowImageCount || 0;
     useMemo(() => {
         setUpdatedData([...appData?.slideShowData || []])
@@ -44,27 +45,28 @@ export const SlideShowContainer = () => {
     const loginInfo: LoginData = getLoginInfo(appData);
     const [deleteSlideShowImageRequest, setDeleteSlideShowImageRequest] = useState<DeleteImageRequest>({
         ...loginInfo,
-        imagePosition: -1
+        imagesDeleted: deletedImages,
+        pageNumber: -1
     });
     const moveUp = () => {
-        if (currentPage >- numberOfPages){
+        if (currentPage >= numberOfPages){
             setCurrentPage(0)
             return;
         }
         setCurrentPage(currentPage + 1)
     }
 
-    const addSlideShowImageHandler = () => {
+    const slideShowImageHandler = () => {
         callSlideShow({username: appData?.username, password: appData?.password, pageNumber: currentPage})
     }
     const {
         callAddImage,
         mutateAddSlideShowClient: {isPending: addImagePending}
-    } = useAddSlideShowImageStore(() =>addSlideShowImageHandler());
+    } = useAddSlideShowImageStore(slideShowImageHandler);
     const {
         callDeleteImage,
         mutateDeleteSlideShowClient: {isPending: deleteImagePending}
-    } = useDeleteSlideShowImageStore(setDeleteSlideShowImageRequest, );
+    } = useDeleteSlideShowImageStore(setDeleteSlideShowImageRequest, slideShowImageHandler);
 
 
     const uploadImage = (image: File | undefined) => {
@@ -89,24 +91,22 @@ export const SlideShowContainer = () => {
         }
     }
 
-    const removePicture = () => {
+    const removePicture = (currentImageIndex: number) => {
         const list = updatedData !== null && updatedData.length > 0 ? [...updatedData] : [];
         list.splice(currentImageIndex, 1);
+        deletedImages.push(currentImageIndex);
+        setDeletedImages([...deletedImages]);
         setDeleteSlideShowImageRequest({
             ...loginInfo,
-            imagePosition: currentImageIndex,
+            imagesDeleted: deletedImages,
+            pageNumber: currentPage
         });
-        if (currentImageIndex >= list.length) {
-            setCurrentImageIndex(list.length - 1);
-        }
-        if (list.length <= 0) {
-            setCurrentImageIndex(0);
-        }
         setUpdatedData(list);
     }
 
     const configureModeResetFunction = () => {
         setUpdatedData(JSON.parse(JSON.stringify(appData.slideShowData)));
+        setDeletedImages([]);
     }
 
     const submitAppDataFunction = () => {
@@ -119,9 +119,10 @@ export const SlideShowContainer = () => {
             })
         })
         setConfigureModeFunction(false);
-        if (deleteSlideShowImageRequest?.imagePosition > -1) {
+        if (deletedImages.length > 0) {
             callDeleteImage(deleteSlideShowImageRequest)
         }
+        setDeletedImages([]);
     }
 
     useEffect(() => {
@@ -134,7 +135,6 @@ export const SlideShowContainer = () => {
     if (!appData?.alarmData) {
         return null;
     }
-    console.log("current image index:", currentImageIndex, "image count:", imageCount, "pageNumber: ", Math.floor((currentImageIndex) / 3), updatedData);
     return (
         <ApplicationPageContainer
             configuredModeResetFunction={configureModeResetFunction}
@@ -156,23 +156,23 @@ export const SlideShowContainer = () => {
                        justifyContent={"center"} alignItems={"center"}>
                     {imageCount > 1 &&
                         <IconButton aria-label="backwards" onClick={() => {
-                            setCurrentImageIndex(currentImageIndex > 0 ? currentImageIndex - 1 : imagesLength - 1)
+                            setCurrentPage(currentPage > 0 ? currentPage - 1 : numberOfPages)
                         }}>
                             <ArrowBack/>
                         </IconButton>
                     }
                     <DemoPaper square={false}>
-                        {configureMode && updatedData?.length > 0 && imageCount > 0 &&
-                            <IconButton sx={{position: "absolute"}} aria-label="delete" size="large" onClick={() => {
-                                removePicture()
-                            }}>
-                                <DeleteIcon fontSize="inherit"/>
-                            </IconButton>
-                        }
-                        {imageCount > 0 && updatedData?.length > currentImageIndex && updatedData?.length > 0 &&
+                        {updatedData?.length > 0 &&
                             <ImageList sx={{ width: "100%", height: "100%" }} cols={3} rowHeight={164}>
-                                {updatedData.map((item) => (
+                                {updatedData.map((item, index) => (
                                     <ImageListItem key={item.imageDataUrl}>
+                                        {configureMode && updatedData?.length > 0 && imageCount > 0 &&
+                                            <IconButton sx={{position: "absolute"}} aria-label="delete" size="large" onClick={() => {
+                                                removePicture(index)
+                                            }}>
+                                                <DeleteIcon fontSize="inherit"/>
+                                            </IconButton>
+                                        }
                                         <img
                                             srcSet={`${item.imageDataUrl}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
                                             src={`${item.imageDataUrl}?w=164&h=164&fit=crop&auto=format`}
@@ -184,8 +184,8 @@ export const SlideShowContainer = () => {
                             </ImageList>
                            }
                     </DemoPaper>
-                    {imageCount > 1 && updatedData?.length > 1 && <IconButton aria-label="forwards" onClick={() => {
-                        moveUp(imageCount)
+                    { <IconButton aria-label="forwards" onClick={() => {
+                        moveUp()
                     }}>
                         <ArrowForward/>
                     </IconButton>
