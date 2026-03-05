@@ -58,8 +58,9 @@ export const SlideShowContainer = () => {
     }
     useMemo(() => {
             setUpdatedData([...appData?.slideShowData || []])
-
+            console.log("number of elements on page:", appData?.slideShowData?.length, "pages:", appData?.slideShowPageCount)
             if (appData?.slideShowData?.length === 0 && (appData?.slideShowPageCount || 0) > 0){
+                console.log("moving down...");
                 moveDown();
             }
         }, [appData?.slideShowData]
@@ -174,7 +175,7 @@ export const SlideShowContainer = () => {
                             <ImageList sx={{ width: "100%", height: "100%" }} cols={3} rowHeight={164}>
                                 {updatedData.map((item) => (
                                     <ImageListItem key={item.imageDataUrl}>
-                                        {configureMode && updatedData?.length > 0 && imageCount > 0 &&
+                                        {configureMode &&
                                             <IconButton sx={{position: "absolute"}} aria-label="delete" size="large" onClick={() => {
                                                 removePicture(appData.slideShowData?.findIndex((element) => item.imageDataUrl === element.imageDataUrl && item.fileName === element.fileName) || 0)
                                             }}>
