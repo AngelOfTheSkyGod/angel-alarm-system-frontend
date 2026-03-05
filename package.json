@@ -19,6 +19,7 @@
     "@tanstack/react-query": "^5.90.12",
     "@wojtekmaj/react-datetimerange-picker": "^7.0.0",
     "axios": "^1.12.2",
+    "browser-image-compression": "^2.0.2",
     "dayjs": "^1.11.18",
     "react": "^18.3.1",
     "react-datepicker": "^8.7.0",

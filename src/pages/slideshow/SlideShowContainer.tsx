@@ -78,16 +78,50 @@ export const SlideShowContainer = () => {
     } = useDeleteSlideShowImageStore(setDeleteSlideShowImageRequest, () => slideShowImageHandler(currentPage));
 
 
+
     const uploadImage = (image: File | undefined) => {
         if (isSlideShowPending || !image) return;
+
         const reader = new FileReader();
+
+        reader.onload = (event) => {
+            const img = new Image();
+
+            img.onload = () => {
+                const MAX_WIDTH = 480;
+                const MAX_HEIGHT = 320;
+
+                const scale = Math.min(
+                    MAX_WIDTH / img.width,
+                    MAX_HEIGHT / img.height,
+                    1
+                );
+
+                const newWidth = img.width * scale;
+                const newHeight = img.height * scale;
+
+                const canvas = document.createElement("canvas");
+                const ctx = canvas.getContext("2d");
+
+                canvas.width = newWidth;
+                canvas.height = newHeight;
+
+                ctx?.drawImage(img, 0, 0, newWidth, newHeight);
+
+                const dataUrl = canvas.toDataURL("image/jpeg", 0.9);
+                const base64String = dataUrl.split(",")[1];
+
+                callAddImage({
+                    ...loginInfo,
+                    imageDataUrl: base64String,
+                    fileName: image.name.replace(/\.[^/.]+$/, "")
+                });
+            };
+
+            img.src = event.target?.result as string;
+        };
         reader.readAsDataURL(image);
-        reader.onloadend = () => {
-            const dataUrl = (reader.result || "").toString();
-            const base64String = dataUrl.split(',')[1];
-            callAddImage({...loginInfo, imageDataUrl: base64String, fileName: image.name.replace(/\.[^/.]+$/, "")});
-        }
-    }
+    };
 
     const setConfigureModeFunction = (value: boolean) => {
         setConfigureMode(value);

@@ -58,7 +58,7 @@ export const ApplicationPageContainer = ({configuredModeResetFunction, submitApp
                                 <VisuallyHiddenInput
                                     type="file"
                                     onChange={(event) => uploadFileFunction ? uploadFileFunction(event.target?.files?.[0]) : undefined}
-                                    multiple
+                                    multiple = {false}
                                 />
                             }
                             {
