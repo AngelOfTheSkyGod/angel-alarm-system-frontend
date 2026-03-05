@@ -166,11 +166,11 @@ export const SlideShowContainer = () => {
                     <DemoPaper square={false}>
                         {updatedData?.length > 0 &&
                             <ImageList sx={{ width: "100%", height: "100%" }} cols={3} rowHeight={164}>
-                                {updatedData.map((item, index) => (
+                                {updatedData.map((item) => (
                                     <ImageListItem key={item.imageDataUrl}>
                                         {configureMode && updatedData?.length > 0 && imageCount > 0 &&
                                             <IconButton sx={{position: "absolute"}} aria-label="delete" size="large" onClick={() => {
-                                                removePicture(index)
+                                                removePicture(appData.slideShowData?.findIndex((element) => item.imageDataUrl === element.imageDataUrl && item.fileName === element.fileName) || 0)
                                             }}>
                                                 <DeleteIcon fontSize="inherit"/>
                                             </IconButton>
