@@ -219,7 +219,7 @@ export const SlideShowContainer = () => {
                                             </IconButton>
                                         }
                                         <img
-                                            src={item.imageDataUrl}
+                                            src={new URL(item.imageDataUrl, import.meta.url).href}
                                             alt={item.fileName}
                                             loading="lazy"
                                             style={{ width: "100%", height: "100%", objectFit: "cover" }}
