@@ -96,10 +96,10 @@ export const SlideShowContainer = () => {
 
                 const resizedCanvas = document.createElement("canvas");
                 const ctx = resizedCanvas.getContext("2d");
-                // @ts-ignore
-                ctx?.imageSmoothingEnabled = true;
-                // @ts-ignore
-                ctx?.imageSmoothingQuality = "high";
+                if (ctx){
+                    ctx.imageSmoothingEnabled = true;
+                    ctx.imageSmoothingQuality = "high";
+                }
                 resizedCanvas.width = width * scale;
                 resizedCanvas.height = height * scale;
 
