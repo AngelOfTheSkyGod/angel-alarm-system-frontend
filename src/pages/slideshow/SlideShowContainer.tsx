@@ -87,17 +87,19 @@ export const SlideShowContainer = () => {
             image,
             (canvas: any) => {
 
-                const MAX_WIDTH = 480;
-                const MAX_HEIGHT = 320;
+                const MAX_WIDTH = 512;
+                const MAX_HEIGHT = 600;
 
                 const width = canvas.width;
                 const height = canvas.height;
-
                 const scale = Math.min(MAX_WIDTH / width, MAX_HEIGHT / height, 1);
 
                 const resizedCanvas = document.createElement("canvas");
                 const ctx = resizedCanvas.getContext("2d");
-
+                // @ts-ignore
+                ctx?.imageSmoothingEnabled = true;
+                // @ts-ignore
+                ctx?.imageSmoothingQuality = "high";
                 resizedCanvas.width = width * scale;
                 resizedCanvas.height = height * scale;
 
