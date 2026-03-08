@@ -16,7 +16,6 @@ import {useNavigate} from "react-router-dom";
 import {useAddSlideShowImageStore} from "../../stores/AddSlideShowImageStore.tsx";
 import {useDeleteSlideShowImageStore} from "../../stores/DeleteSlideShowImageStore.tsx";
 import {useSlideShowStore} from "../../stores/SlideShowStore.tsx";
-import loadImage from "blueimp-load-image";
 
 const DemoPaper = styled(Paper)(({theme}) => ({
     width: "80%",
@@ -83,43 +82,13 @@ export const SlideShowContainer = () => {
 
     const uploadImage = (image: File | undefined) => {
         if (isSlideShowPending || !image) return;
-        loadImage(
-            image,
-            (canvas: any) => {
-
-                const MAX_WIDTH = 512;
-                const MAX_HEIGHT = 600;
-
-                const width = canvas.width;
-                const height = canvas.height;
-                const scale = Math.min(MAX_WIDTH / width, MAX_HEIGHT / height, 1);
-
-                const resizedCanvas = document.createElement("canvas");
-                const ctx = resizedCanvas.getContext("2d");
-                if (ctx){
-                    ctx.imageSmoothingEnabled = true;
-                    ctx.imageSmoothingQuality = "high";
-                }
-                resizedCanvas.width = width * scale;
-                resizedCanvas.height = height * scale;
-
-                ctx?.drawImage(canvas, 0, 0, resizedCanvas.width, resizedCanvas.height);
-
-                const dataUrl = resizedCanvas.toDataURL("image/png", 0.9);
-                const base64String = dataUrl.split(",")[1];
-
-                callAddImage({
-                    ...loginInfo,
-                    imageDataUrl: base64String,
-                    fileName: image.name.replace(/\.[^/.]+$/, "")
-                });
-            },
-            {
-                orientation: true,
-                canvas: true,
-                meta: true
-            }
-        );
+        const reader = new FileReader();
+        reader.readAsDataURL(image);
+        reader.onloadend = () => {
+            const dataUrl = (reader.result || "").toString();
+            const base64String = dataUrl.split(',')[1];
+            callAddImage({...loginInfo, imageDataUrl: base64String, fileName: image.name.replace(/\.[^/.]+$/, "")});
+        }
     };
     const setConfigureModeFunction = (value: boolean) => {
         setConfigureMode(value);
