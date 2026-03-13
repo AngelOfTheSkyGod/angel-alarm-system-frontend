@@ -80,19 +80,32 @@ export const SlideShowContainer = () => {
 
 
 
-    const uploadImage = (images: FileList | undefined) => {
-        // if (isSlideShowPending || !images) return;
-        for (let i = 0; i < (images?.length || 0); i++){
-            const image = images?.item(i);
-            if (image){
-                const reader = new FileReader();
-                reader.readAsDataURL(image);
-                reader.onloadend = () => {
-                    const dataUrl = (reader.result || "").toString();
-                    const base64String = dataUrl.split(',')[1];
-                    callAddImage({...loginInfo, imageDataUrl: base64String, fileName: image.name.replace(/\.[^/.]+$/, "")});
-                }
-            }
+    const uploadImage = async (images: FileList | undefined) => {
+        if (!images) return;
+
+        for (let i = 0; i < images.length; i++) {
+            const image = images[i];
+
+            const bitmap = await createImageBitmap(image, {
+                imageOrientation: "from-image"
+            });
+
+            const canvas = document.createElement("canvas");
+            const ctx = canvas.getContext("2d");
+
+            canvas.width = bitmap.width;
+            canvas.height = bitmap.height;
+
+            ctx?.drawImage(bitmap, 0, 0);
+
+            const dataUrl = canvas.toDataURL("image/png");
+            const base64String = dataUrl.split(",")[1];
+
+            callAddImage({
+                ...loginInfo,
+                imageDataUrl: base64String,
+                fileName: image.name.replace(/\.[^/.]+$/, "")
+            });
         }
     };
     const setConfigureModeFunction = (value: boolean) => {
