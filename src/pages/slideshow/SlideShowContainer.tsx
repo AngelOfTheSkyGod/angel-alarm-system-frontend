@@ -80,14 +80,19 @@ export const SlideShowContainer = () => {
 
 
 
-    const uploadImage = (image: File | undefined) => {
-        if (isSlideShowPending || !image) return;
-        const reader = new FileReader();
-        reader.readAsDataURL(image);
-        reader.onloadend = () => {
-            const dataUrl = (reader.result || "").toString();
-            const base64String = dataUrl.split(',')[1];
-            callAddImage({...loginInfo, imageDataUrl: base64String, fileName: image.name.replace(/\.[^/.]+$/, "")});
+    const uploadImage = (images: FileList | undefined) => {
+        // if (isSlideShowPending || !images) return;
+        for (let i = 0; i < (images?.length || 0); i++){
+            const image = images?.item(i);
+            if (image){
+                const reader = new FileReader();
+                reader.readAsDataURL(image);
+                reader.onloadend = () => {
+                    const dataUrl = (reader.result || "").toString();
+                    const base64String = dataUrl.split(',')[1];
+                    callAddImage({...loginInfo, imageDataUrl: base64String, fileName: image.name.replace(/\.[^/.]+$/, "")});
+                }
+            }
         }
     };
     const setConfigureModeFunction = (value: boolean) => {
