@@ -84,6 +84,7 @@ export const SlideShowContainer = () => {
         if (!images) return;
 
         for (let i = 0; i < images.length; i++) {
+
             const image = images[i];
 
             const bitmap = await createImageBitmap(image, {
@@ -93,15 +94,24 @@ export const SlideShowContainer = () => {
             const canvas = document.createElement("canvas");
             const ctx = canvas.getContext("2d");
 
-            canvas.width = bitmap.width;
-            canvas.height = bitmap.height;
+            const MAX_WIDTH = 1600;
+            const MAX_HEIGHT = 1600;
 
-            ctx?.drawImage(bitmap, 0, 0);
+            const scale = Math.min(
+                1,
+                MAX_WIDTH / bitmap.width,
+                MAX_HEIGHT / bitmap.height
+            );
 
-            const dataUrl = canvas.toDataURL("image/png");
+            canvas.width = Math.round(bitmap.width * scale);
+            canvas.height = Math.round(bitmap.height * scale);
+
+            ctx?.drawImage(bitmap, 0, 0, canvas.width, canvas.height);
+
+            const dataUrl = canvas.toDataURL("image/jpeg", 0.9);
             const base64String = dataUrl.split(",")[1];
 
-            callAddImage({
+            await callAddImage({
                 ...loginInfo,
                 imageDataUrl: base64String,
                 fileName: image.name.replace(/\.[^/.]+$/, "")
