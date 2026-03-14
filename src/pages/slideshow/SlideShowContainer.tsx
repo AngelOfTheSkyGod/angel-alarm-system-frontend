@@ -36,7 +36,6 @@ export const SlideShowContainer = () => {
     const numberOfPages = appData?.slideShowPageCount || 0;
     const {callSlideShow, mutateSlideShowClient:{isPending: isSlideShowPending}} = useSlideShowStore(updateAppData, appData);
     const [deletedImages, setDeletedImages] = useState<number[]>([]);
-    const imageCount = appData?.slideShowImageCount || 0;
     const loginInfo: LoginData = getLoginInfo(appData);
     const isMobile = !useMediaQuery('(min-width:600px)');
     const [deleteSlideShowImageRequest, setDeleteSlideShowImageRequest] = useState<DeleteImageRequest>({
@@ -199,7 +198,7 @@ export const SlideShowContainer = () => {
                 :
                 <Stack sx={{overFlowY: "auto", padding: '2rem 0 0 0', height: "75vh"}} direction={"row"}
                        justifyContent={"center"} alignItems={"center"}>
-                    {imageCount > 1 && numberOfPages > 0 && !configureMode &&
+                    {numberOfPages > 0 && !configureMode &&
                         <IconButton aria-label="backwards" onClick={() => {
                             moveDown();
                         }}>
